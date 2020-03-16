@@ -56,6 +56,7 @@ Class Layanan extends REST_Controller{
         return $this->returnData($response['msg'], $response['error']);
     }
 
+
     public function index_delete($id = null){
         if($id == null){
             return $this->returnData('Parameter Id Tidak Ditemukan', true);
@@ -75,4 +76,5 @@ Class LayananData{
     public $nama_layanan;
     public $harga_layanan;
     public $jenis_layanan;
+    public $AFIQ;
 }
