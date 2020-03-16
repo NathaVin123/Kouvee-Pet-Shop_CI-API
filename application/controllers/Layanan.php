@@ -76,5 +76,4 @@ Class LayananData{
     public $nama_layanan;
     public $harga_layanan;
     public $jenis_layanan;
-    public $AFIQ;
 }
