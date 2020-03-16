@@ -2,23 +2,23 @@
 //require (APPPATH.'/libraries/REST_Controller.php');
 use Restserver \Libraries\REST_Controller ;
 
-Class Lyric extends REST_Controller{
+Class Costomer extends REST_Controller{
     public function __construct(){
         header('Access-Control-Allow-Origin: *');
         header("Access-Control-Allow-Methods: GET, OPTIONS, POST, DELETE");
         header("Access-Control-Allow-Headers: Content-Type, Content-Length, Accept-Encoding");
         parent::__construct();
-        $this->load->model('LyricModel');
+        $this->load->model('CostumerModel');
         $this->load->library('form_validation');
     }
 
     public function index_get(){
-        return $this->returnData($this->db->get('lyrics')->result(), false);
+        return $this->returnData($this->db->get('costumers')->result(), false);
     }
 
     public function index_post($id = null){
         $validation = $this->form_validation;
-        $rule = $this->LyricModel->rules();
+        $rule = $this->CostumerModel->rules();
         /*if($id == null){
             array_push($rule, [
                 'field' => 'password',
@@ -43,16 +43,18 @@ Class Lyric extends REST_Controller{
         if(!$validation->run()){
             return $this->returnData($this->form_validation->error_array(), true);
         }
-        $user = new LyricData();
-        $user->title = $this->post('title');
-        $user->artist = $this->post('artist');
-        $user->genre = $this->post('genre');
-        $user->lyric = $this->post('lyric');
+        $user = new CostumerData();
+        $user->nama_costumer = $this->post('nama_costumer');
+        $user->alamat_costumer = $this->post('alamat_costumer');
+        $user->tglLahir_costumer = $this->post('tglLahir_costumer');
+        $user->noTelp_costumer = $this->post('noTelp_costumer');
+
+
         if($id == null){
-            $response = $this->LyricModel->store($user);
+            $response = $this->CostumerModel->store($user);
         }
         else{
-            $response = $this->LyricModel->update($user, $id);
+            $response = $this->CostumerModel->update($user, $id);
         }
         return $this->returnData($response['msg'], $response['error']);
     }
@@ -72,9 +74,9 @@ Class Lyric extends REST_Controller{
     }
 }
 
-Class LyricData{
-    public $title;
-    public $artist;
-    public $genre;
-    public $lyric;
+Class CostumerData{
+    public $nama_costumer;
+    public $alamat_costumer;
+    public $tglLahir_costumer;
+    public $noTelp_costumer;
 }

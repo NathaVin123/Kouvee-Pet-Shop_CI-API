@@ -2,24 +2,24 @@
 //require (APPPATH.'/libraries/REST_Controller.php');
 use Restserver \Libraries\REST_Controller ;
 
-Class User extends REST_Controller{
+Class Layanan extends REST_Controller{
     public function __construct(){
         header('Access-Control-Allow-Origin: *');
         header("Access-Control-Allow-Methods: GET, OPTIONS, POST, DELETE");
         header("Access-Control-Allow-Headers: Content-Type, Content-Length, Accept-Encoding");
         parent::__construct();
-        $this->load->model('UserModel');
+        $this->load->model('LayananModel');
         $this->load->library('form_validation');
     }
 
     public function index_get(){
-        return $this->returnData($this->db->get('users')->result(), false);
+        return $this->returnData($this->db->get('layanans')->result(), false);
     }
 
     public function index_post($id = null){
         $validation = $this->form_validation;
-        $rule = $this->UserModel->rules();
-        if($id == null){
+        $rule = $this->LayananModel->rules();
+        /*if($id == null){
             array_push($rule, [
                 'field' => 'password',
                 'label' => 'password',
@@ -38,20 +38,20 @@ Class User extends REST_Controller{
                 'label' => 'email',
                 'rules' => 'required|valid_email'
             ]);
-        }
+            }*/
         $validation->set_rules($rule);
         if(!$validation->run()){
             return $this->returnData($this->form_validation->error_array(), true);
         }
-        $user = new UserData();
-        $user->name = $this->post('name');
-        $user->password = $this->post('password');
-        $user->email = $this->post('email');
+        $user = new LayananData();
+        $user->nama_layanan = $this->post('nama_layanan');
+        $user->harga_layanan = $this->post('harga_layanan');
+        $user->jenis_layanan = $this->post('jenis_layanan');
         if($id == null){
-            $response = $this->UserModel->store($user);
+            $response = $this->LayananModel->store($user);
         }
         else{
-            $response = $this->UserModel->update($user, $id);
+            $response = $this->LayananModel->update($user, $id);
         }
         return $this->returnData($response['msg'], $response['error']);
     }
@@ -60,7 +60,7 @@ Class User extends REST_Controller{
         if($id == null){
             return $this->returnData('Parameter Id Tidak Ditemukan', true);
         }
-        $response = $this->UserModel->destroy($id);
+        $response = $this->LayananModel->destroy($id);
         return $this->returnData($response['msg'], $response['error']);
     }
 
@@ -71,8 +71,8 @@ Class User extends REST_Controller{
     }
 }
 
-Class UserData{
-    public $name;
-    public $password;
-    public $email;
+Class LayananData{
+    public $nama_layanan;
+    public $harga_layanan;
+    public $jenis_layanan;
 }
