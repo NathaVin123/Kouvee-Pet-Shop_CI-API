@@ -59,7 +59,7 @@ Class DetailLayanan extends REST_Controller{
 
 
     public function index_delete($id_detail_layanan = null){
-        if($id == null){
+        if($id_detail_layanan == null){
             return $this->returnData('Parameter Id Tidak Ditemukan', true);
         }
         $response = $this->DetailLayananModel->destroy($iid_detail_layanan);
