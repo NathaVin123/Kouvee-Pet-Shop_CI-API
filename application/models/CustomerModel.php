@@ -45,7 +45,7 @@ class CustomerModel extends CI_Model
     }
 
     public function update($request, $id_customer){
-        $updateData = ['nama_customer' => $request->nama_customer, 'alamat_customer' => $request->alamat_customer, 'tglLahir_customer' => $request->tglLahir_customer, 'noTelp_customer' => $request->noTelp_customer];
+        $updateData = ['id_pegawai_fk' => $request->id_pegawai_fk, 'nama_customer' => $request->nama_customer, 'alamat_customer' => $request->alamat_customer, 'tglLahir_customer' => $request->tglLahir_customer, 'noTelp_customer' => $request->noTelp_customer];
         if($this->db->where('id_customer', $id_customer)->update($this->table, $updateData)){
             return ['msg' => 'Berhasil', 'error' => false];
         }
