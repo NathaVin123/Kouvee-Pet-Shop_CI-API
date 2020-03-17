@@ -2,23 +2,23 @@
 //require (APPPATH.'/libraries/REST_Controller.php');
 use Restserver \Libraries\REST_Controller ;
 
-Class Costomer extends REST_Controller{
+Class UkuranHewan extends REST_Controller{
     public function __construct(){
         header('Access-Control-Allow-Origin: *');
         header("Access-Control-Allow-Methods: GET, OPTIONS, POST, DELETE");
         header("Access-Control-Allow-Headers: Content-Type, Content-Length, Accept-Encoding");
         parent::__construct();
-        $this->load->model('CostumerModel');
+        $this->load->model('UkuranHewanModel');
         $this->load->library('form_validation');
     }
 
     public function index_get(){
-        return $this->returnData($this->db->get('costumers')->result(), false);
+        return $this->returnData($this->db->get('ukuranhewans')->result(), false);
     }
 
     public function index_post($id = null){
         $validation = $this->form_validation;
-        $rule = $this->CostumerModel->rules();
+        $rule = $this->UkuranHewanModel->rules();
         /*if($id == null){
             array_push($rule, [
                 'field' => 'password',
@@ -43,18 +43,14 @@ Class Costomer extends REST_Controller{
         if(!$validation->run()){
             return $this->returnData($this->form_validation->error_array(), true);
         }
-        $user = new CostumerData();
-        $user->nama_costumer = $this->post('nama_costumer');
-        $user->alamat_costumer = $this->post('alamat_costumer');
-        $user->tglLahir_costumer = $this->post('tglLahir_costumer');
-        $user->noTelp_costumer = $this->post('noTelp_costumer');
-
+        $user = new UkuranHewanData();
+        $user->nama_ukuranHewan = $this->post('nama_ukuranhewan');
 
         if($id == null){
-            $response = $this->CostumerModel->store($user);
+            $response = $this->UkuranhewanModel->store($user);
         }
         else{
-            $response = $this->CostumerModel->update($user, $id);
+            $response = $this->UkuranHewanModel->update($user, $id);
         }
         return $this->returnData($response['msg'], $response['error']);
     }
@@ -63,7 +59,7 @@ Class Costomer extends REST_Controller{
         if($id == null){
             return $this->returnData('Parameter Id Tidak Ditemukan', true);
         }
-        $response = $this->CostumerModel->destroy($id);
+        $response = $this->CUkuranHewanModel->destroy($id);
         return $this->returnData($response['msg'], $response['error']);
     }
 
@@ -74,9 +70,6 @@ Class Costomer extends REST_Controller{
     }
 }
 
-Class CostumerData{
-    public $nama_costumer;
-    public $alamat_costumer;
-    public $tglLahir_costumer;
-    public $noTelp_costumer;
+Class UkuranHewanData{
+    public $nama_ukuranHewan;
 }
