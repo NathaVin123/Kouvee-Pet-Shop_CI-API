@@ -16,7 +16,7 @@ Class UkuranHewan extends REST_Controller{
         return $this->returnData($this->db->get('ukuranhewans')->result(), false);
     }
 
-    public function index_post($id = null){
+    public function index_post($id_ukuranHewan = null){
         $validation = $this->form_validation;
         $rule = $this->UkuranHewanModel->rules();
         /*if($id == null){
@@ -46,20 +46,20 @@ Class UkuranHewan extends REST_Controller{
         $user = new UkuranHewanData();
         $user->nama_ukuranHewan = $this->post('nama_ukuranhewan');
 
-        if($id == null){
+        if($id_ukuranHewan == null){
             $response = $this->UkuranhewanModel->store($user);
         }
         else{
-            $response = $this->UkuranHewanModel->update($user, $id);
+            $response = $this->UkuranHewanModel->update($user, $id_ukuranHewan);
         }
         return $this->returnData($response['msg'], $response['error']);
     }
 
-    public function index_delete($id = null){
-        if($id == null){
+    public function index_delete($id_ukuranHewan = null){
+        if($id_ukuranHewan == null){
             return $this->returnData('Parameter Id Tidak Ditemukan', true);
         }
-        $response = $this->CUkuranHewanModel->destroy($id);
+        $response = $this->UkuranHewanModel->destroy($id_ukuranHewan);
         return $this->returnData($response['msg'], $response['error']);
     }
 

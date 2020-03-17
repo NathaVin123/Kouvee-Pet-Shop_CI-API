@@ -16,7 +16,7 @@ Class DetailLayanan extends REST_Controller{
         return $this->returnData($this->db->get('detaillayanans')->result(), false);
     }
 
-    public function index_post($id = null){
+    public function index_post($id_detail_layanan = null){
         $validation = $this->form_validation;
         $rule = $this->DetailLayananModel->rules();
         /*if($id == null){
@@ -48,21 +48,21 @@ Class DetailLayanan extends REST_Controller{
         $user->tgl_transaksi_layanan = $this->post('tgl_transaksi_layanan');
         $user->jml_transaksi_layanan = $this->post('jml_transaksi_layanan');
         $user->subtotal = $this->post('subtotal');
-        if($id == null){
+        if($id_detail_layanan == null){
             $response = $this->DetailLayananModel->store($user);
         }
         else{
-            $response = $this->DetailLayananModel->update($user, $id);
+            $response = $this->DetailLayananModel->update($user, $id_detail_layanan);
         }
         return $this->returnData($response['msg'], $response['error']);
     }
 
 
-    public function index_delete($id = null){
+    public function index_delete($id_detail_layanan = null){
         if($id == null){
             return $this->returnData('Parameter Id Tidak Ditemukan', true);
         }
-        $response = $this->DetailLayananModel->destroy($id);
+        $response = $this->DetailLayananModel->destroy($iid_detail_layanan);
         return $this->returnData($response['msg'], $response['error']);
     }
 

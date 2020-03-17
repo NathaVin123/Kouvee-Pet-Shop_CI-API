@@ -16,7 +16,7 @@ Class DetailPengadaan extends REST_Controller{
         return $this->returnData($this->db->get('detailpengadaans')->result(), false);
     }
 
-    public function index_post($id = null){
+    public function index_post($id_detail_pengadaan = null){
         $validation = $this->form_validation;
         $rule = $this->DetailPengadaanModel->rules();
         /*if($id == null){
@@ -47,21 +47,21 @@ Class DetailPengadaan extends REST_Controller{
         $user->kode_stok = $this->post('kode_stok');
         $user->tgl_stok_pengadaan = $this->post('tgl_stok_pengadaan');
         $user->status_pengadaan_produk = $this->post('status_pengadaan_produk');
-        if($id == null){
+        if($id_detail_pengadaan == null){
             $response = $this->DetailPengadaanModel->store($user);
         }
         else{
-            $response = $this->DetailPengadaanModel->update($user, $id);
+            $response = $this->DetailPengadaanModel->update($user, $id_detail_pengadaan);
         }
         return $this->returnData($response['msg'], $response['error']);
     }
 
 
-    public function index_delete($id = null){
-        if($id == null){
+    public function index_delete($id_detail_pengadaan = null){
+        if($id_detail_pengadaan == null){
             return $this->returnData('Parameter Id Tidak Ditemukan', true);
         }
-        $response = $this->DetailPengadaanModel->destroy($id);
+        $response = $this->DetailPengadaanModel->destroy($id_detail_pengadaan);
         return $this->returnData($response['msg'], $response['error']);
     }
 

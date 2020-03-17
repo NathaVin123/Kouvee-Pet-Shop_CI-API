@@ -16,7 +16,7 @@ Class DetailProduk extends REST_Controller{
         return $this->returnData($this->db->get('detailproduks')->result(), false);
     }
 
-    public function index_post($id = null){
+    public function index_post($id_detail_produk = null){
         $validation = $this->form_validation;
         $rule = $this->DetailProdukModel->rules();
         /*if($id == null){
@@ -47,21 +47,21 @@ Class DetailProduk extends REST_Controller{
         $user->kode_produk = $this->post('kode_produk');
         $user->tgl_transaksi_produk = $this->post('tgl_transaksi_produk');
         $user->jml_transaksi_produk = $this->post('jml_transaksi_produk');
-        if($id == null){
+        if($id_detail_produk == null){
             $response = $this->DetailProdukModel->store($user);
         }
         else{
-            $response = $this->DetailProdukModel->update($user, $id);
+            $response = $this->DetailProdukModel->update($user, $id_detail_produk);
         }
         return $this->returnData($response['msg'], $response['error']);
     }
 
 
-    public function index_delete($id = null){
-        if($id == null){
+    public function index_delete($id_detail_produk = null){
+        if($id_detail_produk == null){
             return $this->returnData('Parameter Id Tidak Ditemukan', true);
         }
-        $response = $this->DetailProdukModel->destroy($id);
+        $response = $this->DetailProdukModel->destroy($id_detail_produk);
         return $this->returnData($response['msg'], $response['error']);
     }
 

@@ -16,7 +16,7 @@ Class Produk extends REST_Controller{
         return $this->returnData($this->db->get('produks')->result(), false);
     }
 
-    public function index_post($id = null){
+    public function index_post($id_produk = null){
         $validation = $this->form_validation;
         $rule = $this->ProdukModel->rules();
         /*if($id == null){
@@ -51,20 +51,20 @@ Class Produk extends REST_Controller{
         $user->satuan_produk = $this->post('satuan_produk');
 
         
-        if($id == null){
+        if($id_produk == null){
             $response = $this->ProdukModel->store($user);
         }
         else{
-            $response = $this->ProdukModel->update($user, $id);
+            $response = $this->ProdukModel->update($user, $id_produk);
         }
         return $this->returnData($response['msg'], $response['error']);
     }
 
-    public function index_delete($id = null){
-        if($id == null){
+    public function index_delete($id_produk = null){
+        if($id_produk == null){
             return $this->returnData('Parameter Id Tidak Ditemukan', true);
         }
-        $response = $this->ProdukModel->destroy($id);
+        $response = $this->ProdukModel->destroy($id_produk);
         return $this->returnData($response['msg'], $response['error']);
     }
 

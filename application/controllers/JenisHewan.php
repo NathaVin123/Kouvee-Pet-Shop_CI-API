@@ -16,7 +16,7 @@ Class JenisHewan extends REST_Controller{
         return $this->returnData($this->db->get('jenishewans')->result(), false);
     }
 
-    public function index_post($id = null){
+    public function index_post($id_jenisHewan = null){
         $validation = $this->form_validation;
         $rule = $this->JenisHewanModel->rules();
         /*if($id == null){
@@ -46,20 +46,20 @@ Class JenisHewan extends REST_Controller{
         $user = new JenisHewanData();
         $user->nama_jenisHewan = $this->post('nama_jenisHewan');
 
-        if($id == null){
+        if($id_jenisHewan == null){
             $response = $this->JenisHewanModel->store($user);
         }
         else{
-            $response = $this->JenisHewanModel->update($user, $id);
+            $response = $this->JenisHewanModel->update($user, $id_jenisHewan);
         }
         return $this->returnData($response['msg'], $response['error']);
     }
 
-    public function index_delete($id = null){
-        if($id == null){
+    public function index_delete($id_jenisHewan = null){
+        if($id_jenisHewan == null){
             return $this->returnData('Parameter Id Tidak Ditemukan', true);
         }
-        $response = $this->JenisHewanModel->destroy($id);
+        $response = $this->JenisHewanModel->destroy($id_jenisHewan);
         return $this->returnData($response['msg'], $response['error']);
     }
 

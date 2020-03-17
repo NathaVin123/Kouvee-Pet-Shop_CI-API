@@ -16,7 +16,7 @@ Class Layanan extends REST_Controller{
         return $this->returnData($this->db->get('layanans')->result(), false);
     }
 
-    public function index_post($id = null){
+    public function index_post($id_layanan = null){
         $validation = $this->form_validation;
         $rule = $this->LayananModel->rules();
         /*if($id == null){
@@ -47,21 +47,21 @@ Class Layanan extends REST_Controller{
         $user->nama_layanan = $this->post('nama_layanan');
         $user->harga_layanan = $this->post('harga_layanan');
         $user->jenis_layanan = $this->post('jenis_layanan');
-        if($id == null){
+        if($id_layanan == null){
             $response = $this->LayananModel->store($user);
         }
         else{
-            $response = $this->LayananModel->update($user, $id);
+            $response = $this->LayananModel->update($user, $id_layanan);
         }
         return $this->returnData($response['msg'], $response['error']);
     }
 
 
-    public function index_delete($id = null){
-        if($id == null){
+    public function index_delete($id_layanan = null){
+        if($id_layanan == null){
             return $this->returnData('Parameter Id Tidak Ditemukan', true);
         }
-        $response = $this->LayananModel->destroy($id);
+        $response = $this->LayananModel->destroy($id_layanan);
         return $this->returnData($response['msg'], $response['error']);
     }
 

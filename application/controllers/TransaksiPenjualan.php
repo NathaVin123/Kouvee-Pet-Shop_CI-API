@@ -16,7 +16,7 @@ Class TransaksiPenjualan extends REST_Controller{
         return $this->returnData($this->db->get('transaksipenjualans')->result(), false);
     }
 
-    public function index_post($id = null){
+    public function index_post($id_transaksi_penjualan = null){
         $validation = $this->form_validation;
         $rule = $this->TransaksiPenjualanModel->rules();
         /*if($id == null){
@@ -49,21 +49,21 @@ Class TransaksiPenjualan extends REST_Controller{
         $user->diskon = $this->post('diskon');
         $user->total = $this->post('total');
         $user->status_transaksi = $this->post('status_transaksi');
-        if($id == null){
+        if($id_transaksi_penjualan == null){
             $response = $this->TransaksiPenjualanModel->store($user);
         }
         else{
-            $response = $this->TransaksiPenjualanModel->update($user, $id);
+            $response = $this->TransaksiPenjualanModel->update($user, $id_transaksi_penjualan);
         }
         return $this->returnData($response['msg'], $response['error']);
     }
 
 
-    public function index_delete($id = null){
-        if($id == null){
+    public function index_delete($id_transaksi_penjualan = null){
+        if($id_transaksi_penjualan == null){
             return $this->returnData('Parameter Id Tidak Ditemukan', true);
         }
-        $response = $this->TransaksiPenjualanModel->destroy($id);
+        $response = $this->TransaksiPenjualanModel->destroy($id_transaksi_penjualan);
         return $this->returnData($response['msg'], $response['error']);
     }
 

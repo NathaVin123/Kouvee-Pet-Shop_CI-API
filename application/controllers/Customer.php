@@ -16,7 +16,7 @@ Class Customer extends REST_Controller{
         return $this->returnData($this->db->get('customers')->result(), false);
     }
 
-    public function index_post($id = null){
+    public function index_post($id_costumer = null){
         $validation = $this->form_validation;
         $rule = $this->CustomerModel->rules();
         /*if($id == null){
@@ -50,20 +50,20 @@ Class Customer extends REST_Controller{
         $user->noTelp_customer = $this->post('noTelp_customer');
 
 
-        if($id == null){
+        if($id_costumer == null){
             $response = $this->CustomerModel->store($user);
         }
         else{
-            $response = $this->CustomerModel->update($user, $id);
+            $response = $this->CustomerModel->update($user, $id_costumer);
         }
         return $this->returnData($response['msg'], $response['error']);
     }
 
-    public function index_delete($id = null){
-        if($id == null){
+    public function index_delete($id_costumer = null){
+        if($id_costumer == null){
             return $this->returnData('Parameter Id Tidak Ditemukan', true);
         }
-        $response = $this->CustomerModel->destroy($id);
+        $response = $this->CustomerModel->destroy($id_costumer);
         return $this->returnData($response['msg'], $response['error']);
     }
 
