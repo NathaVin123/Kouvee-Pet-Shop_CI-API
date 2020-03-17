@@ -6,10 +6,17 @@ class Customer extends CI_Model
     private $table = 'costumers';
 
     public $id_customer;
+    public $id_pegawai_fk;
     public $nama_customer;
     public $alamat_customer;
     public $tglLahir_customer;
     public $noTelp_customer;
+    public $createLog_by;
+    public $updateLog_by;
+    public $deleteLog_by;
+    public $createLog_at;
+    public $updateLog_at;
+    public $deleteLog_at;
 
     public $rule = [
         [
