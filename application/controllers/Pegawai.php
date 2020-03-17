@@ -2,23 +2,23 @@
 //require (APPPATH.'/libraries/REST_Controller.php');
 use Restserver \Libraries\REST_Controller ;
 
-Class Comment extends REST_Controller{
+Class Pegawai extends REST_Controller{
     public function __construct(){
         header('Access-Control-Allow-Origin: *');
         header("Access-Control-Allow-Methods: GET, OPTIONS, POST, DELETE");
         header("Access-Control-Allow-Headers: Content-Type, Content-Length, Accept-Encoding");
         parent::__construct();
-        $this->load->model('CommentModel');
+        $this->load->model('PegawaiModel');
         $this->load->library('form_validation');
     }
 
     public function index_get(){
-        return $this->returnData($this->db->get('comments')->result(), false);
+        return $this->returnData($this->db->get('pegawais')->result(), false);
     }
 
     public function index_post($id = null){
         $validation = $this->form_validation;
-        $rule = $this->CommentModel->rules();
+        $rule = $this->PegawaiModel->rules();
         /*if($id == null){
             array_push($rule, [
                 'field' => 'password',
@@ -43,14 +43,14 @@ Class Comment extends REST_Controller{
         if(!$validation->run()){
             return $this->returnData($this->form_validation->error_array(), true);
         }
-        $user = new CommentData();
-        $user->name = $this->post('name');
-        $user->comment = $this->post('comment');
+        $user = new PegawaiData();
+        $user->nama_pegawai = $this->post('nama_pegawai');
+        $user->alamat_pegawai = $this->post('alamat_pegawai');
         if($id == null){
-            $response = $this->CommentModel->store($user);
+            $response = $this->PegawaiModel->store($user);
         }
         else{
-            $response = $this->CommentModel->update($user, $id);
+            $response = $this->PegawaiModel->update($user, $id);
         }
         return $this->returnData($response['msg'], $response['error']);
     }
@@ -59,7 +59,7 @@ Class Comment extends REST_Controller{
         if($id == null){
             return $this->returnData('Parameter Id Tidak Ditemukan', true);
         }
-        $response = $this->CommentModel->destroy($id);
+        $response = $this->PegawaiModel->destroy($id);
         return $this->returnData($response['msg'], $response['error']);
     }
 
@@ -70,7 +70,12 @@ Class Comment extends REST_Controller{
     }
 }
 
-Class CommentData{
-    public $name;
-    public $comment;
+Class PegawaiData{
+    public $nama_pegawai;
+    public $alamat_pegawai;
+    public $tglLahir_Pegawai;
+    public $noTelp_pegawai;
+    public $role_pegawai;
+    public $username;
+    public $password;
 }
