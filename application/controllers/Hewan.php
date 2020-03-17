@@ -16,7 +16,7 @@ Class Hewan extends REST_Controller{
         return $this->returnData($this->db->get('hewans')->result(), false);
     }
 
-    public function index_post($id = null){
+    public function index_post($id_hewan = null){
         $validation = $this->form_validation;
         $rule = $this->HewanModel->rules();
         /*if($id == null){
@@ -48,21 +48,21 @@ Class Hewan extends REST_Controller{
         $user->tglLahir_hewan = $this->post('tglLahir_hewan');
         $user->nama_costumer = $this->post('nama_costumer');
         $user->nama_cs = $this->post('nama_cs');
-        if($id == null){
+        if($id_hewan == null){
             $response = $this->HewanModel->store($user);
         }
         else{
-            $response = $this->HewanModel->update($user, $id);
+            $response = $this->HewanModel->update($user, $id_hewan);
         }
         return $this->returnData($response['msg'], $response['error']);
     }
 
 
-    public function index_delete($id = null){
-        if($id == null){
+    public function index_delete($id_hewan = null){
+        if($id_hewan == null){
             return $this->returnData('Parameter Id Tidak Ditemukan', true);
         }
-        $response = $this->HewanModel->destroy($id);
+        $response = $this->HewanModel->destroy($id_hewan);
         return $this->returnData($response['msg'], $response['error']);
     }
 

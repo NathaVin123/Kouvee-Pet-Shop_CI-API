@@ -16,7 +16,7 @@ Class OrderStok extends REST_Controller{
         return $this->returnData($this->db->get('orderstocks')->result(), false);
     }
 
-    public function index_post($id = null){
+    public function index_post($id_stock = null){
         $validation = $this->form_validation;
         $rule = $this->OrderStokModel->rules();
         /*if($id == null){
@@ -48,21 +48,21 @@ Class OrderStok extends REST_Controller{
         $user->satuan_stock = $this->post('satuan_stock');
         $user->tgl_pesan = $this->post('tgl_pesan');
         $user->tgl_cetak = $this->post('tgl_cetak');
-        if($id == null){
+        if($id_stock == null){
             $response = $this->OrderStokModel->store($user);
         }
         else{
-            $response = $this->OrderStokModel->update($user, $id);
+            $response = $this->OrderStokModel->update($user, $id_stock);
         }
         return $this->returnData($response['msg'], $response['error']);
     }
 
 
-    public function index_delete($id = null){
-        if($id == null){
+    public function index_delete($id_stock = null){
+        if($id_stock == null){
             return $this->returnData('Parameter Id Tidak Ditemukan', true);
         }
-        $response = $this->OrderStokModel->destroy($id);
+        $response = $this->OrderStokModel->destroy($id_stock);
         return $this->returnData($response['msg'], $response['error']);
     }
 

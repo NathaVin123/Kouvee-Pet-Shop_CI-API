@@ -16,7 +16,7 @@ Class Supplier extends REST_Controller{
         return $this->returnData($this->db->get('suppliers')->result(), false);
     }
 
-    public function index_post($id = null){
+    public function index_post($id_supplier = null){
         $validation = $this->form_validation;
         $rule = $this->SupplierModel->rules();
         /*if($id == null){
@@ -48,21 +48,21 @@ Class Supplier extends REST_Controller{
         $user->alamat_supplier = $this->post('alamat_supplier');
         $user->telepon_supplier = $this->post('telepon_supplier');
         $user->stok_supplier = $this->post('stok_supplier');
-        if($id == null){
+        if($id_supplier == null){
             $response = $this->SupplierModel->store($user);
         }
         else{
-            $response = $this->SupplierModel->update($user, $id);
+            $response = $this->SupplierModel->update($user, $id_supplier);
         }
         return $this->returnData($response['msg'], $response['error']);
     }
 
 
-    public function index_delete($id = null){
-        if($id == null){
+    public function index_delete($id_supplier = null){
+        if($id_supplier == null){
             return $this->returnData('Parameter Id Tidak Ditemukan', true);
         }
-        $response = $this->SupplierModel->destroy($id);
+        $response = $this->SupplierModel->destroy($id_supplier);
         return $this->returnData($response['msg'], $response['error']);
     }
 

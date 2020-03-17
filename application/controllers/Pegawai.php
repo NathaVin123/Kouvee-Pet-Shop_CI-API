@@ -16,7 +16,7 @@ Class Pegawai extends REST_Controller{
         return $this->returnData($this->db->get('pegawais')->result(), false);
     }
 
-    public function index_post($id = null){
+    public function index_post($id_pegawai = null){
         $validation = $this->form_validation;
         $rule = $this->PegawaiModel->rules();
         /*if($id == null){
@@ -51,20 +51,20 @@ Class Pegawai extends REST_Controller{
         $user->role_pegawai = $this->post('role_pegawai');
         $user->username = $this->post('username');
         $user->password = $this->post('password');
-        if($id == null){
+        if($id_pegawai == null){
             $response = $this->PegawaiModel->store($user);
         }
         else{
-            $response = $this->PegawaiModel->update($user, $id);
+            $response = $this->PegawaiModel->update($user, $id_pegawai);
         }
         return $this->returnData($response['msg'], $response['error']);
     }
 
-    public function index_delete($id = null){
-        if($id == null){
+    public function index_delete($id_pegawai = null){
+        if($id_pegawai == null){
             return $this->returnData('Parameter Id Tidak Ditemukan', true);
         }
-        $response = $this->PegawaiModel->destroy($id);
+        $response = $this->PegawaiModel->destroy($id_pegawai);
         return $this->returnData($response['msg'], $response['error']);
     }
 
