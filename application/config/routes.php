@@ -53,7 +53,7 @@ $route['default_controller'] = 'Pegawai';
 $route['404_override'] = '';
 $route['translate_uri_dashes'] = FALSE;
 
-$route['costumer'] = 'Costumer';
+$route['customer'] = 'Customer';
 $route['detaillayanan'] = 'DetailLayanan';
 $route['detailpengadaan'] = 'DetailPengadaan';
 $route['detailproduk'] = 'DetailProduk';
