@@ -63,7 +63,7 @@ Class Costomer extends REST_Controller{
         if($id == null){
             return $this->returnData('Parameter Id Tidak Ditemukan', true);
         }
-        $response = $this->LyricModel->destroy($id);
+        $response = $this->CostumerModel->destroy($id);
         return $this->returnData($response['msg'], $response['error']);
     }
 

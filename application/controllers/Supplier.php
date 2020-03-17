@@ -2,23 +2,23 @@
 //require (APPPATH.'/libraries/REST_Controller.php');
 use Restserver \Libraries\REST_Controller ;
 
-Class Pegawai extends REST_Controller{
+Class Supplier extends REST_Controller{
     public function __construct(){
         header('Access-Control-Allow-Origin: *');
         header("Access-Control-Allow-Methods: GET, OPTIONS, POST, DELETE");
         header("Access-Control-Allow-Headers: Content-Type, Content-Length, Accept-Encoding");
         parent::__construct();
-        $this->load->model('PegawaiModel');
+        $this->load->model('SupplierModel');
         $this->load->library('form_validation');
     }
 
     public function index_get(){
-        return $this->returnData($this->db->get('pegawais')->result(), false);
+        return $this->returnData($this->db->get('suppliers')->result(), false);
     }
 
     public function index_post($id = null){
         $validation = $this->form_validation;
-        $rule = $this->PegawaiModel->rules();
+        $rule = $this->SupplierModel->rules();
         /*if($id == null){
             array_push($rule, [
                 'field' => 'password',
@@ -43,28 +43,26 @@ Class Pegawai extends REST_Controller{
         if(!$validation->run()){
             return $this->returnData($this->form_validation->error_array(), true);
         }
-        $user = new PegawaiData();
-        $user->nama_pegawai = $this->post('nama_pegawai');
-        $user->alamat_pegawai = $this->post('alamat_pegawai');
-        $user->tglLahir_Pegawai = $this->post('tglLahir_Pegawai');
-        $user->noTelp_pegawai = $this->post('noTelp_pegawai');
-        $user->role_pegawai = $this->post('role_pegawai');
-        $user->username = $this->post('username');
-        $user->password = $this->post('password');
+        $user = new SupplierData();
+        $user->nama_supplier = $this->post('nama_supplier');
+        $user->alamat_supplier = $this->post('alamat_supplier');
+        $user->telepon_supplier = $this->post('telepon_supplier');
+        $user->stok_supplier = $this->post('stok_supplier');
         if($id == null){
-            $response = $this->PegawaiModel->store($user);
+            $response = $this->SupplierModel->store($user);
         }
         else{
-            $response = $this->PegawaiModel->update($user, $id);
+            $response = $this->SupplierModel->update($user, $id);
         }
         return $this->returnData($response['msg'], $response['error']);
     }
+
 
     public function index_delete($id = null){
         if($id == null){
             return $this->returnData('Parameter Id Tidak Ditemukan', true);
         }
-        $response = $this->PegawaiModel->destroy($id);
+        $response = $this->SupplierModel->destroy($id);
         return $this->returnData($response['msg'], $response['error']);
     }
 
@@ -75,12 +73,9 @@ Class Pegawai extends REST_Controller{
     }
 }
 
-Class PegawaiData{
-    public $nama_pegawai;
-    public $alamat_pegawai;
-    public $tglLahir_Pegawai;
-    public $noTelp_pegawai;
-    public $role_pegawai;
-    public $username;
-    public $password;
+Class SupplierData{
+    public $nama_supplier;
+    public $alamat_supplier;
+    public $telepon_supplier;
+    public $stok_supplier;
 }
