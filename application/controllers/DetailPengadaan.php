@@ -2,23 +2,23 @@
 //require (APPPATH.'/libraries/REST_Controller.php');
 use Restserver \Libraries\REST_Controller ;
 
-Class Hewan extends REST_Controller{
+Class DetailPengadaan extends REST_Controller{
     public function __construct(){
         header('Access-Control-Allow-Origin: *');
         header("Access-Control-Allow-Methods: GET, OPTIONS, POST, DELETE");
         header("Access-Control-Allow-Headers: Content-Type, Content-Length, Accept-Encoding");
         parent::__construct();
-        $this->load->model('HewanModel');
+        $this->load->model('DetailPengadaanModel');
         $this->load->library('form_validation');
     }
 
     public function index_get(){
-        return $this->returnData($this->db->get('hewans')->result(), false);
+        return $this->returnData($this->db->get('detailpengadaans')->result(), false);
     }
 
     public function index_post($id = null){
         $validation = $this->form_validation;
-        $rule = $this->HewanModel->rules();
+        $rule = $this->DetailPengadaanModel->rules();
         /*if($id == null){
             array_push($rule, [
                 'field' => 'password',
@@ -43,16 +43,15 @@ Class Hewan extends REST_Controller{
         if(!$validation->run()){
             return $this->returnData($this->form_validation->error_array(), true);
         }
-        $user = new HewanData();
-        $user->nama_hewan = $this->post('nama_hewan');
-        $user->tglLahir_hewan = $this->post('tglLahir_hewan');
-        $user->nama_costumer = $this->post('nama_costumer');
-        $user->nama_cs = $this->post('nama_cs');
+        $user = new DetailPengadaanData();
+        $user->kode_stok = $this->post('kode_stok');
+        $user->tgl_stok_pengadaan = $this->post('tgl_stok_pengadaan');
+        $user->status_pengadaan_produk = $this->post('status_pengadaan_produk');
         if($id == null){
-            $response = $this->HewanModel->store($user);
+            $response = $this->DetailPengadaanModel->store($user);
         }
         else{
-            $response = $this->HewanModel->update($user, $id);
+            $response = $this->DetailPengadaanModel->update($user, $id);
         }
         return $this->returnData($response['msg'], $response['error']);
     }
@@ -62,7 +61,7 @@ Class Hewan extends REST_Controller{
         if($id == null){
             return $this->returnData('Parameter Id Tidak Ditemukan', true);
         }
-        $response = $this->HewanModel->destroy($id);
+        $response = $this->DetailPengadaanModel->destroy($id);
         return $this->returnData($response['msg'], $response['error']);
     }
 
@@ -73,9 +72,8 @@ Class Hewan extends REST_Controller{
     }
 }
 
-Class HewanData{
-    public $nama_hewan;
-    public $tglLahir_hewan;
-    public $nama_costumer;
-    public $nama_cs;
+Class DetailPengadaanData{
+    public $kode_stok;
+    public $tgl_stok_pengadaan;
+    public $status_pengadaan_produk;
 }
