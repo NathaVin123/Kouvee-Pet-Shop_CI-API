@@ -49,6 +49,20 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 | Examples:	my-controller/index	-> my_controller/index
 |		my-controller/my-method	-> my_controller/my_method
 */
-$route['default_controller'] = 'User';
+$route['default_controller'] = 'Pegawai';
 $route['404_override'] = '';
 $route['translate_uri_dashes'] = FALSE;
+
+$route['costumer'] = 'Costumer';
+$route['detaillayanan'] = 'DetailLayanan';
+$route['detailpengadaan'] = 'DetailPengadaan';
+$route['detailproduk'] = 'DetailProduk';
+$route['hewan'] = 'Hewan';
+$route['jenishewan'] = 'JenisHewan';
+$route['layanan'] = 'Layanan';
+$route['orderstok'] = 'Orderstok';
+$route['pegawai'] = 'Pegawai';
+$route['produk'] = 'Produk';
+$route['supplier'] = 'Supplier';
+$route['transaksipenjualan'] = 'TransaksiPenjualan';
+$route['ukuranhewan'] = 'UkuranHewan';
