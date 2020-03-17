@@ -3,7 +3,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 
 class CustomerModel extends CI_Model
 {
-    private $table = 'costumers';
+    private $table = 'customers';
 
     public $id_customer;
     public $id_pegawai_fk;
@@ -20,8 +20,8 @@ class CustomerModel extends CI_Model
 
     public $rule = [
         [
-            'field' => 'title',
-            'label' => 'title',
+            'field' => 'nama_customer',
+            'label' => 'nama_customer',
             'rules' => 'required'
         ],
     ];
@@ -33,6 +33,7 @@ class CustomerModel extends CI_Model
     }
 
     public function store($request){
+        $this->id_pegawai_fk = $request->id_pegawai_fk;
         $this->nama_customer = $request->nama_customer;
         $this->alamat_customer = $request->alamat_customer;
         $this->tglLahir_customer = $request->tglLahir_customer;
