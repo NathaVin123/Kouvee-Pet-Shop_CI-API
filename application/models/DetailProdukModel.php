@@ -5,30 +5,49 @@ class DetailProdukModel extends CI_Model
 {
     private $table = 'detailproduks';
 
-    public $id_detail_produk;
-    public $id_produk_fk;
-    public $id_transaksi_penjualan_fk;
-    public $kode_produk;
+    public $kode_penjualan;
+    public $id_produk;
     public $tgl_transaksi_produk;
     public $jml_transaksi_produk;
     public $subtotal;
 
-    // public $rule = [
-    //     [
-    //         'field' => 'title',
-    //         'label' => 'title',
-    //         'rules' => 'required'
-    //     ],
-    // ];
+    public $rule = [
+        [
+            'field' => 'kode_penjualan',
+            'label' => 'kode_penjualan',
+            'rules' => 'required'
+        ],
+        [
+            'field' => 'id_produk',
+            'label' => 'id_produk',
+            'rules' => 'required'
+        ],
+        [
+            'field' => 'tgl_transaksi_produk',
+            'label' => 'tgl_transaksi_produk',
+            'rules' => 'required'
+        ],
+        [
+            'field' => 'jml_transaksi_produk',
+            'label' => 'jml_transaksi_produk',
+            'rules' => 'required'
+        ],
+        [
+            'field' => 'subtotal',
+            'label' => 'subtotal',
+            'rules' => 'required'
+        ]
+    ];
 
-    // public function Rules() { return $this->rule; }
+    public function Rules() { return $this->rule; }
 
     public function getAll() {
         return $this->db->get('detailproduks')->result();
     }
 
     public function store($request){
-        $this->kode_produk = $request->kode_produk;
+        $this->kode_penjualan = $request->kode_penjualan;
+        $this->id_produk = $request->id_produk;
         $this->tgl_transaksi_produk = $request->tgl_transaksi_produk;
         $this->jml_transaksi_produk = $request->jml_transaksi_produk;
         $this->subtotal = $request->subtotal;
@@ -38,19 +57,24 @@ class DetailProdukModel extends CI_Model
         return ['msg' => 'Gagal', 'error' => true];
     }
 
-    public function update($request, $id_detail_produk){
-        $updateData = ['title' => $request->title, 'artist' => $request->artist, 'genre' => $request->genre, 'lyric' => $request->lyric];
-        if($this->db->where('id_detail_produk', $id_detail_produk)->update($this->table, $updateData)){
+    public function update($request, $kode_penjualan){
+        $updateData = 
+        ['kode_penjualan' => $request->kode_penjualan, 
+        'id_produk' => $request->id_produk, 
+        'tgl_transaksi_produk' => $request->tgl_transaksi_produk, 
+        'jml_transaksi_produk' => $request->jml_transaksi_produk, 
+        'subtotal' => $request->subtotal];
+        if($this->db->where('kode_penjualan', $kode_penjualan)->update($this->table, $updateData)){
             return ['msg' => 'Berhasil', 'error' => false];
         }
         return ['msg' => 'Gagal', 'error' => true];
     }
 
-    public function destroy($id_detail_produk){
-        if(empty($this->db->select('*')->where(array('id_detail_produk' => $id_detail_produk))->get($this->table)->row()))
+    public function destroy($kode_penjualan){
+        if(empty($this->db->select('*')->where(array('kode_penjualan' => $kode_penjualan))->get($this->table)->row()))
             return ['msg' => 'Id tidak ditemukan', 'error' => true];
 
-        if($this->db->delete($this->table, array('id_detail_produk' => $id_detail_produk))){
+        if($this->db->delete($this->table, array('kode_penjualan' => $kode_penjualan))){
             return ['msg' => 'Berhasil', 'error' => false];
         }
         return ['msg' => 'Gagal', 'error' => true];

@@ -16,7 +16,7 @@ Class TransaksiPenjualan extends REST_Controller{
         return $this->returnData($this->db->get('transaksipenjualans')->result(), false);
     }
 
-    public function index_post($id_transaksi_penjualan = null){
+    public function index_post($kode_penjualan = null){
         $validation = $this->form_validation;
         $rule = $this->TransaksiPenjualanModel->rules();
         /*if($id == null){
@@ -44,26 +44,30 @@ Class TransaksiPenjualan extends REST_Controller{
             return $this->returnData($this->form_validation->error_array(), true);
         }
         $user = new TransaksiPenjualanData();
+        $user->kode_penjualan = $this->post('kode_penjualan');
+        $user->tgl_transaksi_penjualan = $this->post('tgl_transaksi_penjualan');
         $user->nama_kasir = $this->post('nama_kasir');
-        $user->subtotal = $this->post('subtotal');
-        $user->diskon = $this->post('diskon');
         $user->total = $this->post('total');
         $user->status_transaksi = $this->post('status_transaksi');
-        if($id_transaksi_penjualan == null){
+        $user->status_pembayaran = $this->post('status_pembayaran');
+        $user->id_customer = $this->post('id_customer');
+        $user->id_CS = $this->post('id_CS');
+        $user->id_kasir = $this->post('id_kasir');
+        if($kode_penjualan == null){
             $response = $this->TransaksiPenjualanModel->store($user);
         }
         else{
-            $response = $this->TransaksiPenjualanModel->update($user, $id_transaksi_penjualan);
+            $response = $this->TransaksiPenjualanModel->update($user, $kode_penjualan);
         }
         return $this->returnData($response['msg'], $response['error']);
     }
 
 
-    public function index_delete($id_transaksi_penjualan = null){
-        if($id_transaksi_penjualan == null){
+    public function index_delete($kode_penjualan = null){
+        if($kode_penjualan == null){
             return $this->returnData('Parameter Id Tidak Ditemukan', true);
         }
-        $response = $this->TransaksiPenjualanModel->destroy($id_transaksi_penjualan);
+        $response = $this->TransaksiPenjualanModel->destroy($kode_penjualan);
         return $this->returnData($response['msg'], $response['error']);
     }
 
@@ -75,9 +79,13 @@ Class TransaksiPenjualan extends REST_Controller{
 }
 
 Class TransaksiPenjualanData{
+    public $kode_penjualan;
+    public $tgl_transaksi_penjualan;
     public $nama_kasir;
-    public $subtotal;
-    public $diskon;
     public $total;
     public $status_transaksi;
+    public $status_pembayaran;
+    public $id_customer;
+    public $id_CS;
+    public $id_kasir;
 }

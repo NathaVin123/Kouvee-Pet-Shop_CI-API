@@ -16,7 +16,7 @@ Class DetailPengadaan extends REST_Controller{
         return $this->returnData($this->db->get('detailpengadaans')->result(), false);
     }
 
-    public function index_post($id_detail_pengadaan = null){
+    public function index_post($no_order = null){
         $validation = $this->form_validation;
         $rule = $this->DetailPengadaanModel->rules();
         /*if($id == null){
@@ -44,24 +44,26 @@ Class DetailPengadaan extends REST_Controller{
             return $this->returnData($this->form_validation->error_array(), true);
         }
         $user = new DetailPengadaanData();
-        $user->kode_stok = $this->post('kode_stok');
-        $user->tgl_stok_pengadaan = $this->post('tgl_stok_pengadaan');
+        $user->no_order = $this->post('no_order');
+        $user->id_produk = $this->post('id_produk');
+        $user->jml_stok_pengadaan = $this->post('jml_stok_pengadaan');
         $user->status_pengadaan_produk = $this->post('status_pengadaan_produk');
-        if($id_detail_pengadaan == null){
+        $user->subTotal = $this->post('subTotal');
+        if($no_order == null){
             $response = $this->DetailPengadaanModel->store($user);
         }
         else{
-            $response = $this->DetailPengadaanModel->update($user, $id_detail_pengadaan);
+            $response = $this->DetailPengadaanModel->update($user, $no_order);
         }
         return $this->returnData($response['msg'], $response['error']);
     }
 
 
-    public function index_delete($id_detail_pengadaan = null){
-        if($id_detail_pengadaan == null){
+    public function index_delete($no_order = null){
+        if($no_order == null){
             return $this->returnData('Parameter Id Tidak Ditemukan', true);
         }
-        $response = $this->DetailPengadaanModel->destroy($id_detail_pengadaan);
+        $response = $this->DetailPengadaanModel->destroy($no_order);
         return $this->returnData($response['msg'], $response['error']);
     }
 
@@ -73,7 +75,9 @@ Class DetailPengadaan extends REST_Controller{
 }
 
 Class DetailPengadaanData{
-    public $kode_stok;
-    public $tgl_stok_pengadaan;
+    public $no_order;
+    public $id_produk;
+    public $jml_stok_pengadaan;
     public $status_pengadaan_produk;
+    public $subTotal;
 }

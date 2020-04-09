@@ -16,7 +16,7 @@ Class Pegawai extends REST_Controller{
         return $this->returnData($this->db->get('pegawais')->result(), false);
     }
 
-    public function index_post($id_pegawai = null){
+    public function index_post($NIP = null){
         $validation = $this->form_validation;
         $rule = $this->PegawaiModel->rules();
         /*if($id == null){
@@ -44,27 +44,29 @@ Class Pegawai extends REST_Controller{
             return $this->returnData($this->form_validation->error_array(), true);
         }
         $user = new PegawaiData();
+        $user->NIP = $this->post('NIP');
         $user->nama_pegawai = $this->post('nama_pegawai');
         $user->alamat_pegawai = $this->post('alamat_pegawai');
-        $user->tglLahir_Pegawai = $this->post('tglLahir_Pegawai');
+        $user->tglLahir_pegawai = $this->post('tglLahir_pegawai');
         $user->noTelp_pegawai = $this->post('noTelp_pegawai');
-        $user->role_pegawai = $this->post('role_pegawai');
-        $user->username = $this->post('username');
+        $user->stat = $this->post('stat');
         $user->password = $this->post('password');
-        if($id_pegawai == null){
+        $user->gambar = $this->post('gambar');
+        $user->updateLog_by = $this->post('updateLog_by');
+        if($NIP == null){
             $response = $this->PegawaiModel->store($user);
         }
         else{
-            $response = $this->PegawaiModel->update($user, $id_pegawai);
+            $response = $this->PegawaiModel->update($user, $NIP);
         }
         return $this->returnData($response['msg'], $response['error']);
     }
 
-    public function index_delete($id_pegawai = null){
-        if($id_pegawai == null){
+    public function index_delete($NIP = null){
+        if($NIP == null){
             return $this->returnData('Parameter Id Tidak Ditemukan', true);
         }
-        $response = $this->PegawaiModel->destroy($id_pegawai);
+        $response = $this->PegawaiModel->destroy($NIP);
         return $this->returnData($response['msg'], $response['error']);
     }
 
@@ -76,11 +78,13 @@ Class Pegawai extends REST_Controller{
 }
 
 Class PegawaiData{
+    public $NIP;
     public $nama_pegawai;
     public $alamat_pegawai;
-    public $tglLahir_Pegawai;
+    public $tglLahir_pegawai;
     public $noTelp_pegawai;
-    public $role_pegawai;
-    public $username;
+    public $stat;
     public $password;
+    public $gambar;
+    public $updateLog_by;
 }

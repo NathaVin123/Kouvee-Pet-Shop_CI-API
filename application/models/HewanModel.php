@@ -8,34 +8,60 @@ class HewanModel extends CI_Model
     public $id_hewan;
     public $nama_hewan;
     public $tglLahir_hewan;
-    public $nama_customer;
-    public $nama_cs;
-    public $createLog_by;
+    public $id_costumer;
+    public $id_jenisHewan;
     public $updateLog_by;
-    public $deleteLog_by;
     public $createLog_at;
     public $updateLog_at;
     public $deleteLog_at;
 
     public $rule = [
         [
-            'field' => 'title',
-            'label' => 'title',
+            'field' => 'id_hewan',
+            'label' => 'id_hewan',
             'rules' => 'required'
         ],
+        [
+            'field' => 'nama_hewan',
+            'label' => 'nama_hewan',
+            'rules' => 'required'
+        ],
+        [
+            'field' => 'tglLahir_hewan',
+            'label' => 'tglLahir_hewan',
+            'rules' => 'required'
+        ],
+        [
+            'field' => 'id_costumer',
+            'label' => 'id_costumer',
+            'rules' => 'required'
+        ],
+        [
+            'field' => 'id_jenisHewan',
+            'label' => 'id_jenisHewan',
+            'rules' => 'required'
+        ],
+        [
+            'field' => 'updateLog_by',
+            'label' => 'updateLog_by',
+            'rules' => 'required'
+        ]
     ];
 
     public function Rules() { return $this->rule; }
+
 
     public function getAll() {
         return $this->db->get('hewans')->result();
     }
 
     public function store($request){
+        $this->id_hewan = $request->id_hewan;
         $this->nama_hewan = $request->nama_hewan;
         $this->tglLahir_hewan = $request->tglLahir_hewan;
-        $this->nama_customer = $request->nama_customer;
-        $this->nama_cs = $request->nama_cs;
+        $this->id_costumer = $request->id_costumer;
+        $this->id_jenisHewan = $request->id_costumer;
+        $this->updateLog_by = $request->updateLog_by;
         if($this->db->insert($this->table, $this)){
             return ['msg' => 'Berhasil', 'error' => false];
         }
@@ -43,7 +69,13 @@ class HewanModel extends CI_Model
     }
 
     public function update($request, $id_hewan){
-        $updateData = ['nama_hewan' => $request->nama_hewan, 'tglLahir_hewan' => $request->tglLahir_hewan, 'nama_customer' => $request->nama_customer, 'nama_cs' => $request->nama_cs];
+        $updateData = 
+        ['id_hewan' => $request->id_hewan,
+         'nama_hewan' => $request->nama_hewan, 
+         'tglLahir_hewan' => $request->tglLahir_hewan, 
+         'id_costumer' => $request->id_costumer, 
+         'id_jenisHewan' => $request->id_jenisHewan,
+         'updateLog_by' => $request->updateLog_by];
         if($this->db->where('id_hewan', $id_hewan)->update($this->table, $updateData)){
             return ['msg' => 'Berhasil', 'error' => false];
         }

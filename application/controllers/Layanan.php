@@ -44,9 +44,12 @@ Class Layanan extends REST_Controller{
             return $this->returnData($this->form_validation->error_array(), true);
         }
         $user = new LayananData();
+        $user->nama_layanan = $this->post('id_layanan');
         $user->nama_layanan = $this->post('nama_layanan');
         $user->harga_layanan = $this->post('harga_layanan');
-        $user->jenis_layanan = $this->post('jenis_layanan');
+        $user->jenis_layanan = $this->post('id_ukuranHewan');
+        $user->jenis_layanan = $this->post('updateLog_by');
+
         if($id_layanan == null){
             $response = $this->LayananModel->store($user);
         }
@@ -73,7 +76,9 @@ Class Layanan extends REST_Controller{
 }
 
 Class LayananData{
+    public $id_layanan;
     public $nama_layanan;
     public $harga_layanan;
-    public $jenis_layanan;
+    public $id_ukuranHewan;
+    public $updateLog_by;
 }

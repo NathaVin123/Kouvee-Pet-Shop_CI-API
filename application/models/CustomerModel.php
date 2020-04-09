@@ -6,24 +6,46 @@ class CustomerModel extends CI_Model
     private $table = 'customers';
 
     public $id_customer;
-    public $id_pegawai_fk;
     public $nama_customer;
     public $alamat_customer;
     public $tglLahir_customer;
     public $noTelp_customer;
-    public $createLog_by;
     public $updateLog_by;
-    public $deleteLog_by;
     public $createLog_at;
     public $updateLog_at;
     public $deleteLog_at;
 
     public $rule = [
         [
+            'field' => 'id_customer',
+            'label' => 'id_customer',
+            'rules' => 'required'
+        ],
+        [
             'field' => 'nama_customer',
             'label' => 'nama_customer',
             'rules' => 'required'
         ],
+        [
+            'field' => 'alamat_customer',
+            'label' => 'alamat_customer',
+            'rules' => 'required'
+        ],
+        [
+            'field' => 'tglLahir_customer',
+            'label' => 'tglLahir_customer',
+            'rules' => 'required'
+        ],
+        [
+            'field' => 'noTelp_customer',
+            'label' => 'noTelp_customer',
+            'rules' => 'required'
+        ],
+        [
+            'field' => 'updateLog_by',
+            'label' => 'updateLog_by',
+            'rules' => 'required'
+        ]
     ];
 
     public function Rules() { return $this->rule; }
@@ -33,11 +55,12 @@ class CustomerModel extends CI_Model
     }
 
     public function store($request){
-        $this->id_pegawai_fk = $request->id_pegawai_fk;
+        $this->id_customer = $request->id_customer;
         $this->nama_customer = $request->nama_customer;
         $this->alamat_customer = $request->alamat_customer;
         $this->tglLahir_customer = $request->tglLahir_customer;
         $this->noTelp_customer = $request->noTelp_customer;
+        $this->updateLog_by = $request->updateLog_by;
         if($this->db->insert($this->table, $this)){
             return ['msg' => 'Berhasil', 'error' => false];
         }
@@ -45,7 +68,13 @@ class CustomerModel extends CI_Model
     }
 
     public function update($request, $id_customer){
-        $updateData = ['id_pegawai_fk' => $request->id_pegawai_fk, 'nama_customer' => $request->nama_customer, 'alamat_customer' => $request->alamat_customer, 'tglLahir_customer' => $request->tglLahir_customer, 'noTelp_customer' => $request->noTelp_customer];
+        $updateData = 
+        ['id_customer' => $request->id_customer, 
+        'nama_customer' => $request->nama_customer, 
+        'alamat_customer' => $request->alamat_customer, 
+        'tglLahir_customer' => $request->tglLahir_customer, 
+        'noTelp_customer' => $request->noTelp_customer, 
+        'updateLog_by' => $request->updateLog_by];
         if($this->db->where('id_customer', $id_customer)->update($this->table, $updateData)){
             return ['msg' => 'Berhasil', 'error' => false];
         }

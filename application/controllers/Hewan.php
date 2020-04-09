@@ -44,10 +44,12 @@ Class Hewan extends REST_Controller{
             return $this->returnData($this->form_validation->error_array(), true);
         }
         $user = new HewanData();
+        $user->id_hewan = $this->post('id_hewan');
         $user->nama_hewan = $this->post('nama_hewan');
         $user->tglLahir_hewan = $this->post('tglLahir_hewan');
-        $user->nama_costumer = $this->post('nama_costumer');
-        $user->nama_cs = $this->post('nama_cs');
+        $user->id_costumer = $this->post('id_costumer');
+        $user->id_jenisHewan = $this->post('id_jenisHewan');
+        $user->updateLog_by = $this->post('updateLog_by');
         if($id_hewan == null){
             $response = $this->HewanModel->store($user);
         }
@@ -74,8 +76,10 @@ Class Hewan extends REST_Controller{
 }
 
 Class HewanData{
+    public $id_hewan;
     public $nama_hewan;
     public $tglLahir_hewan;
-    public $nama_costumer;
-    public $nama_cs;
+    public $id_costumer;
+    public $id_jenisHewan;
+    public $updateLog_by;
 }

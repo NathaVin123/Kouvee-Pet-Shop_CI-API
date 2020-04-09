@@ -16,7 +16,7 @@ Class DetailProduk extends REST_Controller{
         return $this->returnData($this->db->get('detailproduks')->result(), false);
     }
 
-    public function index_post($id_detail_produk = null){
+    public function index_post($kode_penjualan = null){
         $validation = $this->form_validation;
         $rule = $this->DetailProdukModel->rules();
         /*if($id == null){
@@ -44,24 +44,26 @@ Class DetailProduk extends REST_Controller{
             return $this->returnData($this->form_validation->error_array(), true);
         }
         $user = new DetailProdukData();
-        $user->kode_produk = $this->post('kode_produk');
+        $user->kode_penjualan = $this->post('kode_penjualan');
+        $user->id_produk = $this->post('id_produk');
         $user->tgl_transaksi_produk = $this->post('tgl_transaksi_produk');
         $user->jml_transaksi_produk = $this->post('jml_transaksi_produk');
-        if($id_detail_produk == null){
+        $user->subtotal = $this->post('subtotal');
+        if($kode_penjualan == null){
             $response = $this->DetailProdukModel->store($user);
         }
         else{
-            $response = $this->DetailProdukModel->update($user, $id_detail_produk);
+            $response = $this->DetailProdukModel->update($user, $kode_penjualan);
         }
         return $this->returnData($response['msg'], $response['error']);
     }
 
 
-    public function index_delete($id_detail_produk = null){
-        if($id_detail_produk == null){
+    public function index_delete($kode_penjualan = null){
+        if($kode_penjualan == null){
             return $this->returnData('Parameter Id Tidak Ditemukan', true);
         }
-        $response = $this->DetailProdukModel->destroy($id_detail_produk);
+        $response = $this->DetailProdukModel->destroy($kode_penjualan);
         return $this->returnData($response['msg'], $response['error']);
     }
 
@@ -73,7 +75,9 @@ Class DetailProduk extends REST_Controller{
 }
 
 Class DetailProdukData{
-    public $kode_produk;
+    public $kode_penjualan;
+    public $id_produk;
     public $tgl_transaksi_produk;
     public $jml_transaksi_produk;
+    public $subtotal;
 }

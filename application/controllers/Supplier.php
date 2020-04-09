@@ -44,10 +44,12 @@ Class Supplier extends REST_Controller{
             return $this->returnData($this->form_validation->error_array(), true);
         }
         $user = new SupplierData();
+        $user->id_supplier = $this->post('id_supplier');
         $user->nama_supplier = $this->post('nama_supplier');
         $user->alamat_supplier = $this->post('alamat_supplier');
         $user->telepon_supplier = $this->post('telepon_supplier');
         $user->stok_supplier = $this->post('stok_supplier');
+        $user->updateLog_by = $this->post('updateLog_by');
         if($id_supplier == null){
             $response = $this->SupplierModel->store($user);
         }
@@ -74,8 +76,10 @@ Class Supplier extends REST_Controller{
 }
 
 Class SupplierData{
+    public $id_supplier;
     public $nama_supplier;
     public $alamat_supplier;
     public $telepon_supplier;
     public $stok_supplier;
+    public $updateLog_by;
 }

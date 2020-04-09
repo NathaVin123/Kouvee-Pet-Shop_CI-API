@@ -16,7 +16,7 @@ Class DetailLayanan extends REST_Controller{
         return $this->returnData($this->db->get('detaillayanans')->result(), false);
     }
 
-    public function index_post($id_detail_layanan = null){
+    public function index_post($kode_penjualan = null){
         $validation = $this->form_validation;
         $rule = $this->DetailLayananModel->rules();
         /*if($id == null){
@@ -44,25 +44,26 @@ Class DetailLayanan extends REST_Controller{
             return $this->returnData($this->form_validation->error_array(), true);
         }
         $user = new DetailLayananData();
-        $user->kode_layanan = $this->post('kode_layanan');
+        $user->kode_penjualan = $this->post('kode_penjualan');
+        $user->id_layanan = $this->post('id_layanan');
         $user->tgl_transaksi_layanan = $this->post('tgl_transaksi_layanan');
         $user->jml_transaksi_layanan = $this->post('jml_transaksi_layanan');
         $user->subtotal = $this->post('subtotal');
-        if($id_detail_layanan == null){
+        if($kode_penjualan == null){
             $response = $this->DetailLayananModel->store($user);
         }
         else{
-            $response = $this->DetailLayananModel->update($user, $id_detail_layanan);
+            $response = $this->DetailLayananModel->update($user, $kode_penjualan);
         }
         return $this->returnData($response['msg'], $response['error']);
     }
 
 
-    public function index_delete($id_detail_layanan = null){
-        if($id_detail_layanan == null){
+    public function index_delete($kode_penjualan = null){
+        if($kode_penjualan == null){
             return $this->returnData('Parameter Id Tidak Ditemukan', true);
         }
-        $response = $this->DetailLayananModel->destroy($iid_detail_layanan);
+        $response = $this->DetailLayananModel->destroy($kode_penjualan);
         return $this->returnData($response['msg'], $response['error']);
     }
 
@@ -74,7 +75,8 @@ Class DetailLayanan extends REST_Controller{
 }
 
 Class DetailLayananData{
-    public $kode_layanan;
+    public $kode_penjualan;
+    public $id_layanan;
     public $tgl_transaksi_layanan;
     public $jml_transaksi_layanan;
     public $subtotal;

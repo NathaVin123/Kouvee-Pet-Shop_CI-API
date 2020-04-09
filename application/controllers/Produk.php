@@ -44,13 +44,15 @@ Class Produk extends REST_Controller{
             return $this->returnData($this->form_validation->error_array(), true);
         }
         $user = new ProdukData();
+        $user->id_produk = $this->post('id_produk');
         $user->nama_produk = $this->post('nama_produk');
         $user->harga_produk = $this->post('harga_produk');
         $user->stok_produk = $this->post('stok_produk');
         $user->min_stok_produk = $this->post('min_stok_produk');
         $user->satuan_produk = $this->post('satuan_produk');
+        $user->gambar = $this->post('gambar');
+        $user->updateLog_by = $this->post('updateLog_by');
 
-        
         if($id_produk == null){
             $response = $this->ProdukModel->store($user);
         }
@@ -76,9 +78,12 @@ Class Produk extends REST_Controller{
 }
 
 Class ProdukData{
+    public $id_produk;
     public $nama_produk;
     public $harga_produk;
     public $stok_produk;
     public $min_stok_produk;
     public $satuan_produk;
+    public $gambar;
+    public $updateLog_by;
 }

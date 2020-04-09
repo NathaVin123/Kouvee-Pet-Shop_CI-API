@@ -6,25 +6,58 @@ class ProdukModel extends CI_Model
     private $table = 'produks';
 
     public $id_produk;
-    public $id_pegawai_fk;
     public $nama_produk;
     public $harga_produk;
     public $stok_produk;
     public $min_stok_produk;
     public $satuan_produk;
-    public $createLog_by;
+    public $gambar;
     public $updateLog_by;
-    public $deleteLog_by;
     public $createLog_at;
     public $updateLog_at;
     public $deleteLog_at;
 
     public $rule = [
         [
-            'field' => 'title',
-            'label' => 'title',
+            'field' => 'id_produk',
+            'label' => 'id_produk',
             'rules' => 'required'
         ],
+        [
+            'field' => 'nama_produk',
+            'label' => 'nama_produk',
+            'rules' => 'required'
+        ],
+        [
+            'field' => 'harga_produk',
+            'label' => 'harga_produk',
+            'rules' => 'required'
+        ],
+        [
+            'field' => 'stok_produk',
+            'label' => 'stok_produk',
+            'rules' => 'required'
+        ],
+        [
+            'field' => 'min_stok_produk',
+            'label' => 'min_stok_produk',
+            'rules' => 'required'
+        ],
+        [
+            'field' => 'satuan_produk',
+            'label' => 'satuan_produk',
+            'rules' => 'required'
+        ],
+        [
+            'field' => 'gambar',
+            'label' => 'gambar',
+            'rules' => 'required'
+        ],
+        [
+            'field' => 'updateLog_by',
+            'label' => 'updateLog_by',
+            'rules' => 'required'
+        ]
     ];
 
     public function Rules() { return $this->rule; }
@@ -34,11 +67,14 @@ class ProdukModel extends CI_Model
     }
 
     public function store($request){
+        $this->id_produk = $request->id_produk;
         $this->nama_produk = $request->nama_produk;
         $this->harga_produk = $request->harga_produk;
         $this->stok_produk = $request->stok_produk;
         $this->min_stok_produk = $request->min_stok_produk;
         $this->satuan_produk = $request->satuan_produk;
+        $this->gambar = $request->gambar;
+        $this->updateLog_by = $request->updateLog_by;
         if($this->db->insert($this->table, $this)){
             return ['msg' => 'Berhasil', 'error' => false];
         }
@@ -46,7 +82,15 @@ class ProdukModel extends CI_Model
     }
 
     public function update($request, $id_produk){
-        $updateData = ['nama_produk' => $request->nama_produk, 'harga_produk' => $request->harga_produk, 'stok_produk' => $request->stok_produk, 'min_stok_produk' => $request->min_stok_produk, 'satuan_produk' => $request->satuan_produk];
+        $updateData = 
+        ['id_produk' => $request->id_produk, 
+        'nama_produk' => $request->nama_produk, 
+        'harga_produk' => $request->harga_produk, 
+        'stok_produk' => $request->stok_produk, 
+        'min_stok_produk' => $request->min_stok_produk, 
+        'satuan_produk' => $request->satuan_produk,
+        'gambar' => $request->gambar,
+        'updateLog_by' => $request->updateLog_by];
         if($this->db->where('id_produk', $id_produk)->update($this->table, $updateData)){
             return ['msg' => 'Berhasil', 'error' => false];
         }
