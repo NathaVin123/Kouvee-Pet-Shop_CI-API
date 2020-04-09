@@ -43,7 +43,7 @@ Class Pengadaan extends REST_Controller{
         if(!$validation->run()){
             return $this->returnData($this->form_validation->error_array(), true);
         }
-        $user = new DetailPengadaanData();
+        $user = new PengadaanData();
         $user->no_order = $this->post('no_order');
         $user->tgl_pesan = $this->post('tgl_pesan');
         $user->tgl_Cetak = $this->post('tgl_Cetak');
@@ -77,7 +77,7 @@ Class Pengadaan extends REST_Controller{
     }
 }
 
-Class DetailPengadaanData{
+Class PengadaanData{
     public $no_order;
     public $tgl_pesan;
     public $tgl_Cetak;

@@ -53,6 +53,7 @@ Class Pegawai extends REST_Controller{
         $user->password = $this->post('password');
         $user->gambar = $this->post('gambar');
         $user->updateLog_by = $this->post('updateLog_by');
+        
         if($NIP == null){
             $response = $this->PegawaiModel->store($user);
         }

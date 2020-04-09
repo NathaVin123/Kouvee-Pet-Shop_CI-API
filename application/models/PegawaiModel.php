@@ -69,7 +69,7 @@ class PegawaiModel extends CI_Model
     public function Rules() { return $this->rule; }
 
     public function getAll() {
-        return $this->db->get('layanans')->result();
+        return $this->db->get('pegawais')->result();
     }
 
     public function store($request){
@@ -88,7 +88,7 @@ class PegawaiModel extends CI_Model
         return ['msg' => 'Gagal', 'error' => true];
     }
 
-    public function update($request, $id_pegawai){
+    public function update($request, $NIP){
         $updateData = 
         ['NIP' => $request->NIP, 
         'nama_pegawai' => $request->nama_pegawai, 
