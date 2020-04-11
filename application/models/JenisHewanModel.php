@@ -47,7 +47,7 @@ class JenisHewanModel extends CI_Model
         return ['msg' => 'Gagal', 'error' => true];
     }
 
-    public function update($request, $id_hewan){
+    public function update($request, $id_jenisHewan){
         $updateData = 
         ['id_jenisHewan' => $request->id_jenisHewan,
          'nama_jenisHewan' => $request->nama_jenisHewan, 
@@ -58,7 +58,7 @@ class JenisHewanModel extends CI_Model
         return ['msg' => 'Gagal', 'error' => true];
     }
 
-    public function destroy($id_hewan){
+    public function destroy($id_jenisHewan){
         if(empty($this->db->select('*')->where(array('id_jenisHewan' => $id_jenisHewan))->get($this->table)->row()))
             return ['msg' => 'Id tidak ditemukan', 'error' => true];
 
