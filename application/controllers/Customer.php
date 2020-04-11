@@ -16,7 +16,7 @@ Class Customer extends REST_Controller{
         return $this->returnData($this->db->get('customers')->result(), false);
     }
 
-    public function index_post($id_costumer = null){
+    public function index_post($id_customer = null){
         $validation = $this->form_validation;
         $rule = $this->CustomerModel->rules();
         /*if($id == null){
@@ -44,7 +44,7 @@ Class Customer extends REST_Controller{
             return $this->returnData($this->form_validation->error_array(), true);
         }
         $user = new CustomerData();
-        $user->id_costumer = $this->post('id_costumer');
+        $user->id_customer = $this->post('id_customer');
         $user->nama_customer = $this->post('nama_customer');
         $user->alamat_customer = $this->post('alamat_customer');
         $user->tglLahir_customer = $this->post('tglLahir_customer');
@@ -52,20 +52,20 @@ Class Customer extends REST_Controller{
         $user->updateLog_by = $this->post('updateLog_by');
 
 
-        if($id_costumer == null){
+        if($id_customer == null){
             $response = $this->CustomerModel->store($user);
         }
         else{
-            $response = $this->CustomerModel->update($user, $id_costumer);
+            $response = $this->CustomerModel->update($user, $id_customer);
         }
         return $this->returnData($response['msg'], $response['error']);
     }
 
-    public function index_delete($id_costumer = null){
-        if($id_costumer == null){
+    public function index_delete($id_customer = null){
+        if($id_customer == null){
             return $this->returnData('Parameter Id Tidak Ditemukan', true);
         }
-        $response = $this->CustomerModel->destroy($id_costumer);
+        $response = $this->CustomerModel->destroy($id_customer);
         return $this->returnData($response['msg'], $response['error']);
     }
 
