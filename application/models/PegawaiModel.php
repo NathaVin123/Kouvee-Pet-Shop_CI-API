@@ -12,7 +12,7 @@ class PegawaiModel extends CI_Model
     public $noTelp_pegawai;
     public $stat;
     public $password;
-    public $gambar;
+    // public $gambar;
     public $updateLog_by;
     public $createLog_at;
     public $updateLog_at;
@@ -54,11 +54,11 @@ class PegawaiModel extends CI_Model
             'label' => 'password',
             'rules' => 'required'
         ],
-        [
-            'field' => 'gambar',
-            'label' => 'gambar',
-            'rules' => 'required'
-        ],
+        // [
+        //     'field' => 'gambar',
+        //     'label' => 'gambar',
+        //     'rules' => 'required'
+        // ],
         [
             'field' => 'updateLog_by',
             'label' => 'updateLog_by',
@@ -69,7 +69,7 @@ class PegawaiModel extends CI_Model
     public function Rules() { return $this->rule; }
 
     public function getAll() {
-        return $this->db->get('pegawais')->result();
+        return $this->db->query('select * ')->result();
     }
 
     public function store($request){
@@ -80,7 +80,7 @@ class PegawaiModel extends CI_Model
         $this->noTelp_pegawai = $request->noTelp_pegawai;
         $this->stat = $request->stat;
         $this->password = $request->password;
-        $this->gambar = $request->gambar;
+        // $this->gambar = $request->gambar;
         $this->updateLog_by = $request->updateLog_by;
         if($this->db->insert($this->table, $this)){
             return ['msg' => 'Berhasil', 'error' => false];
@@ -97,7 +97,7 @@ class PegawaiModel extends CI_Model
         'noTelp_pegawai' => $request->noTelp_pegawai, 
         'stat' => $request->stat,
         'password' => $request->password,
-        'gambar' => $request->gambar,
+        // 'gambar' => $request->gambar,
         'updateLog_by' => $request->updateLog_by];
 
         if($this->db->where('NIP', $NIP)->update($this->table, $updateData)){

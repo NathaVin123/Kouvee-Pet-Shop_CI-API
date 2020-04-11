@@ -13,7 +13,7 @@ Class Produk extends REST_Controller{
     }
 
     public function index_get(){
-        return $this->returnData($this->db->get('produks')->result(), false);
+        return $this->returnData($this->db->query('select id_produk, nama_produk, harga_produk, stok_produk, min_stok_produk, satuan_produk, updateLog_by from produks')->result(), false);
     }
 
     public function index_post($id_produk = null){
@@ -50,7 +50,7 @@ Class Produk extends REST_Controller{
         $user->stok_produk = $this->post('stok_produk');
         $user->min_stok_produk = $this->post('min_stok_produk');
         $user->satuan_produk = $this->post('satuan_produk');
-        $user->gambar = $this->post('gambar');
+        // $user->gambar = $this->post('gambar');
         $user->updateLog_by = $this->post('updateLog_by');
 
         if($id_produk == null){
@@ -84,6 +84,6 @@ Class ProdukData{
     public $stok_produk;
     public $min_stok_produk;
     public $satuan_produk;
-    public $gambar;
+    // public $gambar;
     public $updateLog_by;
 }

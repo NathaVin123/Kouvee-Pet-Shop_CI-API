@@ -13,7 +13,7 @@ Class Pegawai extends REST_Controller{
     }
 
     public function index_get(){
-        return $this->returnData($this->db->get('pegawais')->result(), false);
+        return $this->returnData($this->db->query('select NIP, nama_pegawai, alamat_pegawai, tglLahir_pegawai, noTelp_pegawai, stat, password, updateLog_by from pegawais')->result(), false);
     }
 
     public function index_post($NIP = null){
@@ -51,7 +51,7 @@ Class Pegawai extends REST_Controller{
         $user->noTelp_pegawai = $this->post('noTelp_pegawai');
         $user->stat = $this->post('stat');
         $user->password = $this->post('password');
-        $user->gambar = $this->post('gambar');
+        // $user->gambar = $this->post('gambar');
         $user->updateLog_by = $this->post('updateLog_by');
         
         if($NIP == null){
@@ -86,6 +86,6 @@ Class PegawaiData{
     public $noTelp_pegawai;
     public $stat;
     public $password;
-    public $gambar;
+    // public $gambar;
     public $updateLog_by;
 }

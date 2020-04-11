@@ -11,7 +11,7 @@ class ProdukModel extends CI_Model
     public $stok_produk;
     public $min_stok_produk;
     public $satuan_produk;
-    public $gambar;
+    // public $gambar;
     public $updateLog_by;
     public $createLog_at;
     public $updateLog_at;
@@ -48,11 +48,11 @@ class ProdukModel extends CI_Model
             'label' => 'satuan_produk',
             'rules' => 'required'
         ],
-        [
-            'field' => 'gambar',
-            'label' => 'gambar',
-            'rules' => 'required'
-        ],
+        // [
+        //     'field' => 'gambar',
+        //     'label' => 'gambar',
+        //     'rules' => 'required'
+        // ],
         [
             'field' => 'updateLog_by',
             'label' => 'updateLog_by',
@@ -73,7 +73,7 @@ class ProdukModel extends CI_Model
         $this->stok_produk = $request->stok_produk;
         $this->min_stok_produk = $request->min_stok_produk;
         $this->satuan_produk = $request->satuan_produk;
-        $this->gambar = $request->gambar;
+        // $this->gambar = $request->gambar;
         $this->updateLog_by = $request->updateLog_by;
         if($this->db->insert($this->table, $this)){
             return ['msg' => 'Berhasil', 'error' => false];
@@ -89,7 +89,7 @@ class ProdukModel extends CI_Model
         'stok_produk' => $request->stok_produk, 
         'min_stok_produk' => $request->min_stok_produk, 
         'satuan_produk' => $request->satuan_produk,
-        'gambar' => $request->gambar,
+        // 'gambar' => $request->gambar,
         'updateLog_by' => $request->updateLog_by];
         if($this->db->where('id_produk', $id_produk)->update($this->table, $updateData)){
             return ['msg' => 'Berhasil', 'error' => false];
