@@ -61,12 +61,7 @@ class LayananModel extends CI_Model
     }
 
     public function update($request, $id_layanan){
-        $updateData = 
-        ['id_layanan' => $request->id_layanan, 
-        'nama_layanan' => $request->nama_layanan, 
-        'harga_layanan' => $request->harga_layanan, 
-        'id_ukuranHewan' => $request->id_ukuranHewan, 
-        'updateLog_by' => $request->updateLog_by];
+        $updateData = ['id_layanan' => $request->id_layanan, 'nama_layanan' => $request->nama_layanan, 'harga_layanan' => $request->harga_layanan, 'id_ukuranHewan' => $request->id_ukuranHewan, 'updateLog_by' => $request->updateLog_by];
         
         if($this->db->where('id_layanan', $id_layanan)->update($this->table, $updateData)){
             return ['msg' => 'Berhasil', 'error' => false];
