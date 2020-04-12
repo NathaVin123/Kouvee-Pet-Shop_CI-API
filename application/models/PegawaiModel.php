@@ -79,7 +79,7 @@ class PegawaiModel extends CI_Model
         $this->tglLahir_pegawai = $request->tglLahir_pegawai;
         $this->noTelp_pegawai = $request->noTelp_pegawai;
         $this->stat = $request->stat;
-        $this->password = $request->password;
+        $this->password = password_hash($request->password, PASSWORD_BCRYPT);
         // $this->gambar = $request->gambar;
         $this->updateLog_by = $request->updateLog_by;
         if($this->db->insert($this->table, $this)){
