@@ -73,7 +73,7 @@ class ProdukModel extends CI_Model
         $this->stok_produk = $request->stok_produk;
         $this->min_stok_produk = $request->min_stok_produk;
         $this->satuan_produk = $request->satuan_produk;
-        // $this->gambar = $request->gambar;
+        // $this->gambar = $request->uploadImage();
         $this->updateLog_by = $request->updateLog_by;
         if($this->db->insert($this->table, $this)){
             return ['msg' => 'Berhasil', 'error' => false];
@@ -82,6 +82,13 @@ class ProdukModel extends CI_Model
     }
 
     public function update($request, $id_produk){
+        // $this->nama_produk = $request->nama_produk;
+        // if (!empty($_FILES["gambar"])) {
+        //     $image = $this->uploadImage();
+        // } else {
+        //     $old_data = $this->db->get_where('produk', ["id_produk" => $id_produk])->row();
+        //     $image = $old_data->GAMBAR;
+        // }
         $updateData = 
         ['id_produk' => $request->id_produk, 
         'nama_produk' => $request->nama_produk, 
@@ -89,7 +96,7 @@ class ProdukModel extends CI_Model
         'stok_produk' => $request->stok_produk, 
         'min_stok_produk' => $request->min_stok_produk, 
         'satuan_produk' => $request->satuan_produk,
-        // 'gambar' => $request->gambar,
+        // 'gambar' => $image,
         'updateLog_by' => $request->updateLog_by];
         if($this->db->where('id_produk', $id_produk)->update($this->table, $updateData)){
             return ['msg' => 'Berhasil', 'error' => false];
@@ -106,5 +113,24 @@ class ProdukModel extends CI_Model
         }
         return ['msg' => 'Gagal', 'error' => true];
     }
+
+    // private function uploadImage()
+    // {
+    //     $config['upload_path']          = './uploads/produk/';
+    //     $config['allowed_types']        = 'gif|jpg|png';
+    //     $config['file_name']            = $this->nama_produk;
+    //     $config['overwrite']			= true;
+    //     $config['max_size']             = 4096; // 4MB
+    //     // $config['max_width']            = 1024;
+    //     // $config['max_height']           = 768;
+
+    //     $this->load->library('upload', $config);
+
+    //     if ($this->upload->do_upload('gambar')) {
+    //         return $this->upload->data("file_name");
+    //     }
+        
+    //     return "default.jpg";
+    // }
 }
 ?>
