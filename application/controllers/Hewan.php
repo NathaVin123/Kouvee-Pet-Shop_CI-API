@@ -47,7 +47,7 @@ Class Hewan extends REST_Controller{
         $user->id_hewan = $this->post('id_hewan');
         $user->nama_hewan = $this->post('nama_hewan');
         $user->tglLahir_hewan = $this->post('tglLahir_hewan');
-        $user->id_costumer = $this->post('id_costumer');
+        $user->id_customer = $this->post('id_customer');
         $user->id_jenisHewan = $this->post('id_jenisHewan');
         $user->updateLog_by = $this->post('updateLog_by');
         if($id_hewan == null){
@@ -79,7 +79,7 @@ Class HewanData{
     public $id_hewan;
     public $nama_hewan;
     public $tglLahir_hewan;
-    public $id_costumer;
+    public $id_customer;
     public $id_jenisHewan;
     public $updateLog_by;
     public $createLog_at;

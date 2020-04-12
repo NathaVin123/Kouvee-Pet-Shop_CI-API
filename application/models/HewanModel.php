@@ -8,7 +8,7 @@ class HewanModel extends CI_Model
     public $id_hewan;
     public $nama_hewan;
     public $tglLahir_hewan;
-    public $id_costumer;
+    public $id_customer;
     public $id_jenisHewan;
     public $updateLog_by;
     public $createLog_at = '';
@@ -32,8 +32,8 @@ class HewanModel extends CI_Model
             'rules' => 'required'
         ],
         [
-            'field' => 'id_costumer',
-            'label' => 'id_costumer',
+            'field' => 'id_customer',
+            'label' => 'id_customer',
             'rules' => 'required'
         ],
         [
@@ -59,8 +59,8 @@ class HewanModel extends CI_Model
         $this->id_hewan = $request->id_hewan;
         $this->nama_hewan = $request->nama_hewan;
         $this->tglLahir_hewan = $request->tglLahir_hewan;
-        $this->id_costumer = $request->id_costumer;
-        $this->id_jenisHewan = $request->id_costumer;
+        $this->id_customer = $request->id_customer;
+        $this->id_jenisHewan = $request->id_customer;
         $this->updateLog_by = $request->updateLog_by;
         if($this->db->insert($this->table, $this)){
             return ['msg' => 'Berhasil', 'error' => false];
@@ -73,7 +73,7 @@ class HewanModel extends CI_Model
         ['id_hewan' => $request->id_hewan,
          'nama_hewan' => $request->nama_hewan, 
          'tglLahir_hewan' => $request->tglLahir_hewan, 
-         'id_costumer' => $request->id_costumer, 
+         'id_customer' => $request->id_customer, 
          'id_jenisHewan' => $request->id_jenisHewan,
          'updateLog_by' => $request->updateLog_by];
         if($this->db->where('id_hewan', $id_hewan)->update($this->table, $updateData)){

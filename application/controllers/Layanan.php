@@ -39,16 +39,16 @@ Class Layanan extends REST_Controller{
                 'rules' => 'required|valid_email'
             ]);
             }*/
-        // $validation->set_rules($rule);
-        // if(!$validation->run()){
-        //     return $this->returnData($this->form_validation->error_array(), true);
-        // }
+        $validation->set_rules($rule);
+        if(!$validation->run()){
+            return $this->returnData($this->form_validation->error_array(), true);
+        }
         $user = new LayananData();
-        $user->nama_layanan = $this->post('id_layanan');
+        $user->id_layanan = $this->post('id_layanan');
         $user->nama_layanan = $this->post('nama_layanan');
         $user->harga_layanan = $this->post('harga_layanan');
-        $user->jenis_layanan = $this->post('id_ukuranHewan');
-        $user->jenis_layanan = $this->post('updateLog_by');
+        $user->id_ukuranHewan = $this->post('id_ukuranHewan');
+        $user->updateLog_by = $this->post('updateLog_by');
 
         if($id_layanan == null){
             $response = $this->LayananModel->store($user);
