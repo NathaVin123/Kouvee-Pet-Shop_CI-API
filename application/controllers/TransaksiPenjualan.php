@@ -88,4 +88,6 @@ Class TransaksiPenjualanData{
     public $id_customer;
     public $id_CS;
     public $id_kasir;
+    public $createLog_at;
+    public $updateLog_at;
 }

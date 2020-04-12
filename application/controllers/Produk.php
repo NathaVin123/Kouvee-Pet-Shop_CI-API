@@ -86,4 +86,7 @@ Class ProdukData{
     public $satuan_produk;
     // public $gambar;
     public $updateLog_by;
+    public $createLog_at;
+    public $updateLog_at;
+    public $deleteLog_at;
 }

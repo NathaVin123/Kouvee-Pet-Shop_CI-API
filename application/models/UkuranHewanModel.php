@@ -8,9 +8,9 @@ class UkuranHewanModel extends CI_Model
     public $id_ukuranHewan;
     public $nama_ukuranHewan;
     public $updateLog_by;
-    public $createLog_at;
-    public $updateLog_at;
-    public $deleteLog_at;
+    public $createLog_at  = '';
+    public $updateLog_at  = '';
+    public $deleteLog_at  = '';
 
     public $rule = [
         [

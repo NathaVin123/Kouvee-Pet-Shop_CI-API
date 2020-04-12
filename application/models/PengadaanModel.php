@@ -13,8 +13,8 @@ class PengadaanModel extends CI_Model
     public $id_supplier;
     public $status_pengadaan;
     public $total_harga;
-    public $createLog_at;
-    public $updateLog_at;
+    public $createLog_at  = '';
+    public $updateLog_at  = '';
 
     public $rule = [
         [

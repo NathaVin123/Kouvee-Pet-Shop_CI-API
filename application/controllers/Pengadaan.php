@@ -86,4 +86,7 @@ Class PengadaanData{
     public $id_supplier;
     public $status_pengadaan;
     public $total_harga;
+    public $createLog_at;
+    public $updateLog_at;
+    public $deleteLog_at;
 }

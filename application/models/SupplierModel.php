@@ -11,9 +11,9 @@ class SupplierModel extends CI_Model
     public $telepon_supplier;
     public $stok_supplier;
     public $updateLog_by;
-    public $createLog_at;
-    public $updateLog_at;
-    public $deleteLog_at;
+    public $createLog_at  = '';
+    public $updateLog_at  = '';
+    public $deleteLog_at  = '';
 
     public $rule = [
         [

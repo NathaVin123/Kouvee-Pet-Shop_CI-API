@@ -11,9 +11,9 @@ class CustomerModel extends CI_Model
     public $tglLahir_customer;
     public $noTelp_customer;
     public $updateLog_by;
-    public $createLog_at;
-    public $updateLog_at;
-    public $deleteLog_at;
+    public $createLog_at = '';
+    public $updateLog_at = '';
+    public $deleteLog_at = '';
 
     public $rule = [
         [

@@ -83,4 +83,7 @@ Class CustomerData{
     public $tglLahir_customer;
     public $noTelp_customer;
     public $updateLog_by;
+    public $createLog_at;
+    public $updateLog_at;
+    public $deleteLog_at;
 }

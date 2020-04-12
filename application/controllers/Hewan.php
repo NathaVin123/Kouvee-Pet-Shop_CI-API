@@ -82,4 +82,7 @@ Class HewanData{
     public $id_costumer;
     public $id_jenisHewan;
     public $updateLog_by;
+    public $createLog_at;
+    public $updateLog_at;
+    public $deleteLog_at;
 }

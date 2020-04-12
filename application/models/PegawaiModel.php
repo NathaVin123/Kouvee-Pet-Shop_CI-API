@@ -14,9 +14,9 @@ class PegawaiModel extends CI_Model
     public $password;
     // public $gambar;
     public $updateLog_by;
-    public $createLog_at;
-    public $updateLog_at;
-    public $deleteLog_at;
+    public $createLog_at  = '';
+    public $updateLog_at  = '';
+    public $deleteLog_at  = '';
 
     public $rule = [
         [
