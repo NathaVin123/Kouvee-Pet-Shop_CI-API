@@ -15,7 +15,7 @@ class TransaksiPenjualanModel extends CI_Model
     public $id_CS;
     public $id_kasir;
     public $createLog_at  = '';
-    public $deleteLog_at  = '';
+    public $updateLog_at  = '';
 
     public $rule = [
         [
