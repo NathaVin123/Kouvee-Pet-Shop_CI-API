@@ -44,7 +44,7 @@ Class JenisHewan extends REST_Controller{
             return $this->returnData($this->form_validation->error_array(), true);
         }
         $user = new JenisHewanData();
-        $user->id_jenisHewan = $this->post('id_jenisHewan');
+        // $user->id_jenisHewan = $this->post('id_jenisHewan');
         $user->nama_jenisHewan = $this->post('nama_jenisHewan');
         $user->updateLog_by = $this->post('updateLog_by');
         if($id_jenisHewan == null){

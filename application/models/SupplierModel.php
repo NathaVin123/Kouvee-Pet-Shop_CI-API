@@ -16,11 +16,11 @@ class SupplierModel extends CI_Model
     public $deleteLog_at  = '';
 
     public $rule = [
-        [
-            'field' => 'id_supplier',
-            'label' => 'id_supplier',
-            'rules' => 'required'
-        ],
+        // [
+        //     'field' => 'id_supplier',
+        //     'label' => 'id_supplier',
+        //     'rules' => 'required'
+        // ],
         [
             'field' => 'nama_supplier',
             'label' => 'nama_supplier',
@@ -55,7 +55,7 @@ class SupplierModel extends CI_Model
     }
 
     public function store($request){
-        $this->id_supplier = $request->id_supplier;
+        // $this->id_supplier = $request->id_supplier;
         $this->nama_supplier = $request->nama_supplier;
         $this->alamat_supplier = $request->alamat_supplier;
         $this->telepon_supplier = $request->telepon_supplier;

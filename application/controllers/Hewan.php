@@ -44,7 +44,7 @@ Class Hewan extends REST_Controller{
             return $this->returnData($this->form_validation->error_array(), true);
         }
         $user = new HewanData();
-        $user->id_hewan = $this->post('id_hewan');
+        // $user->id_hewan = $this->post('id_hewan');
         $user->nama_hewan = $this->post('nama_hewan');
         $user->tglLahir_hewan = $this->post('tglLahir_hewan');
         $user->id_customer = $this->post('id_customer');

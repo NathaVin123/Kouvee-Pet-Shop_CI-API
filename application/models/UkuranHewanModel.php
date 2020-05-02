@@ -13,11 +13,11 @@ class UkuranHewanModel extends CI_Model
     public $deleteLog_at  = '';
 
     public $rule = [
-        [
-            'field' => 'id_ukuranHewan',
-            'label' => 'id_ukuranHewan',
-            'rules' => 'required'
-        ],
+        // [
+        //     'field' => 'id_ukuranHewan',
+        //     'label' => 'id_ukuranHewan',
+        //     'rules' => 'required'
+        // ],
         [
             'field' => 'nama_ukuranHewan',
             'label' => 'nama_ukuranHewan',
@@ -38,7 +38,7 @@ class UkuranHewanModel extends CI_Model
     }
 
     public function store($request){
-        $this->id_ukuranHewan = $request->id_ukuranHewan;
+        // $this->id_ukuranHewan = $request->id_ukuranHewan;
         $this->nama_ukuranHewan = $request->nama_ukuranHewan;
         $this->updateLog_by = $request->updateLog_by;
         if($this->db->insert($this->table, $this)){

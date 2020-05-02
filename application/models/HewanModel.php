@@ -16,11 +16,11 @@ class HewanModel extends CI_Model
     public $deleteLog_at = '';
 
     public $rule = [
-        [
-            'field' => 'id_hewan',
-            'label' => 'id_hewan',
-            'rules' => 'required'
-        ],
+        // [
+        //     'field' => 'id_hewan',
+        //     'label' => 'id_hewan',
+        //     'rules' => 'required'
+        // ],
         [
             'field' => 'nama_hewan',
             'label' => 'nama_hewan',
@@ -56,7 +56,7 @@ class HewanModel extends CI_Model
     }
 
     public function store($request){
-        $this->id_hewan = $request->id_hewan;
+        // $this->id_hewan = $request->id_hewan;
         $this->nama_hewan = $request->nama_hewan;
         $this->tglLahir_hewan = $request->tglLahir_hewan;
         $this->id_customer = $request->id_customer;

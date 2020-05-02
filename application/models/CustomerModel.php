@@ -16,11 +16,11 @@ class CustomerModel extends CI_Model
     public $deleteLog_at = '';
 
     public $rule = [
-        [
-            'field' => 'id_customer',
-            'label' => 'id_customer',
-            'rules' => 'required'
-        ],
+        // [
+        //     'field' => 'id_customer',
+        //     'label' => 'id_customer',
+        //     'rules' => 'required'
+        // ],
         [
             'field' => 'nama_customer',
             'label' => 'nama_customer',
@@ -55,7 +55,7 @@ class CustomerModel extends CI_Model
     }
 
     public function store($request){
-        $this->id_customer = $request->id_customer;
+        // $this->id_customer = $request->id_customer;
         $this->nama_customer = $request->nama_customer;
         $this->alamat_customer = $request->alamat_customer;
         $this->tglLahir_customer = $request->tglLahir_customer;

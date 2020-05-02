@@ -44,7 +44,7 @@ Class Customer extends REST_Controller{
             return $this->returnData($this->form_validation->error_array(), true);
         }
         $user = new CustomerData();
-        $user->id_customer = $this->post('id_customer');
+        // $user->id_customer = $this->post('id_customer');
         $user->nama_customer = $this->post('nama_customer');
         $user->alamat_customer = $this->post('alamat_customer');
         $user->tglLahir_customer = $this->post('tglLahir_customer');
