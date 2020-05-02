@@ -49,7 +49,7 @@ class UkuranHewanModel extends CI_Model
 
     public function update($request, $id_ukuranHewan){
         $updateData = 
-        ['id_ukuranHewan' => $request->id_ukuranHewan,
+        [//'id_ukuranHewan' => $request->id_ukuranHewan,
          'nama_ukuranHewan' => $request->nama_ukuranHewan, 
          'updateLog_by' => $request->updateLog_by];
         if($this->db->where('id_ukuranHewan', $id_ukuranHewan)->update($this->table, $updateData)){

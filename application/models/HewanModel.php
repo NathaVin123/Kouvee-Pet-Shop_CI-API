@@ -70,7 +70,7 @@ class HewanModel extends CI_Model
 
     public function update($request, $id_hewan){
         $updateData = 
-        ['id_hewan' => $request->id_hewan,
+        [//'id_hewan' => $request->id_hewan,
          'nama_hewan' => $request->nama_hewan, 
          'tglLahir_hewan' => $request->tglLahir_hewan, 
          'id_customer' => $request->id_customer, 

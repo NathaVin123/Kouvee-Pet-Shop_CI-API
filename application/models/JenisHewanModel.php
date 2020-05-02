@@ -49,7 +49,7 @@ class JenisHewanModel extends CI_Model
 
     public function update($request, $id_jenisHewan){
         $updateData = 
-        ['id_jenisHewan' => $request->id_jenisHewan,
+        [//'id_jenisHewan' => $request->id_jenisHewan,
          'nama_jenisHewan' => $request->nama_jenisHewan, 
          'updateLog_by' => $request->updateLog_by];
         if($this->db->where('id_jenisHewan', $id_jenisHewan)->update($this->table, $updateData)){

@@ -69,7 +69,7 @@ class SupplierModel extends CI_Model
 
     public function update($request, $id_supplier){
         $updateData = 
-        ['id_supplier' => $request->id_supplier, 
+        [//'id_supplier' => $request->id_supplier, 
         'nama_supplier' => $request->nama_supplier, 
         'alamat_supplier' => $request->alamat_supplier, 
         'telepon_supplier' => $request->telepon_supplier, 
