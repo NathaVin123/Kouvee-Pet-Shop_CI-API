@@ -44,12 +44,12 @@ Class UkuranHewan extends REST_Controller{
             return $this->returnData($this->form_validation->error_array(), true);
         }
         $user = new UkuranHewanData();
-        $user->id_ukuranHewan = $this->post('id_ukuranHewan');
+        // $user->id_ukuranHewan = $this->post('id_ukuranHewan');
         $user->nama_ukuranHewan = $this->post('nama_ukuranHewan');
         $user->updateLog_by = $this->post('updateLog_by');
 
         if($id_ukuranHewan == null){
-            $response = $this->UkuranhewanModel->store($user);
+            $response = $this->UkuranHewanModel->store($user);
         }
         else{
             $response = $this->UkuranHewanModel->update($user, $id_ukuranHewan);
