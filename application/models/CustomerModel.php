@@ -69,7 +69,7 @@ class CustomerModel extends CI_Model
 
     public function update($request, $id_customer){
         $updateData = 
-        ['id_customer' => $request->id_customer, 
+        [//'id_customer' => $request->id_customer, 
         'nama_customer' => $request->nama_customer, 
         'alamat_customer' => $request->alamat_customer, 
         'tglLahir_customer' => $request->tglLahir_customer, 
