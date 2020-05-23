@@ -1,27 +1,27 @@
 <?php 
 use Restserver \Libraries\REST_Controller ; 
 
-Class Auth extends REST_Controller{ 
+Class auth extends REST_Controller{ 
     
     public function __construct(){
         header('Access-Control-Allow-Origin: *');         
         header("Access-Control-Allow-Methods: GET, OPTIONS, POST, DELETE");         
         header("Access-Control-Allow-Headers: Content-Type, ContentLength, Accept-Encoding");         
         parent::__construct();         
-        $this->load->model('UserModel');         
+        $this->load->model('LoginModel');         
         $this->load->library('form_validation');     
         $this->load->helper(['jwt', 'authorization']);   
     }    
 
-    public $rule = [  
+    public $rule = [       
         [                     
             'field' => 'password',                     
             'label' => 'password',                     
             'rules' => 'required'                 
         ],                 
         [                     
-            'field' => 'email',                     
-            'label' => 'email',                     
+            'field' => 'NIP',                     
+            'label' => 'NIP',                     
             'rules' => 'required|valid_email'                 
         ]  
     ];     
@@ -37,13 +37,13 @@ Class Auth extends REST_Controller{
             return $this->response($this->form_validation->error_array());         
         }        
 
-        $user = new UserData();
+        $user = new LoginData();
         $user->password = $this->post('password');
-        $user->email = $this->post('email');
+        $user->NIP = $this->post('NIP');
 
-        if($result= $this->UserModel->verify($user)){
+        if($result= $this->LoginModel->verify($user)){
             
-            $token = AUTHORIZATION::generateToken(['ID' => $result['id'],'Email' => $result['email']]);
+            $token = AUTHORIZATION::generateToken(['NIP' => $result['NIP'],'nama_pegawai' => $result['nama_pegawai']]);
             $status = parent::HTTP_OK;
             $response = ['status' => $status, 'token' => $token];
             return $this->response($response, $status);
@@ -56,8 +56,8 @@ Class Auth extends REST_Controller{
     }
 } 
 
-Class UserData{     
-    public $name;     
-    public $password;     
-    public $email; 
+Class LoginData{
+    public $NIP;
+    public $nama_pegawai;
+    public $password;
 }

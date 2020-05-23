@@ -115,5 +115,6 @@ class PegawaiModel extends CI_Model
         }
         return ['msg' => 'Gagal', 'error' => true];
     }
+
 }
 ?>
