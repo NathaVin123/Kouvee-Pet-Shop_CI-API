@@ -1,5 +1,6 @@
 <?php
 defined('BASEPATH') OR exit('No direct script access allowed');
+date_default_timezone_set('Asia/Jakarta');
 
 class PegawaiModel extends CI_Model
 {
@@ -12,64 +13,23 @@ class PegawaiModel extends CI_Model
     public $noTelp_pegawai;
     public $stat;
     public $password;
-    // public $gambar;
+    public $gambar;
     public $updateLog_by;
-    public $createLog_at  = '';
-    public $updateLog_at  = '';
-    public $deleteLog_at  = '';
+    public $createLog_at;
+    public $updateLog_at;
+    public $deleteLog_at;
+    public $aktif;
 
-    public $rule = [
-        [
-            'field' => 'NIP',
-            'label' => 'NIP',
-            'rules' => 'required'
-        ],
-        [
-            'field' => 'nama_pegawai',
-            'label' => 'nama_pegawai',
-            'rules' => 'required'
-        ],
-        [
-            'field' => 'alamat_pegawai',
-            'label' => 'alamat_pegawai',
-            'rules' => 'required'
-        ],
-        [
-            'field' => 'tglLahir_pegawai',
-            'label' => 'tglLahir_pegawai',
-            'rules' => 'required'
-        ],
-        [
-            'field' => 'noTelp_pegawai',
-            'label' => 'noTelp_pegawai',
-            'rules' => 'required'
-        ],
-        [
-            'field' => 'stat',
-            'label' => 'stat',
-            'rules' => 'required'
-        ],
-        [
-            'field' => 'password',
-            'label' => 'password',
-            'rules' => 'required'
-        ],
-        // [
-        //     'field' => 'gambar',
-        //     'label' => 'gambar',
-        //     'rules' => 'required'
-        // ],
-        [
-            'field' => 'updateLog_by',
-            'label' => 'updateLog_by',
-            'rules' => 'required'
-        ]
-    ];
+    public $rule = [];
 
     public function Rules() { return $this->rule; }
 
-    public function getAll() {
-        return $this->db->query('select * ')->result();
+    public function getAllAktif() {
+        return $this->db->get_where('pegawais', ["aktif" => 1])->result();
+    }
+
+    public function getAllNonAktif() {
+        return $this->db->get_where('pegawais', ["aktif" => 0])->result();
     }
 
     public function store($request){
@@ -80,8 +40,10 @@ class PegawaiModel extends CI_Model
         $this->noTelp_pegawai = $request->noTelp_pegawai;
         $this->stat = $request->stat;
         $this->password = password_hash($request->password, PASSWORD_BCRYPT);
-        // $this->gambar = $request->gambar;
+        // $this->gambar = $this->uploadImage();
+        $this->gambar = $request->gambar;
         $this->updateLog_by = $request->updateLog_by;
+        $this->aktif=1;
         if($this->db->insert($this->table, $this)){
             return ['msg' => 'Berhasil', 'error' => false];
         }
@@ -97,8 +59,8 @@ class PegawaiModel extends CI_Model
         'noTelp_pegawai' => $request->noTelp_pegawai, 
         'stat' => $request->stat,
         'password' => $request->password,
-        // 'gambar' => $request->gambar,
-        'updateLog_by' => $request->updateLog_by];
+        'updateLog_by' => $request->updateLog_by,
+        'updateLog_at' => date('Y-m-d H:i:s')];
 
         if($this->db->where('NIP', $NIP)->update($this->table, $updateData)){
             return ['msg' => 'Berhasil', 'error' => false];
@@ -106,15 +68,26 @@ class PegawaiModel extends CI_Model
         return ['msg' => 'Gagal', 'error' => true];
     }
 
-    public function destroy($NIP){
-        if(empty($this->db->select('*')->where(array('NIP' => $NIP))->get($this->table)->row()))
-            return ['msg' => 'Id tidak ditemukan', 'error' => true];
-
-        if($this->db->delete($this->table, array('NIP' => $NIP))){
-            return ['msg' => 'Berhasil', 'error' => false];
+    public function softDelete($request, $NIP){
+        $updateData = [
+            'aktif' => 0,
+            'delete_at' => date('Y-m-d H:i:s')
+        ];
+        if($this->db->where('NIP',$NIP)->update($this->table, $updateData)){
+            return ['msg'=>'Berhasil','error'=>false];
         }
-        return ['msg' => 'Gagal', 'error' => true];
+        return ['msg'=>'Gagal','error'=>true];
     }
+
+    // public function destroy($NIP){
+    //     if(empty($this->db->select('*')->where(array('NIP' => $NIP))->get($this->table)->row()))
+    //         return ['msg' => 'Id tidak ditemukan', 'error' => true];
+
+    //     if($this->db->delete($this->table, array('NIP' => $NIP))){
+    //         return ['msg' => 'Berhasil', 'error' => false];
+    //     }
+    //     return ['msg' => 'Gagal', 'error' => true];
+    // }
 
 }
 ?>
