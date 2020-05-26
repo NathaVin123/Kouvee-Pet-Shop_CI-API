@@ -62,7 +62,7 @@ Class DetailPengadaan extends REST_Controller{
                 'field' => 'harga',
                 'label' => 'harga',
                 'rules' => 'required'
-            ],
+            ]
         );
         $validation->set_rules($rule);
         if(!$validation->run()){
