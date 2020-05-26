@@ -48,22 +48,22 @@ Class DetailTransaksiLayanan extends REST_Controller{
         $validation = $this->form_validation;
         $rule = $this->DetailTransaksiLayananModel->rules();
         array_push($rule,
-        [
-            'field' => 'kode_penjualan_layanan',
-            'label' => 'kode_penjualan_layanan',
-            'rules' => 'required'
-        ],
-        [
-            'field' => 'id_layananHarga',
-            'label' => 'id_layananHarga',
-            'rules' => 'required'
-        ],
-        [
-            'field' => 'jml_transaksi_layanan',
-            'label' => 'jml_transaksi_layanan',
-            'rules' => 'required'
-        ],
-    );
+            [
+                'field' => 'kode_penjualan_layanan',
+                'label' => 'kode_penjualan_layanan',
+                'rules' => 'required'
+            ],
+            [
+                'field' => 'id_layananHarga',
+                'label' => 'id_layananHarga',
+                'rules' => 'required'
+            ],
+            [
+                'field' => 'jml_transaksi_layanan',
+                'label' => 'jml_transaksi_layanan',
+                'rules' => 'required'
+            ],
+        );
         $validation->set_rules($rule);
         if(!$validation->run()){
             return $this->returnData($this->form_validation->error_array(), true);
