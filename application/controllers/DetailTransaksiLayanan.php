@@ -27,7 +27,7 @@ Class DetailTransaksiLayanan extends REST_Controller{
     }
 
     public function index_get(){
-        return $this->returnData($this->db->get('detailtransaksilayanan')->result(), false);
+        return $this->returnData($this->db->get('detailtransaksilayanans')->result(), false);
     }
 
     public function getByTransactionId_get($id_detaillayanan=null){

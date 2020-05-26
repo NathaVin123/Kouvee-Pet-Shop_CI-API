@@ -201,7 +201,7 @@ class DetailTransaksiLayananModel extends CI_Model
             $this->db->trans_commit();
 
             //if($groomState){
-            $transdata = $this->db->get_where('detailtransaksilayanan', ['kode_penjualan_layanan'=>$kode_penjualan_layanan])->result();
+            $transdata = $this->db->get_where('detailtransaksilayanans', ['kode_penjualan_layanan'=>$kode_penjualan_layanan])->result();
             
             foreach ($transdata as $temp) {
                 if($this->groomingCheck($temp->id_layananHarga)){
