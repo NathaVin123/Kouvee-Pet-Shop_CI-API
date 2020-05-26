@@ -62,7 +62,7 @@ Class DetailTransaksiLayanan extends REST_Controller{
                 'field' => 'jml_transaksi_layanan',
                 'label' => 'jml_transaksi_layanan',
                 'rules' => 'required'
-            ],
+            ]
         );
         $validation->set_rules($rule);
         if(!$validation->run()){
@@ -103,7 +103,7 @@ Class DetailTransaksiLayanan extends REST_Controller{
                 'field' => 'jml_transaksi_layanan',
                 'label' => 'jml_transaksi_layanan',
                 'rules' => 'required'
-            ],
+            ]
         );
         $validation->set_rules($rule);
 		if (!$validation->run()) {
