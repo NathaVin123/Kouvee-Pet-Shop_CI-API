@@ -62,7 +62,7 @@ Class TransaksiPenjualanLayanan extends REST_Controller{
                 'field' => 'id_cs',
                 'label' => 'id_cs',
                 'rules' => 'required'
-            ],
+            ]
         );
         $validation->set_rules($rule);
 		if (!$validation->run()) {
@@ -87,7 +87,7 @@ Class TransaksiPenjualanLayanan extends REST_Controller{
                 'field' => 'id_cs',
                 'label' => 'id_cs',
                 'rules' => 'required'
-            ],
+            ]
         );
         $validation->set_rules($rule);
 		if (!$validation->run()) {
@@ -148,7 +148,7 @@ Class TransaksiPenjualanLayanan extends REST_Controller{
                 'field' => 'id_kasir',
                 'label' => 'id_kasir',
                 'rules' => 'required'
-            ],            
+            ]          
         );
         $validation->set_rules($rule);
 		if (!$validation->run()) {
