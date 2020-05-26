@@ -24,7 +24,7 @@ class ProdukModel extends CI_Model
     public function Rules() { return $this->rule; }
 
     public function getAllAktif() {
-        return $this->db->get_where('produk', ["aktif" => 1])->result();
+        return $this->db->get_where('produks', ["aktif" => 1])->result();
     }
 
     public function store($request){
@@ -33,8 +33,9 @@ class ProdukModel extends CI_Model
         $this->stok_produk = $request->stok_produk;
         $this->min_stok_produk = $request->min_stok_produk;
         $this->satuan_produk = $request->satuan_produk;
-        $this->gambar = $request->uploadImage();
+        $this->gambar = $this->uploadImage();
         $this->updateLog_by = $request->updateLog_by;
+        $this->aktif=1;
         if($this->db->insert($this->table, $this)){
             return ['msg' => 'Berhasil', 'error' => false];
         }
