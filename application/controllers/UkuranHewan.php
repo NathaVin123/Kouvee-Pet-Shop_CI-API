@@ -13,38 +13,43 @@ Class UkuranHewan extends REST_Controller{
     }
 
     public function index_get(){
+        return $this->returnData($this->db->get_where('ukuranhewans', ["aktif" => 1])->result(), false);
+    }
+
+    public function nonAktif_get(){
+        return $this->returnData($this->db->get_where('ukuranhewans', ["aktif" => 0])->result(), false);
+    }
+
+    public function all_get(){
         return $this->returnData($this->db->get('ukuranhewans')->result(), false);
+    }
+
+    public function search_get($id_ukuranHewan){
+        return $this->returnData($this->db->get_where('ukuranhewans', ["id_ukuranHewan" => $id_ukuranHewan])->row(), false);
     }
 
     public function index_post($id_ukuranHewan = null){
         $validation = $this->form_validation;
         $rule = $this->UkuranHewanModel->rules();
-        /*if($id == null){
-            array_push($rule, [
-                'field' => 'password',
-                'label' => 'password',
-                'rules' => 'required'
-            ],
-            [
-                'field' => 'email',
-                'label' => 'email',
-                'rules' => 'required|valid_email|is_unique[users.email]'
-            ]);
+        if($id_ukuranHewan == null){
+            array_push($rule,
+                [
+                    'field' => 'nama_ukuranHewan',
+                    'label' => 'nama_ukuranHewan',
+                    'rules' => 'required'
+                ],
+                [
+                    'field' => 'updateLog_by',
+                    'label' => 'updateLog_by',
+                    'rules' => 'required'
+                ]
+            );
         }
-        else{
-            array_push($rule, 
-            [
-                'field' => 'email',
-                'label' => 'email',
-                'rules' => 'required|valid_email'
-            ]);
-            }*/
         $validation->set_rules($rule);
         if(!$validation->run()){
             return $this->returnData($this->form_validation->error_array(), true);
         }
         $user = new UkuranHewanData();
-        // $user->id_ukuranHewan = $this->post('id_ukuranHewan');
         $user->nama_ukuranHewan = $this->post('nama_ukuranHewan');
         $user->updateLog_by = $this->post('updateLog_by');
 
@@ -57,13 +62,57 @@ Class UkuranHewan extends REST_Controller{
         return $this->returnData($response['msg'], $response['error']);
     }
 
-    public function index_delete($id_ukuranHewan = null){
-        if($id_ukuranHewan == null){
-            return $this->returnData('Parameter Id Tidak Ditemukan', true);
+    public function update_post($id_ukuranHewan = null){
+        $validation = $this->form_validation;
+        $rule = $this->UkuranHewanModel->rules();
+        if($id_ukuranHewan != null){
+            array_push($rule,
+                [
+                    'field' => 'nama_ukuranHewan',
+                    'label' => 'nama_ukuranHewan',
+                    'rules' => 'required'
+                ],
+                [
+                    'field' => 'updateLog_by',
+                    'label' => 'updateLog_by',
+                    'rules' => 'required'
+                ]
+            );
         }
-        $response = $this->UkuranHewanModel->destroy($id_ukuranHewan);
+        $validation->set_rules($rule);
+        if (!$validation->run()) {
+            return $this->returnData($this->form_validation->error_array(), true);
+        }
+        $user = new UkuranHewanData();
+        $user->nama_ukuranHewan = $this->post('nama_ukuranHewan');
+        $user->updateLog_by = $this->post('updateLog_by');
+        if($id_ukuranHewan != null){
+            $response = $this->UkuranHewanModel->update($ukuranhewans,$id_ukuranHewan);
+        }
         return $this->returnData($response['msg'], $response['error']);
     }
+
+    public function delete_post($id_ukuranHewan = null){
+        $validation = $this->form_validation;
+        $rule = $this->UkuranHewanModel->rules();
+        $validation->set_rules($rule);
+        if (!$validation->run()) {
+            return $this->returnData($this->form_validation->error_array(), true);
+        }
+        $user = new UkuranHewanData();
+        if($id_ukuranHewan != null){
+            $response = $this->UkuranHewanModel->softDelete($ukuranhewans,$id_ukuranHewan);
+        }
+        return $this->returnData($response['msg'], $response['error']);
+    }
+
+    // public function index_delete($id_ukuranHewan = null){
+    //     if($id_ukuranHewan == null){
+    //         return $this->returnData('Parameter Id Tidak Ditemukan', true);
+    //     }
+    //     $response = $this->UkuranHewanModel->destroy($id_ukuranHewan);
+    //     return $this->returnData($response['msg'], $response['error']);
+    // }
 
     public function returnData($msg, $error){
         $response['error'] = $error;
@@ -79,4 +128,5 @@ Class UkuranHewanData{
     public $createLog_at;
     public $updateLog_at;
     public $deleteLog_at;
+    public $aktif;
 }

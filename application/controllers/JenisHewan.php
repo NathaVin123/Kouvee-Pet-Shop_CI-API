@@ -16,35 +16,40 @@ Class JenisHewan extends REST_Controller{
         return $this->returnData($this->db->get('jenishewans')->result(), false);
     }
 
+    public function nonAktif_get(){
+        return $this->returnData($this->db->get_where('jenishewans', ["aktif" => 0])->result(), false);
+    }
+
+    public function all_get(){
+        return $this->returnData($this->db->get('jenishewans')->result(), false);
+    }
+
+    public function search_get($id_jenisHewan){
+        return $this->returnData($this->db->get_where('jenishewans', ["id_jenisHewan" => $id_jenisHewan])->row(), false);
+    }
+
     public function index_post($id_jenisHewan = null){
         $validation = $this->form_validation;
         $rule = $this->JenisHewanModel->rules();
-        /*if($id == null){
-            array_push($rule, [
-                'field' => 'password',
-                'label' => 'password',
-                'rules' => 'required'
-            ],
-            [
-                'field' => 'email',
-                'label' => 'email',
-                'rules' => 'required|valid_email|is_unique[users.email]'
-            ]);
+        if($id_jenisHewan == null){
+            array_push($rule,
+                [
+                    'field' => 'nama_jenisHewan',
+                    'label' => 'nama_jenisHewan',
+                    'rules' => 'required'
+                ],
+                [
+                    'field' => 'updateLog_by',
+                    'label' => 'updateLog_by',
+                    'rules' => 'required'
+                ]
+            );
         }
-        else{
-            array_push($rule, 
-            [
-                'field' => 'email',
-                'label' => 'email',
-                'rules' => 'required|valid_email'
-            ]);
-            }*/
         $validation->set_rules($rule);
         if(!$validation->run()){
             return $this->returnData($this->form_validation->error_array(), true);
         }
-        $user = new JenisHewanData();
-        // $user->id_jenisHewan = $this->post('id_jenisHewan');
+        $user = new JenisHewanData();        
         $user->nama_jenisHewan = $this->post('nama_jenisHewan');
         $user->updateLog_by = $this->post('updateLog_by');
         if($id_jenisHewan == null){
@@ -56,11 +61,55 @@ Class JenisHewan extends REST_Controller{
         return $this->returnData($response['msg'], $response['error']);
     }
 
-    public function index_delete($id_jenisHewan = null){
-        if($id_jenisHewan == null){
-            return $this->returnData('Parameter Id Tidak Ditemukan', true);
+    public function update_post($id_jenisHewan = null){
+        $validation = $this->form_validation;
+        $rule = $this->JenisHewanModel->rules();
+        if($id_jenisHewan != null){
+            array_push($rule,
+                [
+                    'field' => 'nama_jenisHewan',
+                    'label' => 'nama_jenisHewan',
+                    'rules' => 'required'
+                ],
+                [
+                    'field' => 'updateLog_by',
+                    'label' => 'updateLog_by',
+                    'rules' => 'required'
+                ]
+            );
         }
-        $response = $this->JenisHewanModel->destroy($id_jenisHewan);
+        $validation->set_rules($rule);
+        if (!$validation->run()) {
+            return $this->returnData($this->form_validation->error_array(), true);
+        }
+        $user = new JenisHewanData();
+        $user->nama_jenisHewan = $this->post('nama_jenisHewan');
+        $user->updateLog_by = $this->post('updateLog_by');
+        if($id_jenisHewan != null){
+            $response = $this->JenisHewanModel->update($jenishewans,$id_jenisHewan);
+        }
+        return $this->returnData($response['msg'], $response['error']);
+    }
+
+    // public function index_delete($id_jenisHewan = null){
+    //     if($id_jenisHewan == null){
+    //         return $this->returnData('Parameter Id Tidak Ditemukan', true);
+    //     }
+    //     $response = $this->JenisHewanModel->destroy($id_jenisHewan);
+    //     return $this->returnData($response['msg'], $response['error']);
+    // }
+
+    public function delete_post($id_jenisHewan = null){
+        $validation = $this->form_validation;
+        $rule = $this->JenisHewanModel->rules();
+        $validation->set_rules($rule);
+        if (!$validation->run()) {
+            return $this->returnData($this->form_validation->error_array(), true);
+        }
+        $jenishewan = new JenisHewanData();
+        if($id_jenisHewan != null){
+            $response = $this->JenisHewanModel->softDelete($jenishewans,$id_jenisHewan);
+        }
         return $this->returnData($response['msg'], $response['error']);
     }
 
@@ -78,4 +127,5 @@ Class JenisHewanData{
     public $createLog_at;
     public $updateLog_at;
     public $deleteLog_at;
+    public $aktif;
 }
