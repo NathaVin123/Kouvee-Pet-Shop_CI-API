@@ -1,5 +1,6 @@
 <?php
 defined('BASEPATH') OR exit('No direct script access allowed');
+date_default_timezone_set('Asia/Jakarta');
 
 class LayananModel extends CI_Model
 {
@@ -7,71 +8,63 @@ class LayananModel extends CI_Model
 
     public $id_layanan;
     public $nama_layanan;
-    public $harga_layanan;
-    public $id_ukuranHewan;
     public $updateLog_by;
-    public $createLog_at  = '';
-    public $updateLog_at  = '';
-    public $deleteLog_at  = '';
+    public $createLog_at;
+    public $updateLog_at;
+    public $deleteLog_at;
+    public $aktif;
 
-    public $rule = [
-        [
-            'field' => 'id_layanan',
-            'label' => 'id_layanan',
-            'rules' => 'required'
-        ],
-        [
-            'field' => 'nama_layanan',
-            'label' => 'nama_layanan',
-            'rules' => 'required'
-        ],
-        [
-            'field' => 'harga_layanan',
-            'label' => 'harga_layanan',
-            'rules' => 'required'
-        ],
-        [
-            'field' => 'id_ukuranHewan',
-            'label' => 'id_ukuranHewan',
-            'rules' => 'required'
-        ],
-        [
-            'field' => 'updateLog_by',
-            'label' => 'updateLog_by',
-            'rules' => 'required'
-        ],
-    ];
+    public $rule = [];
 
     public function Rules() { return $this->rule; }
 
-    public function getAll() {
-        return $this->db->get('layanans')->result();
+    public function getAllAktif() {
+        return $this->db->get_where('layanans', ["aktif" => 1])->result();
     }
 
     public function store($request){
-        $this->id_layanan = $request->id_layanan;
         $this->nama_layanan = $request->nama_layanan;
-        $this->harga_layanan = $request->harga_layanan;
-        $this->id_ukuranHewan = $request->id_ukuranHewan;
         $this->updateLog_by = $request->updateLog_by;
+        $this->aktif=1;
         if($this->db->insert($this->table, $this)){
-            return ['msg' => 'Berhasil', 'error' => false];
+            return ['msg'=>$this->db->insert_id(),'error'=>false];
         }
         return ['msg' => 'Gagal', 'error' => true];
     }
 
     public function update($request, $id_layanan){
         $updateData = 
-        ['id_layanan' => $request->id_layanan, 
-        'nama_layanan' => $request->nama_layanan, 
-        'harga_layanan' => $request->harga_layanan, 
-        'id_ukuranHewan' => $request->id_ukuranHewan, 
-        'updateLog_by' => $request->updateLog_by];
+        ['nama_layanan' => $request->nama_layanan, 
+        'updateLog_by' => $request->updateLog_by,
+        'updateLog_at' => date('Y-m-d H:i:s')];
         
         if($this->db->where('id_layanan', $id_layanan)->update($this->table, $updateData)){
             return ['msg' => 'Berhasil', 'error' => false];
         }
         return ['msg' => 'Gagal', 'error' => true];
+    }
+
+    public function softDelete($request, $id_layanan){
+        $updateData = [
+            'aktif' => 0,
+            'deleteLog_at' => date('Y-m-d H:i:s')
+        ];
+        $this->db->trans_start();
+        $this->db->where('id_layanan',$id_layanan)->update($this->table, $updateData);
+        $this->db->where('id_layanan',$id_layanan)->update('harga_layanan', $updateData);
+        $this->db->trans_complete();
+        if ($this->db->trans_status() === FALSE) {
+            # Something went wrong.
+            $this->db->trans_rollback();
+            return ['msg'=>'Gagal','error'=>true];
+        } 
+        else {
+            # Everything is Perfect. 
+            # Committing data to the database.
+            $this->db->trans_commit();
+            return ['msg'=>'Berhasil','error'=>false];
+        }
+        return ['msg'=>'Gagal','error'=>true];
     }
 
     public function destroy($id_layanan){
