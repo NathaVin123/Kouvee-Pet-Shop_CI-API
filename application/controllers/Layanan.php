@@ -13,52 +13,96 @@ Class Layanan extends REST_Controller{
     }
 
     public function index_get(){
+        return $this->returnData($this->db->get_where('layanans', ["aktif" => 1])->result(), false);
+    }
+
+    public function nonAktif_get(){
+        return $this->returnData($this->db->get_where('layanans', ["aktif" => 0])->result(), false);
+    }
+
+    public function all_get(){
         return $this->returnData($this->db->get('layanans')->result(), false);
+    }
+
+    public function search_get($id_layanan){
+        return $this->returnData($this->db->get_where('layanans', ["id_layanan" => $id_layanan])->row(), false);
     }
 
     public function index_post($id_layanan = null){
         $validation = $this->form_validation;
         $rule = $this->LayananModel->rules();
-        /*if($id == null){
-            array_push($rule, [
-                'field' => 'password',
-                'label' => 'password',
-                'rules' => 'required'
-            ],
-            [
-                'field' => 'email',
-                'label' => 'email',
-                'rules' => 'required|valid_email|is_unique[users.email]'
-            ]);
+        if($id == null){
+            array_push($rule,
+                [
+                    'field' => 'nama_layanan',
+                    'label' => 'nama_layanan',
+                    'rules' => 'required'
+                ],
+                [
+                    'field' => 'updateLog_by',
+                    'label' => 'updateLog_by',
+                    'rules' => 'required'
+                ]
+            );
         }
-        else{
-            array_push($rule, 
-            [
-                'field' => 'email',
-                'label' => 'email',
-                'rules' => 'required|valid_email'
-            ]);
-            }*/
         $validation->set_rules($rule);
         if(!$validation->run()){
             return $this->returnData($this->form_validation->error_array(), true);
         }
         $user = new LayananData();
-        $user->id_layanan = $this->post('id_layanan');
         $user->nama_layanan = $this->post('nama_layanan');
-        $user->harga_layanan = $this->post('harga_layanan');
-        $user->id_ukuranHewan = $this->post('id_ukuranHewan');
         $user->updateLog_by = $this->post('updateLog_by');
 
         if($id_layanan == null){
             $response = $this->LayananModel->store($user);
         }
-        else{
-            $response = $this->LayananModel->update($user, $id_layanan);
+        return $this->returnData($response['msg'], $response['error']);
+    }
+
+    public function update_post($id_layanan = null){
+        $validation = $this->form_validation;
+        $rule = $this->LayananModel->rules();
+        if($id_layanan != null){
+            array_push($rule,
+                [
+                    'field' => 'nama_layanan',
+                    'label' => 'nama_layanan',
+                    'rules' => 'required'
+                ],
+                [
+                    'field' => 'updateLog_by',
+                    'label' => 'updateLog_by',
+                    'rules' => 'required'
+                ]
+            );
+        }
+        $validation->set_rules($rule);
+        if (!$validation->run()) {
+            return $this->returnData($this->form_validation->error_array(), true);
+        }
+        $user = new LayananData();
+        $user->nama_layanan = $this->post('nama_layanan');
+        $user->updateLog_by = $this->post('updateLog_by');
+        if($id_layanan != null){
+            $response = $this->LayananModel->update($user,$id_layanan);
         }
         return $this->returnData($response['msg'], $response['error']);
     }
 
+    public function delete_post($id_layanan = null){
+        $validation = $this->form_validation;
+        $rule = $this->LayananModel->rules();
+        
+        $validation->set_rules($rule);
+        if (!$validation->run()) {
+            return $this->returnData($this->form_validation->error_array(), true);
+        }
+        $user = new LayananData();
+        if($id_layanan != null){
+            $response = $this->LayananModel->softDelete($user,$id_layanan);
+        }
+        return $this->returnData($response['msg'], $response['error']);
+    }
 
     public function index_delete($id_layanan = null){
         if($id_layanan == null){
@@ -78,10 +122,9 @@ Class Layanan extends REST_Controller{
 Class LayananData{
     public $id_layanan;
     public $nama_layanan;
-    public $harga_layanan;
-    public $id_ukuranHewan;
     public $updateLog_by;
     public $createLog_at;
     public $updateLog_at;
     public $deleteLog_at;
+    public $aktif;
 }

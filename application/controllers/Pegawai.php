@@ -94,9 +94,6 @@ Class Pegawai extends REST_Controller{
         if($NIP == null){
             $response = $this->PegawaiModel->store($user);
         }
-        else{
-            $response = $this->PegawaiModel->update($user, $NIP);
-        }
         return $this->returnData($response['msg'], $response['error']);
     }
 

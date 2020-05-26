@@ -40,8 +40,8 @@ class PegawaiModel extends CI_Model
         $this->noTelp_pegawai = $request->noTelp_pegawai;
         $this->stat = $request->stat;
         $this->password = password_hash($request->password, PASSWORD_BCRYPT);
-        // $this->gambar = $this->uploadImage();
-        $this->gambar = $request->gambar;
+        $this->gambar = $this->uploadImage();
+        // $this->gambar = $request->gambar;
         $this->updateLog_by = $request->updateLog_by;
         $this->aktif=1;
         if($this->db->insert($this->table, $this)){
@@ -71,7 +71,7 @@ class PegawaiModel extends CI_Model
     public function softDelete($request, $NIP){
         $updateData = [
             'aktif' => 0,
-            'delete_at' => date('Y-m-d H:i:s')
+            'deleteLog_at' => date('Y-m-d H:i:s')
         ];
         if($this->db->where('NIP',$NIP)->update($this->table, $updateData)){
             return ['msg'=>'Berhasil','error'=>false];
@@ -89,5 +89,23 @@ class PegawaiModel extends CI_Model
     //     return ['msg' => 'Gagal', 'error' => true];
     // }
 
+    private function uploadImage()
+    {
+        $config['upload_path']          = './upload/pegawai/';
+        $config['allowed_types']        = 'gif|jpg|png';
+        $config['file_name']            = $this->nama;
+        $config['overwrite']			= true;
+        $config['max_size']             = 4096; // 4MB
+        // $config['max_width']            = 1024;
+        // $config['max_height']           = 768;
+
+        $this->load->library('upload', $config);
+
+        if ($this->upload->do_upload('gambar')) {
+            return $this->upload->data("file_name");
+        }
+        
+        return "default.jpg";
+    }
 }
 ?>
