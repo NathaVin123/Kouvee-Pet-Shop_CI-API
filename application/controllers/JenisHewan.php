@@ -13,7 +13,7 @@ Class JenisHewan extends REST_Controller{
     }
 
     public function index_get(){
-        return $this->returnData($this->db->get('jenishewans')->result(), false);
+        return $this->returnData($this->db->get_where('jenishewans', ["aktif" => 1])->result(), false);
     }
 
     public function nonAktif_get(){
@@ -102,13 +102,23 @@ Class JenisHewan extends REST_Controller{
     public function delete_post($id_jenisHewan = null){
         // $validation = $this->form_validation;
         // $rule = $this->JenisHewanModel->rules();
+        // if($id_jenisHewan != null){
+        //     array_push($rule,
+        //         [
+        //             'field' => 'updateLog_by',
+        //             'label' => 'updateLog_by',
+        //             'rules' => 'required'
+        //         ]
+        //     );
+        // }
         // $validation->set_rules($rule);
         // if (!$validation->run()) {
         //     return $this->returnData($this->form_validation->error_array(), true);
         // }
         $user = new JenisHewanData();
+        // $user->updateLog_by = $this->post('updateLog_by');
         if($id_jenisHewan != null){
-            $response = $this->JenisHewanModel->softDelete($jenishewans,$id_jenisHewan);
+            $response = $this->JenisHewanModel->softDelete($user,$id_jenisHewan);
         }
         return $this->returnData($response['msg'], $response['error']);
     }
