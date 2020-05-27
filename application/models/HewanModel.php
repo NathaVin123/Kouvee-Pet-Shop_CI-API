@@ -22,9 +22,9 @@ class HewanModel extends CI_Model
     public function Rules() { return $this->rule; }
 
     public function getAllAktif() {
-        $this->db->select('id_hewan, hewan.id_customer, customers.nama_customer "nama customer", customers.alamat_customer "alamat_customer", 
+        $this->db->select('id_hewan, hewans.id_customer, customers.nama_customer "nama customer", customers.alamat_customer "alamat_customer", 
                         customers.tglLahir_customer "tanggal lahir customers", customers.noTelp_customer "telepon customers",
-                        hewans.id_jenisHewan, jenishewans.nama_jenisHewan "nama jenis hewan", hewans.nama "nama_hewan", hewans.tglLahir_hewan "tanggal lahir hewan", 
+                        hewans.id_jenisHewan, jenishewans.nama_jenisHewan "nama_jenisHewan", hewans.nama "nama_hewan", hewans.tglLahir_hewan "tanggal lahir hewan", 
                         hewans.createLog_at, hewans.createLog_by, hewans.updateLog_at, hewans.deleteLog_at, hewans.aktif');
         $this->db->from('hewans');
         $this->db->join('customers', 'hewans.id_customer = customers.id_customers');
