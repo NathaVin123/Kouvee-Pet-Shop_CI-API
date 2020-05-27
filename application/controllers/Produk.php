@@ -144,14 +144,23 @@ Class Produk extends REST_Controller{
     }
 
     public function delete_post($id_produk = null){
-        $validation = $this->form_validation;
-        $rule = $this->ProdukModel->rules();
-        
-        $validation->set_rules($rule);
-        if (!$validation->run()) {
-            return $this->returnData($this->form_validation->error_array(), true);
-        }
+        // $validation = $this->form_validation;
+        // $rule = $this->ProdukModel->rules();
+        // if($id_produk != null){
+        //     array_push($rule,
+        //         [
+        //             'field' => 'updateLog_by',
+        //             'label' => 'updateLog_by',
+        //             'rules' => 'required'
+        //         ]
+        //     );
+        // }
+        // $validation->set_rules($rule);
+        // if (!$validation->run()) {
+        //     return $this->returnData($this->form_validation->error_array(), true);
+        // }
         $user = new ProdukData();
+        // $user->updateLog_by = $this->post('updateLog_by');
         if($id_produk != null){
             $response = $this->ProdukModel->softDelete($user,$id_produk);
         }
