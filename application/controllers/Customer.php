@@ -79,7 +79,7 @@ Class Customer extends REST_Controller{
 
     public function update_post($id_customer = null){
         $validation = $this->form_validation;
-        $rule = $this->PelangganModel->rules();
+        $rule = $this->CustomerModel->rules();
         if($id_customer == null){
             array_push($rule,
                 [
@@ -120,25 +120,35 @@ Class Customer extends REST_Controller{
         $user->noTelp_customer = $this->post('noTelp_customer');
         $user->updateLog_by = $this->post('updateLog_by');
         if($id_customer != null){
-            $response = $this->PelangganModel->update($user,$id_customer);
+            $response = $this->CustomerModel->update($user,$id_customer);
         }
         return $this->returnData($response['msg'], $response['error']);
     }
 
     public function delete_post($id_customer = null){
-        $validation = $this->form_validation;
-        $rule = $this->PelangganModel->rules();
-        
-        $validation->set_rules($rule);
-        if (!$validation->run()) {
-            return $this->returnData($this->form_validation->error_array(), true);
-        }
-        $user = new PelangganData();
+        // $validation = $this->form_validation;
+        // $rule = $this->CustomerModel->rules();
+        // if($id_customer != null){
+        //     array_push($rule,
+        //         [
+        //             'field' => 'updateLog_by',
+        //             'label' => 'updateLog_by',
+        //             'rules' => 'required'
+        //         ]
+        //     );
+        // }
+        // $validation->set_rules($rule);
+        // if (!$validatioan->run()) {
+        //     return $this->returnData($this->form_validation->error_array(), true);
+        // }
+        $customer = new CustomerData();
+        // $customer->updateLog_by = $this->post('updateLog_by');
         if($id_customer != null){
-            $response = $this->PelangganModel->softDelete($user,$id_customer);
+            $response = $this->CustomerModel->softDelete($customer,$id_customer);
         }
         return $this->returnData($response['msg'], $response['error']);
     }
+
 
     // public function index_delete($id_customer = null){
     //     if($id_customer == null){

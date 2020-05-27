@@ -44,14 +44,14 @@ class UkuranHewanModel extends CI_Model
         return ['msg' => 'Gagal', 'error' => true];
     }
 
-    public function softDelete($request, $id_ukuran_hewan){
+    public function softDelete($request, $id_ukuranHewan){
         $updateData = [
             'aktif' => 0,
             'deleteLog_at' => date('Y-m-d H:i:s')
         ];
         $this->db->trans_start();
         $this->db->where('id_ukuranHewan',$id_ukuranHewan)->update($this->table, $updateData);
-        $this->db->where('id_ukuranHewan',$id_ukuranHewan)->update('layananhargas', $updateData);
+        // $this->db->where('id_ukuranHewan',$id_ukuranHewan)->update('layananhargas', $updateData);
         $this->db->trans_complete();
         if ($this->db->trans_status() === FALSE) {
             # Something went wrong.
