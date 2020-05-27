@@ -51,6 +51,13 @@ class PegawaiModel extends CI_Model
     }
 
     public function update($request, $NIP){
+        $this->nama_pegawai = $request->nama_pegawai;
+        if (!empty($_FILES["gambar"])) {
+            $image = $this->uploadImage();
+        } else {
+            $old_data = $this->db->get_where('pegawais', ["NIP" => $NIP])->row();
+            $image = $old_data->gambar;
+        }
         $updateData = 
         [ 
         'nama_pegawai' => $request->nama_pegawai, 
@@ -59,6 +66,7 @@ class PegawaiModel extends CI_Model
         'noTelp_pegawai' => $request->noTelp_pegawai, 
         'stat' => $request->stat,
         'password' => $request->password,
+        'gambar' => $image,
         'updateLog_by' => $request->updateLog_by,
         'updateLog_at' => date('Y-m-d H:i:s')];
 
