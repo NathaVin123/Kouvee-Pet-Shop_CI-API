@@ -88,7 +88,7 @@ Class Supplier extends REST_Controller{
                 [
                     'field' => 'telepon_supplier',
                     'label' => 'telepon_supplier',
-                    'rules' => 'required|numeric'
+                    'rules' => 'required'
                 ],
                 [
                     'field' => 'updateLog_by',

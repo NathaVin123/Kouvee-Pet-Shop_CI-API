@@ -1,5 +1,6 @@
 <?php
 defined('BASEPATH') OR exit('No direct script access allowed');
+date_default_timezone_set('Asia/Jakarta');
 
 class SupplierModel extends CI_Model
 {
@@ -41,7 +42,7 @@ class SupplierModel extends CI_Model
         'alamat_supplier' => $request->alamat_supplier, 
         'telepon_supplier' => $request->telepon_supplier,  
         'updateLog_by' => $request->updateLog_by,
-        'updateLog_at' => $request->updateLog_at];
+        'updateLog_at' => date('Y-m-d H:i:s')];
         if($this->db->where('id_supplier', $id_supplier)->update($this->table, $updateData)){
             return ['msg' => 'Berhasil', 'error' => false];
         }
