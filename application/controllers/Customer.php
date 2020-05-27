@@ -77,10 +77,58 @@ Class Customer extends REST_Controller{
         return $this->returnData($response['msg'], $response['error']);
     }
 
-    public function update_post($id_customer = null){
+    // public function update_post($id_customer = null){
+    //     $validation = $this->form_validation;
+    //     $rule = $this->CustomerModel->rules();
+    //     if($id_customer == null){
+    //         array_push($rule,
+    //             [
+    //                 'field' => 'nama_customer',
+    //                 'label' => 'nama_customer',
+    //                 'rules' => 'required'
+    //             ],
+    //             [
+    //                 'field' => 'alamat_customer',
+    //                 'label' => 'alamat_customer',
+    //                 'rules' => 'required'
+    //             ],
+    //             [
+    //                 'field' => 'tglLahir_customer',
+    //                 'label' => 'tglLahir_customer',
+    //                 'rules' => 'required'
+    //             ],
+    //             [
+    //                 'field' => 'noTelp_customer',
+    //                 'label' => 'noTelp_customer',
+    //                 'rules' => 'required|numeric'
+    //             ],
+    //             [
+    //                 'field' => 'updateLog_by',
+    //                 'label' => 'updateLog_by',
+    //                 'rules' => 'required'
+    //             ]
+    //         );
+    //     }
+    //     $validation->set_rules($rule);
+    //     if (!$validation->run()) {
+    //         return $this->returnData($this->form_validation->error_array(), true);
+    //     }
+    //     $user = new CustomerData();
+    //     $user->nama_customer = $this->post('nama_customer');
+    //     $user->alamat_customer = $this->post('alamat_customer');
+    //     $user->tglLahir_customer = $this->post('tglLahir_customer');
+    //     $user->noTelp_customer = $this->post('noTelp_customer');
+    //     $user->updateLog_by = $this->post('updateLog_by');
+    //     if($id_customer != null){
+    //         $response = $this->CustomerModel->update($user,$id_customer);
+    //     }
+    //     return $this->returnData($response['msg'], $response['error']);
+    // }
+
+    public function update_post($id = null){
         $validation = $this->form_validation;
         $rule = $this->CustomerModel->rules();
-        if($id_customer == null){
+        if($id != null){
             array_push($rule,
                 [
                     'field' => 'nama_customer',
@@ -113,14 +161,14 @@ Class Customer extends REST_Controller{
         if (!$validation->run()) {
             return $this->returnData($this->form_validation->error_array(), true);
         }
-        $user = new CustomerData();
-        $user->nama_customer = $this->post('nama_customer');
-        $user->alamat_customer = $this->post('alamat_customer');
-        $user->tglLahir_customer = $this->post('tglLahir_customer');
-        $user->noTelp_customer = $this->post('noTelp_customer');
-        $user->updateLog_by = $this->post('updateLog_by');
-        if($id_customer != null){
-            $response = $this->CustomerModel->update($user,$id_customer);
+        $pelanggan = new CustomerData();
+        $pelanggan->nama_customer = $this->post('nama_customer');
+        $pelanggan->alamat_customer = $this->post('alamat_customer');
+        $pelanggan->tglLahir_customer = $this->post('tglLahir_customer');
+        $pelanggan->noTelp_customer = $this->post('noTelp_customer');
+        $pelanggan->updateLog_by = $this->post('updateLog_by');
+        if($id != null){
+            $response = $this->CustomerModel->update($pelanggan,$id);
         }
         return $this->returnData($response['msg'], $response['error']);
     }

@@ -70,10 +70,52 @@ Class Supplier extends REST_Controller{
         return $this->returnData($response['msg'], $response['error']);
     }
 
-    public function update_post($id_supplier = null){
+    // public function update_post($id_supplier = null){
+    //     $validation = $this->form_validation;
+    //     $rule = $this->SupplierModel->rules();
+    //     if($id_supplier == null){
+    //         array_push($rule,
+    //             [
+    //                 'field' => 'nama_supplier',
+    //                 'label' => 'nama_supplier',
+    //                 'rules' => 'required'
+    //             ],
+    //             [
+    //                 'field' => 'alamat_supplier',
+    //                 'label' => 'alamat_supplier',
+    //                 'rules' => 'required'
+    //             ],
+    //             [
+    //                 'field' => 'telepon_supplier',
+    //                 'label' => 'telepon_supplier',
+    //                 'rules' => 'required'
+    //             ],
+    //             [
+    //                 'field' => 'updateLog_by',
+    //                 'label' => 'updateLog_by',
+    //                 'rules' => 'required'
+    //             ]
+    //         );
+    //     }
+    //     $validation->set_rules($rule);
+    //     if (!$validation->run()) {
+    //         return $this->returnData($this->form_validation->error_array(), true);
+    //     }
+    //     $user = new SupplierData();
+    //     $user->nama_supplier = $this->post('nama_supplier');
+    //     $user->alamat_supplier = $this->post('alamat_supplier');
+    //     $user->telepon_supplier = $this->post('telepon_supplier');
+    //     $user->updateLog_by = $this->post('updateLog_by');
+    //     if($id_supplier != null){
+    //         $response = $this->SupplierModel->update($user,$id_supplier);
+    //     }
+    //     return $this->returnData($response['msg'], $response['error']);
+    // }
+
+    public function update_post($id = null){
         $validation = $this->form_validation;
         $rule = $this->SupplierModel->rules();
-        if($id_supplier == null){
+        if($id != null){
             array_push($rule,
                 [
                     'field' => 'nama_supplier',
@@ -88,7 +130,7 @@ Class Supplier extends REST_Controller{
                 [
                     'field' => 'telepon_supplier',
                     'label' => 'telepon_supplier',
-                    'rules' => 'required'
+                    'rules' => 'required|numeric'
                 ],
                 [
                     'field' => 'updateLog_by',
@@ -101,13 +143,13 @@ Class Supplier extends REST_Controller{
         if (!$validation->run()) {
             return $this->returnData($this->form_validation->error_array(), true);
         }
-        $user = new SupplierData();
-        $user->nama_supplier = $this->post('nama_supplier');
-        $user->alamat_supplier = $this->post('alamat_supplier');
-        $user->telepon_supplier = $this->post('telepon_supplier');
-        $user->updateLog_by = $this->post('updateLog_by');
-        if($id_supplier != null){
-            $response = $this->SupplierModel->update($user,$id_supplier);
+        $supplier = new SupplierData();
+        $supplier->nama_supplier = $this->post('nama_supplier');
+        $supplier->alamat_supplier = $this->post('alamat_supplier');
+        $supplier->telepon_supplier = $this->post('telepon_supplier');
+        $supplier->updateLog_by = $this->post('updateLog_by');
+        if($id != null){
+            $response = $this->SupplierModel->update($supplier,$id);
         }
         return $this->returnData($response['msg'], $response['error']);
     }
