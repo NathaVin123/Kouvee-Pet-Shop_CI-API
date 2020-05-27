@@ -90,13 +90,13 @@ Class Layanan extends REST_Controller{
     }
 
     public function delete_post($id_layanan = null){
-        $validation = $this->form_validation;
-        $rule = $this->LayananModel->rules();
+        // $validation = $this->form_validation;
+        // $rule = $this->LayananModel->rules();
         
-        $validation->set_rules($rule);
-        if (!$validation->run()) {
-            return $this->returnData($this->form_validation->error_array(), true);
-        }
+        // $validation->set_rules($rule);
+        // if (!$validation->run()) {
+        //     return $this->returnData($this->form_validation->error_array(), true);
+        // }
         $user = new LayananData();
         if($id_layanan != null){
             $response = $this->LayananModel->softDelete($user,$id_layanan);
