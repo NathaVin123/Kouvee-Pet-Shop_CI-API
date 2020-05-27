@@ -52,7 +52,7 @@ class PegawaiModel extends CI_Model
 
     public function update($request, $NIP){
         $updateData = 
-        ['NIP' => $request->NIP, 
+        [ 
         'nama_pegawai' => $request->nama_pegawai, 
         'alamat_pegawai' => $request->alamat_pegawai, 
         'tglLahir_pegawai' => $request->tglLahir_pegawai, 
@@ -91,9 +91,9 @@ class PegawaiModel extends CI_Model
 
     private function uploadImage()
     {
-        $config['upload_path']          = './upload/pegawai/';
+        $config['upload_path']          = './uploads/pegawai/';
         $config['allowed_types']        = 'gif|jpg|png';
-        $config['file_name']            = $this->nama;
+        $config['file_name']            = $this->nama_pegawai;
         $config['overwrite']			= true;
         $config['max_size']             = 4096; // 4MB
         // $config['max_width']            = 1024;
