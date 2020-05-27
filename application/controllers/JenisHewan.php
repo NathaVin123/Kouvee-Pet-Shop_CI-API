@@ -100,13 +100,13 @@ Class JenisHewan extends REST_Controller{
     // }
 
     public function delete_post($id_jenisHewan = null){
-        $validation = $this->form_validation;
-        $rule = $this->JenisHewanModel->rules();
-        $validation->set_rules($rule);
-        if (!$validation->run()) {
-            return $this->returnData($this->form_validation->error_array(), true);
-        }
-        $jenishewan = new JenisHewanData();
+        // $validation = $this->form_validation;
+        // $rule = $this->JenisHewanModel->rules();
+        // $validation->set_rules($rule);
+        // if (!$validation->run()) {
+        //     return $this->returnData($this->form_validation->error_array(), true);
+        // }
+        $user = new JenisHewanData();
         if($id_jenisHewan != null){
             $response = $this->JenisHewanModel->softDelete($jenishewans,$id_jenisHewan);
         }

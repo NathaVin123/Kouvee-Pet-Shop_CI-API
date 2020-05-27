@@ -43,7 +43,7 @@ class JenisHewanModel extends CI_Model
         return ['msg' => 'Gagal', 'error' => true];
     }
 
-    public function softDelete($request, $id_jenis_hewan){
+    public function softDelete($request, $id_jenisHewan){
         $updateData = [
             'aktif' => 0,
             'deleteLog_at' => date('Y-m-d H:i:s')
