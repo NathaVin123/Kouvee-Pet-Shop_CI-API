@@ -51,7 +51,7 @@ class LayananModel extends CI_Model
         ];
         $this->db->trans_start();
         $this->db->where('id_layanan',$id_layanan)->update($this->table, $updateData);
-        $this->db->where('id_layanan',$id_layanan)->update('harga_layanan', $updateData);
+        $this->db->where('id_layanan',$id_layanan)->update('layananhargas', $updateData);
         $this->db->trans_complete();
         if ($this->db->trans_status() === FALSE) {
             # Something went wrong.

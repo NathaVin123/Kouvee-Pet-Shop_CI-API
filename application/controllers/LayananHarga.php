@@ -92,7 +92,7 @@ Class LayananHarga extends REST_Controller{
         }
         $user = new LayananHargaData();
         $user->id_layanan = $this->post('id_layanan');
-        $user->id_ukuran_hewan = $this->post('id_ukuran_hewan');
+        $user->id_ukuranHewan = $this->post('id_ukuranHewan');
         $user->harga = $this->post('harga');
         $user->updateLog_by = $this->post('updateLog_by');
 
@@ -143,7 +143,7 @@ Class LayananHarga extends REST_Controller{
         }
         $user = new LayananHargaData();
         $user->id_layanan = $this->post('id_layanan');
-        $user->id_ukuran_hewan = $this->post('id_ukuran_hewan');
+        $user->id_ukuranHewan = $this->post('id_ukuranHewan');
         $user->harga = $this->post('harga');
         $user->updateLog_by = $this->post('updateLog_by');
         if($id_layananHarga != null){

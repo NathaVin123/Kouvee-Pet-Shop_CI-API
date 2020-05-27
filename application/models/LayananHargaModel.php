@@ -95,10 +95,10 @@ class LayananHargaModel extends CI_Model
     }
 
     public function destroy($id_layananHarga){
-        if(empty($this->db->select('*')->where(array('id_layananHarga' => $id_layananHarga))->get($this->table)->row()))
+        if(empty($this->db->select('*')->where(array('id_layanan' => $id_layananHarga))->get($this->table)->row()))
             return ['msg' => 'Id tidak ditemukan', 'error' => true];
 
-        if($this->db->delete($this->table, array('id_layananHarga' => $id_layananHarga))){
+        if($this->db->delete($this->table, array('id_layanan' => $id_layananHarga))){
             return ['msg' => 'Berhasil', 'error' => false];
         }
         return ['msg' => 'Gagal', 'error' => true];
