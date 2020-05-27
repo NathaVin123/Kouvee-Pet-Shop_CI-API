@@ -132,11 +132,11 @@ Class Pegawai extends REST_Controller{
                     'label' => 'stat',
                     'rules' => 'required'
                 ],
-                [
-                    'field' => 'password',
-                    'label' => 'password',
-                    'rules' => 'required'
-                ],
+                // [
+                //     'field' => 'password',
+                //     'label' => 'password',
+                //     'rules' => 'required'
+                // ],
                 [
                     'field' => 'updateLog_by',
                     'label' => 'updateLog_by',
@@ -192,11 +192,6 @@ Class Pegawai extends REST_Controller{
         $rule = $this->PegawaiModel->rules();
         if($NIP != null){
             array_push($rule,
-                [
-                    'field' => 'password',
-                    'label' => 'password',
-                    'rules' => 'required'
-                ],
                 [
                     'field' => 'updateLog_by',
                     'label' => 'updateLog_by',
