@@ -42,7 +42,7 @@ class ProdukModel extends CI_Model
         return ['msg' => 'Gagal', 'error' => true];
     }
 
-    public function update($request, $id_produk){
+    public function update($request, $id_produk) { 
         $this->nama_produk = $request->nama_produk;
         if (!empty($_FILES["gambar"])) {
             $image = $this->uploadImage();
@@ -50,20 +50,20 @@ class ProdukModel extends CI_Model
             $old_data = $this->db->get_where('produks', ["id_produk" => $id_produk])->row();
             $image = $old_data->gambar;
         }
-        $updateData = 
-        ['nama_produk' => $request->nama_produk, 
-        'harga_produk' => $request->harga_produk, 
-        'stok_produk' => $request->stok_produk, 
-        'min_stok_produk' => $request->min_stok_produk, 
-        'satuan_produk' => $request->satuan_produk,
-        'gambar' => $image,
-        'updateLog_by' => $request->updateLog_by,
-        'updateLog_at' => date('Y-m-d H:i:s')
+        $updateData = [
+            'nama_produk' => $request->nama_produk,
+            'harga_produk' => $request->harga_produk,
+            'stok_produk' => $request->stok_produk,
+            'min_stok_produk' => $request->min_stok_produk,
+            'satuan_produk' => $request->satuan_produk,
+            'gambar' => $image,
+            'updateLog_by' => $request->updateLog_by,
+            'updateLog_at' => date('Y-m-d H:i:s')
         ];
-        if($this->db->where('id_produk', $id_produk)->update($this->table, $updateData)){
-            return ['msg' => 'Berhasil', 'error' => false];
+        if($this->db->where('id_produk',$id_produk)->update($this->table, $updateData)){
+            return ['msg'=>'Berhasil','error'=>false];
         }
-        return ['msg' => 'Gagal', 'error' => true];
+        return ['msg'=>'Gagal','error'=>true];
     }
 
     public function softDelete($request, $id_produk){

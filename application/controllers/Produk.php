@@ -88,10 +88,10 @@ Class Produk extends REST_Controller{
         return $this->returnData($response['msg'], $response['error']);
     }
 
-    public function update_post($id_produk = null){
+    public function update_post($id = null){
         $validation = $this->form_validation;
         $rule = $this->ProdukModel->rules();
-        if($id_produk == null){
+        if($id != null){
             array_push($rule,
                 [
                     'field' => 'nama_produk',
@@ -137,8 +137,8 @@ Class Produk extends REST_Controller{
         $user->satuan_produk = $this->post('satuan_produk');
         $user->gambar = $this->post('gambar');
         $user->updateLog_by = $this->post('updateLog_by');
-        if($id_produk != null){
-            $response = $this->ProdukModel->update($user,$id_produk);
+        if($id != null){
+            $response = $this->ProdukModel->update($user,$id);
         }
         return $this->returnData($response['msg'], $response['error']);
     }
