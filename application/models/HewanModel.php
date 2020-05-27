@@ -22,9 +22,9 @@ class HewanModel extends CI_Model
     public function Rules() { return $this->rule; }
 
     public function getAllAktif() {
-        $this->db->select('id_hewan, hewans.id_customer, customers.nama_customer "nama customer", customers.alamat_customer "alamat_customer", 
-                        customers.tglLahir_customer "tanggal lahir customers", customers.noTelp_customer "telepon customers",
-                        hewans.id_jenisHewan, jenishewans.nama_jenisHewan "nama_jenisHewan", hewans.nama "nama_hewan", hewans.tglLahir_hewan "tanggal lahir hewan", 
+        $this->db->select('id_hewan, hewans.id_customer, customers.nama_customer "nama_customer", customers.alamat_customer "alamat_customer", 
+                        customers.tglLahir_customer "tglLahir_customer", customers.noTelp_customer "noTelp_customer",
+                        hewans.id_jenisHewan, jenishewans.nama_jenisHewan "nama_jenisHewan", hewans.nama_hewan "nama_hewan", hewans.tglLahir_hewan "tglLahir_hewan", 
                         hewans.createLog_at, hewans.createLog_by, hewans.updateLog_at, hewans.deleteLog_at, hewans.aktif');
         $this->db->from('hewans');
         $this->db->join('customers', 'hewans.id_customer = customers.id_customers');
@@ -38,7 +38,7 @@ class HewanModel extends CI_Model
         $this->nama_hewan = $request->nama_hewan;
         $this->tglLahir_hewan = $request->tglLahir_hewan;
         $this->id_customer = $request->id_customer;
-        $this->id_jenisHewan = $request->id_customer;
+        $this->id_jenisHewan = $request->id_jenisHewan;
         $this->aktif=1;
         if($this->db->insert($this->table, $this)){
             return ['msg' => 'Berhasil', 'error' => false];
