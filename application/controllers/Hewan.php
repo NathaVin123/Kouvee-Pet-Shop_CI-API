@@ -91,16 +91,16 @@ Class Hewan extends REST_Controller{
         }
         $user = new HewanData();
         $user->nama_hewan = $this->post('nama_hewan');
+        $user->id_jenisHewan = $this->post('id_jenisHewan');
         $user->tglLahir_hewan = $this->post('tglLahir_hewan');
         $user->id_customer = $this->post('id_customer');
-        $user->id_jenisHewan = $this->post('id_jenisHewan');
         $user->updateLog_by = $this->post('updateLog_by');
         if($id_hewan == null){
             $response = $this->HewanModel->store($user);
         }
-        else{
-            $response = $this->HewanModel->update($user, $id_hewan);
-        }
+        // else{
+        //     $response = $this->HewanModel->update($user, $id_hewan);
+        // }
         return $this->returnData($response['msg'], $response['error']);
     }
 
@@ -152,16 +152,26 @@ Class Hewan extends REST_Controller{
         return $this->returnData($response['msg'], $response['error']);
     }
 
-    public function delete_post($id_hewaan = null){
-        $validation = $this->form_validation;
-        $rule = $this->HewanModel->rules();
-        $validation->set_rules($rule);
-        if (!$validation->run()) {
-            return $this->returnData($this->form_validation->error_array(), true);
-        }
-        $hewan = new HewanData();
+    public function delete_post($id_hewan = null){
+        // $validation = $this->form_validation;
+        // $rule = $this->HewanModel->rules();
+        // if($id_hewan != null){
+        //     array_push($rule,
+        //         [
+        //             'field' => 'updateLog_by',
+        //             'label' => 'updateLog_by',
+        //             'rules' => 'required'
+        //         ]
+        //     );
+        // }
+        // $validation->set_rules($rule);
+        // if (!$validation->run()) {
+        //     return $this->returnData($this->form_validation->error_array(), true);
+        // }
+        $user = new HewanData();
+        // $user->updateLog_by = $this->post('updateLog_by');
         if($id_hewan != null){
-            $response = $this->HewanModel->softDelete($hewan,$id_hewan);
+            $response = $this->HewanModel->softDelete($user,$id_hewan);
         }
         return $this->returnData($response['msg'], $response['error']);
     }
