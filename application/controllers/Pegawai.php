@@ -165,13 +165,13 @@ Class Pegawai extends REST_Controller{
     }
 
     public function delete_post($NIP = null){
-        $validation = $this->form_validation;
-        $rule = $this->PegawaiModel->rules();
+        // $validation = $this->form_validation;
+        // $rule = $this->PegawaiModel->rules();
         
-        $validation->set_rules($rule);
-        if (!$validation->run()) {
-            return $this->returnData($this->form_validation->error_array(), true);
-        }
+        // $validation->set_rules($rule);
+        // if (!$validation->run()) {
+        //     return $this->returnData($this->form_validation->error_array(), true);
+        // }
         $user = new PegawaiData();
         if($NIP != null){
             $response = $this->PegawaiModel->softDelete($user,$NIP);
@@ -265,4 +265,5 @@ Class PegawaiData{
     public $createLog_at;
     public $updateLog_at;
     public $deleteLog_at;
+    public $aktif;
 }
