@@ -27,7 +27,7 @@ Class Hewan extends REST_Controller{
     public function getWithJoin_get(){
         $this->db->select('id_hewan, hewans.id_customer, customers.nama_customer "nama_customer", customers.alamat_customer "alamat_customer", 
                         customers.tglLahir_customer "tglLahir_customer", customers.noTelp_customer "noTelp_customer",
-                        hewans.id_jenisHewan, jenishewans.nama_jenisHewan "nama_jenisHewan", hewans.nama_hewan "nama_hewan", hewans.tglLahir_hewan "tglLahir_hewan", 
+                        hewans.id_jenisHewan, jenishewans.nama_jenisHewan "nama_jenisHewan", hewans.nama_hewan "nama_hewan", hewans.tglLahir_hewan "tglLahir_hewan", hewans.updateLog_by, 
                         hewans.createLog_at, hewans.updateLog_at, hewans.deleteLog_at, hewans.aktif');
         $this->db->from('hewans');
         $this->db->join('customers', 'hewans.id_customer = customers.id_customer');
@@ -115,8 +115,8 @@ Class Hewan extends REST_Controller{
                 'rules' => 'required'
             ],
             [
-                'field' => 'tglLahirHewan',
-                'label' => 'tglLahirHewan',
+                'field' => 'tglLahir_hewan',
+                'label' => 'tglLahir_hewan',
                 'rules' => 'required'
             ],
             [
@@ -140,14 +140,14 @@ Class Hewan extends REST_Controller{
         if (!$validation->run()) {
             return $this->returnData($this->form_validation->error_array(), true);
         }
-        $user = new userData();
+        $user = new HewanData();
         $user->nama_hewan = $this->post('nama_hewan');
         $user->tglLahir_hewan = $this->post('tglLahir_hewan');
         $user->id_customer = $this->post('id_customer');
         $user->id_jenisHewan = $this->post('id_jenisHewan');
         $user->updateLog_by = $this->post('updateLog_by');
         if($id_hewan != null){
-            $response = $this->userModel->update($user,$id_hewan);
+            $response = $this->HewanModel->update($user,$id_hewan);
         }
         return $this->returnData($response['msg'], $response['error']);
     }

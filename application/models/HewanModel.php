@@ -39,6 +39,7 @@ class HewanModel extends CI_Model
         $this->tglLahir_hewan = $request->tglLahir_hewan;
         $this->id_customer = $request->id_customer;
         $this->id_jenisHewan = $request->id_jenisHewan;
+        $this->updateLog_by = $request->updateLog_by;
         $this->aktif=1;
         if($this->db->insert($this->table, $this)){
             return ['msg' => 'Berhasil', 'error' => false];
@@ -64,7 +65,7 @@ class HewanModel extends CI_Model
     public function softDelete($request, $id_hewan){
         $updateData = [
             'aktif' => 0,
-            'delete_at' => date('Y-m-d H:i:s')
+            'deleteLog_at' => date('Y-m-d H:i:s')
         ];
         if($this->db->where('id_hewan',$id_hewan)->update($this->table, $updateData)){
             return ['msg'=>'Berhasil','error'=>false];
