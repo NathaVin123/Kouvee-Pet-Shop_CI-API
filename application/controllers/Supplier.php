@@ -113,14 +113,23 @@ Class Supplier extends REST_Controller{
     }
 
     public function delete_post($id_supplier = null){
-        $validation = $this->form_validation;
-        $rule = $this->SupplierModel->rules();
-    
-        $validation->set_rules($rule);
-        if (!$validation->run()) {
-            return $this->returnData($this->form_validation->error_array(), true);
-        }
+        // $validation = $this->form_validation;
+        // $rule = $this->SupplierModel->rules();
+        // if($id_supplier != null){
+        //     array_push($rule,
+        //         [
+        //             'field' => 'updateLog_by',
+        //             'label' => 'updateLog_by',
+        //             'rules' => 'required'
+        //         ]
+        //     );
+        // }
+        // $validation->set_rules($rule);
+        // if (!$validation->run()) {
+        //     return $this->returnData($this->form_validation->error_array(), true);
+        // }
         $user = new SupplierData();
+        // $user->updateLog_by = $this->post('updateLog_by');
         if($id_supplier != null){
             $response = $this->SupplierModel->softDelete($user,$id_supplier);
         }
