@@ -96,22 +96,22 @@ Class Produk extends REST_Controller{
                 [
                     'field' => 'nama_produk',
                     'label' => 'nama_produk',
-                    'rules' => 'required|is_unique[produks.nama_produk]'
+                    'rules' => 'required'
                 ],
                 [
                     'field' => 'harga_produk',
                     'label' => 'harga_produk',
-                    'rules' => 'required|integer|greater_than[0]'
+                    'rules' => 'required'
                 ],
                 [
                     'field' => 'stok_produk',
                     'label' => 'stok_produk',
-                    'rules' => 'required|integer|greater_than_equal_to[0]'
+                    'rules' => 'required'
                 ],
                 [
                     'field' => 'min_stok_produk',
                     'label' => 'min_stok_produk',
-                    'rules' => 'required|integer|greater_than_equal_to[0]'
+                    'rules' => 'required'
                 ],
                 [
                     'field' => 'satuan_produk',

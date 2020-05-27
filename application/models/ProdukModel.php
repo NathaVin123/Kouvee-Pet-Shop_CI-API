@@ -58,7 +58,8 @@ class ProdukModel extends CI_Model
         'satuan_produk' => $request->satuan_produk,
         'gambar' => $image,
         'updateLog_by' => $request->updateLog_by,
-        'updateLog_at' => date('Y-m-d H:i:s')];
+        'updateLog_at' => date('Y-m-d H:i:s')
+        ];
         if($this->db->where('id_produk', $id_produk)->update($this->table, $updateData)){
             return ['msg' => 'Berhasil', 'error' => false];
         }
