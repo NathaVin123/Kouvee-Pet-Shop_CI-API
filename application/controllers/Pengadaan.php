@@ -128,7 +128,7 @@ Class Pengadaan extends REST_Controller{
                 'field' => 'id_supplier',
                 'label' => 'id_supplier',
                 'rules' => 'required'
-            ],
+            ]
         );
         $validation->set_rules($rule);
 		if (!$validation->run()) {
