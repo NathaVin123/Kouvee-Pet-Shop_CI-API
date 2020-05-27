@@ -55,9 +55,6 @@ Class JenisHewan extends REST_Controller{
         if($id_jenisHewan == null){
             $response = $this->JenisHewanModel->store($user);
         }
-        else{
-            $response = $this->JenisHewanModel->update($user, $id_jenisHewan);
-        }
         return $this->returnData($response['msg'], $response['error']);
     }
 
@@ -86,7 +83,7 @@ Class JenisHewan extends REST_Controller{
         $user->nama_jenisHewan = $this->post('nama_jenisHewan');
         $user->updateLog_by = $this->post('updateLog_by');
         if($id_jenisHewan != null){
-            $response = $this->JenisHewanModel->update($jenishewans,$id_jenisHewan);
+            $response = $this->JenisHewanModel->update($user,$id_jenisHewan);
         }
         return $this->returnData($response['msg'], $response['error']);
     }
