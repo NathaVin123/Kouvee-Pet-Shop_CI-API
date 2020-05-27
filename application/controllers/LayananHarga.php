@@ -26,12 +26,12 @@ Class LayananHarga extends REST_Controller{
 
     public function getWithJoin_get(){
         $this->db->select('id_layananHarga, layananhargas.id_layanan, layanans.nama_layanan "nama_layanan", layananhargas.id_ukuranHewan, 
-                        ukuran_hewan.nama_ukuranHewan "nama_ukuranHewan", layananhargas.harga,
+                        ukuranhewans.nama_ukuranHewan "nama_ukuranHewan", layananhargas.harga,
                         layananhargas.createLog_at, layananhargas.updateLog_at, layananhargas.updateLog_by,
                         layananhargas.deleteLog_at, layananhargas.aktif');
         $this->db->from('layananhargas');
         $this->db->join('layanans', 'layananhargas.id_layanan = layanans.id_layanan');
-        $this->db->join('ukuran_hewan', 'layananhargas.id_ukuranHewan = ukuran_hewan.id_ukuranHewan');
+        $this->db->join('ukuranhewans', 'layananhargas.id_ukuranHewan = ukuranhewans.id_ukuranHewan');
         $this->db->where('layananhargas.aktif',1);
         $this->db->order_by('layananhargas.id_layananHarga ASC');
         //return $this->db->get()->result();
