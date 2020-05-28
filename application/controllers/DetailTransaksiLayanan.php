@@ -73,12 +73,8 @@ Class DetailTransaksiLayanan extends REST_Controller{
         $user->id_layananHarga = $this->post('id_layananHarga');
         $user->jml_transaksi_layanan = $this->post('jml_transaksi_layanan');
         $user->total_harga = $this->post('total_harga');
-        if($kode_penjualan_layanan == null){
-            $response = $this->DetailTransaksiLayananModel->store($user);
-        }
-        else{
-            $response = $this->DetailTransaksiLayananModel->update($user, $kode_penjualan_layanan);
-        }
+        
+        $response = $this->DetailTransaksiLayananModel->store($user);
         return $this->returnData($response['msg'], $response['error']);
     }
 
@@ -133,7 +129,7 @@ Class DetailTransaksiLayanan extends REST_Controller{
         if($id_detaillayanan == null){
 			return $this->returnData('Parameter Id Tidak Ditemukan', true);
         }
-        $response = $this->DetailTransaksiLayananModel->destroy($id);
+        $response = $this->DetailTransaksiLayananModel->destroy($id_detaillayanan);
         return $this->returnData($response['msg'], $response['error']);
     }
 
