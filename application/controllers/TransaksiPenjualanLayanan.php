@@ -55,20 +55,19 @@ Class TransaksiPenjualanLayanan extends REST_Controller{
     }
 
     public function index_post(){
-        $validation = $this->form_validation;
-        $rule = $this->TransaksiPenjualanLayananModel->rules();
-        array_push($rule,
-            [
-                'field' => 'id_cs',
-                'label' => 'id_cs',
-                'rules' => 'required'
-            ]
-        );
-        $validation->set_rules($rule);
-		if (!$validation->run()) {
-			return $this->returnData($this->form_validation->error_array(), true);
-        }
-
+        // $validation = $this->form_validation;
+        // $rule = $this->TransaksiPenjualanLayananModel->rules();
+        // array_push($rule,
+        //     [
+        //         'field' => 'id_cs',
+        //         'label' => 'id_cs',
+        //         'rules' => 'required'
+        //     ]
+        // );
+        // $validation->set_rules($rule);
+		// if (!$validation->run()) {
+		// 	return $this->returnData($this->form_validation->error_array(), true);
+        // }
         $user = new TransaksiPenjualanLayananData();
         $user->id_cs = $this->post('id_cs');
         $user->id_hewan = $this->post('id_hewan');
@@ -105,12 +104,12 @@ Class TransaksiPenjualanLayanan extends REST_Controller{
     }
 
     public function update_post($kode_penjualan_layanan = null){
-        $validation = $this->form_validation;
-        $rule = $this->TransaksiPenjualanLayananModel->rules();
-        $validation->set_rules($rule);
-		if (!$validation->run()) {
-			return $this->returnData($this->form_validation->error_array(), true);
-        }
+        // $validation = $this->form_validation;
+        // $rule = $this->TransaksiPenjualanLayananModel->rules();
+        // $validation->set_rules($rule);
+		// if (!$validation->run()) {
+		// 	return $this->returnData($this->form_validation->error_array(), true);
+        // }
 
         $user = new TransaksiPenjualanLayananData();
         $user->id_hewan = $this->post('id_hewan');
@@ -155,7 +154,7 @@ Class TransaksiPenjualanLayanan extends REST_Controller{
 			return $this->returnData($this->form_validation->error_array(), true);
         }
 
-        $user = new TransaksiLayananData();
+        $user = new TransaksiPenjualanLayananData();
         $user->id_kasir = $this->post('id_kasir');
         if($kode_penjualan_layanan == null){
             return $this->returnData('Parameter ID tidak ditemukan', true);

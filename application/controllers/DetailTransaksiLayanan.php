@@ -17,7 +17,8 @@ Class DetailTransaksiLayanan extends REST_Controller{
                         detailtransaksilayanans.id_layananHarga, layananhargas.id_layanan, layananhargas.id_ukuranHewan,
                         layanans.nama_layanan "nama_layanan", ukuranhewans.nama_ukuranHewan "nama_ukuranHewan", layananhargas.harga, 
                         detailtransaksilayanans.jml_transaksi_layanan,
-                        detailtransaksilayanans.total_harga');
+                        detailtransaksilayanans.total_harga, detailtransaksilayanans.createLog_at, 
+                        detailtransaksilayanans.updateLog_at');
         $this->db->from('detailtransaksilayanans');
         $this->db->join('layananhargas', 'detailtransaksilayanans.id_layananHarga = layananhargas.id_layananHarga');
         $this->db->join('layanans', 'layananhargas.id_layanan = layanans.id_layanan');
@@ -153,4 +154,6 @@ Class DetailTransaksiLayananData{
     public $id_layananHarga;
     public $jml_transaksi_layanan;
     public $total_harga;
+    public $createLog_at;
+    public $updateLog_at;
 }

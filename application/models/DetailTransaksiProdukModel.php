@@ -1,5 +1,6 @@
 <?php
 defined('BASEPATH') OR exit('No direct script access allowed');
+date_default_timezone_set('Asia/Jakarta');
 
 class DetailTransaksiProdukModel extends CI_Model
 {
@@ -9,7 +10,8 @@ class DetailTransaksiProdukModel extends CI_Model
     public $kode_penjualan_produk;
     public $id_produk;
     public $jml_transaksi_produk;
-    public $total_harga;
+    public $createLog_at;
+    public $updateLog_at;
 
     public $rule = [];
 
@@ -35,16 +37,15 @@ class DetailTransaksiProdukModel extends CI_Model
     public function storeMultiple($request) {
         $jsondata = json_decode($request);
         $dataset = array();
-        $id_detailproduk = 0;
+        $kode_penjualan_produk = 0;
         foreach($jsondata as $data){
-            $id_detailproduk = $data->id_detailproduk;
+            $kode_penjualan_produk = $data->id_detailproduk;
             $dataset[] = 
                 array(
                     'kode_penjualan_produk' => $data->kode_penjualan_produk,
                     'id_produk' => $data->id_produk,
                     'jml_transaksi_produk' => $data->jml_transaksi_produk,
                     'total_harga' => $data->total_harga,
-                    'created_by' => $data->created_by,
                 );
         }
         //echo count($dataset);
@@ -55,15 +56,18 @@ class DetailTransaksiProdukModel extends CI_Model
             $this->updateTotal($kode_penjualan_produk);
             return ['msg'=>'Berhasil','error'=>false];
         }
-        //$this->db->delete('transaksi_produk', array('kode_penjualan_produk' => $kode_penjualan_produk));
+        //$this->db->delete('transaksipenjualanproduks', array('kode_penjualan_produk' => $kode_penjualan_produk));
         return ['msg'=>'Gagal','error'=>true];
     }
 
     public function update($request, $id_detailproduk){
         $updateData = 
-        ['id_produk' => $request->id_produk, 
+        [
+        'id_produk' => $request->id_produk, 
         'jml_transaksi_produk' => $request->jml_transaksi_produk, 
-        'total_harga' => $request->total_harga];
+        'total_harga' => $request->total_harga,
+        'updateLog_at' => date('Y-m-d H:i:s'),
+        ];
         $data = $this->db->get_where($this->table, array('id_detailproduk' => $id_detailproduk))->row();
         $new_sum_change = $request->jml_transaksi_produk-$data->jml_transaksi_produk;
         if($this->db->where('id_detailproduk',$id_detailproduk)->update($this->table, $updateData)){
@@ -85,7 +89,8 @@ class DetailTransaksiProdukModel extends CI_Model
             $updateData = [
                 'id_produk' => $data->id_produk,
                 'jml_transaksi_produk' => $data->jml_transaksi_produk,
-                'total_harga' => $data->total_harga
+                'total_harga' => $data->total_harga,
+                'updateLog_at' => date('Y-m-d H:i:s'),
             ];
             $data_before = $this->db->get_where($this->table, array('id_detailproduk' => $id_detailproduk))->row();
             $new_sum_change = $data->jml_transaksi_produk-$data_before->jml_transaksi_produk;
@@ -110,10 +115,10 @@ class DetailTransaksiProdukModel extends CI_Model
     }
 
     public function updateTotal($kode_penjualan_produk) {
-        $transdata = $this->db->get_where('transaksi_produk', ['kode_penjualan_produk'=>$kode_penjualan_produk])->row();
+        $transdata = $this->db->get_where('transaksipenjualanproduks', ['kode_penjualan_produk'=>$kode_penjualan_produk])->row();
         $this->db->select_sum('total_harga');
         $this->db->where('kode_penjualan_produk', $kode_penjualan_produk);
-        $pricedata = $this->db->get('detail_transaksi_produk')->row();
+        $pricedata = $this->db->get('detailtransaksiproduks')->row();
         if($pricedata->total_harga==null || $pricedata->total_harga<=$transdata->diskon)
         {
             $updateData = [
@@ -136,17 +141,25 @@ class DetailTransaksiProdukModel extends CI_Model
                 ];
             }
         }
-        $this->db->where('kode_penjualan_produk',$kode_penjualan_produk)->update('transaksi_produk', $updateData);
+        $this->db->where('kode_penjualan_produk',$kode_penjualan_produk)->update('transaksipenjualanproduks', $updateData);
     }
 
-    public function destroy($kode_penjualan){
-        if(empty($this->db->select('*')->where(array('kode_penjualan' => $kode_penjualan))->get($this->table)->row()))
-            return ['msg' => 'Id tidak ditemukan', 'error' => true];
-
-        if($this->db->delete($this->table, array('kode_penjualan' => $kode_penjualan))){
-            return ['msg' => 'Berhasil', 'error' => false];
+    public function destroy($id_detailproduk){
+        if (empty($this->db->select('*')->where(array('id_detailproduk' => $id_detailproduk))->get($this->table)->row())) 
+            return ['msg'=>'Id tidak ditemukan','error'=>true];
+        
+        $data = $this->db->get_where($this->table, array('id_detailproduk' => $id_detailproduk))->row();
+        if($data!=null && $data->id_detailproduk==$id_detailproduk){
+            if($this->db->delete($this->table, array('id_detailproduk' => $id_detailproduk))){
+                $this->tambahStokProduk($data->id_produk, $data->jumlah);
+                $this->updateTotal($data->id_transaksi_produk);
+                return ['msg'=>'Berhasil','error'=>false];
+            }
+            $this->updateTotal($data->id_transaksi_produk);
+            return ['msg'=>'Gagal','error'=>true];
         }
-        return ['msg' => 'Gagal', 'error' => true];
+        $this->updateTotal($data->id_transaksi_produk);
+        return ['msg'=>'Id tidak ditemukan','error'=>true];
     }
 
     public function deleteMultiple($request){
@@ -156,11 +169,11 @@ class DetailTransaksiProdukModel extends CI_Model
         $kode_penjualan_produk = $data_transaksi->kode_penjualan_produk;
 
         $this->db->select('*');
-        $this->db->from('detail_transaksi_produk');
+        $this->db->from('detailtransaksiproduks');
         $this->db->where_in('id_detailproduk', $jsondata);
         $result = $this->db->get()->result();
         if($this->db->where_in('id_detailproduk', $jsondata)->delete($this->table)){
-            //add jml_transaksi_produk produk
+            //add jml_transaksi_produk produks
             foreach($result as $trans){
                 $this->tambahStokProduk($trans->id_produk, $trans->jml_transaksi_produk);
             }
@@ -172,21 +185,21 @@ class DetailTransaksiProdukModel extends CI_Model
     }
     
     public function kurangStokProduk($id_produk, $qty){
-        $data = $this->db->get_where('produk', array('id_produk' => $id_produk))->row();
+        $data = $this->db->get_where('produks', array('id_produk' => $id_produk))->row();
         $new_sum = $data->jumlah_stok-$qty;
         $updateData = [
             'jumlah_stok' => $new_sum
         ];
-        $this->db->where('id_produk',$data->id_produk)->update('produk', $updateData);
+        $this->db->where('id_produk',$data->id_produk)->update('produks', $updateData);
     }
 
     public function tambahStokProduk($id_produk, $qty){
-        $data = $this->db->get_where('produk', array('id_produk' => $id_produk))->row();
+        $data = $this->db->get_where('produks', array('id_produk' => $id_produk))->row();
         $new_sum = $data->jumlah_stok+$qty;
         $updateData = [
             'jumlah_stok' => $new_sum
         ];
-        $this->db->where('id_produk',$data->id_produk)->update('produk', $updateData);
+        $this->db->where('id_produk',$data->id_produk)->update('produks', $updateData);
     }
 }
 ?>

@@ -15,12 +15,12 @@ Class DetailTransaksiProduk extends REST_Controller{
     public function getWithJoin_get() {
         $this->db->select('id_detailproduk, detailtransaksiproduks.kode_penjualan_produk,
                         detailtransaksiproduks.id_produkHarga, produkhargas.id_produk, produkhargas.id_ukuranHewan,
-                        produks.nama_produk "nama_produk", ukuran_hewan.nama_ukuranHewan "nama_ukuranHewan", produkhargas.harga, detailtransaksiproduks.jml_transaksi_produk,
+                        produks.nama_produk "nama_produk", ukuranhewans.nama_ukuranHewan "nama_ukuranHewan", produkhargas.harga, detailtransaksiproduks.jml_transaksi_produk,
                         detailtransaksiproduks.total_harga');
         $this->db->from('detailtransaksiproduks');
         $this->db->join('produkhargas', 'detailtransaksiproduks.id_produkHarga = produkhargas.id_produkHarga');
         $this->db->join('produks', 'produkhargas.id_produk = produks.id_produk');
-        $this->db->join('ukuran_hewan', 'produkhargas.id_ukuranHewan = ukuran_hewan.id_ukuranHewan');
+        $this->db->join('ukuranhewans', 'produkhargas.id_ukuranHewan = ukuranhewans.id_ukuranHewan');
         $this->db->order_by('detailtransaksiproduks.id_detailproduk ASC');
         return $this->returnData($this->db->get()->result(), false);
     }
@@ -79,7 +79,7 @@ Class DetailTransaksiProduk extends REST_Controller{
     }
 
     public function insertMultiple_post(){
-        $data = $this->post('id_detailproduk');
+        $data = $this->post('detailtransaksiproduks');
         //if($id_detailproduk == null){
         $response = $this->DetailTransaksiProdukModel->storeMultiple($data);
         //}
@@ -153,4 +153,6 @@ Class DetailTransaksiProdukData{
     public $id_produk;
     public $jml_transaksi_produk;
     public $total_harga;
+    public $createLog_at;
+    public $updateLog_at;
 }
