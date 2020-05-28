@@ -2,7 +2,7 @@
 //require (APPPATH.'/libraries/REST_Controller.php');
 use Restserver \Libraries\REST_Controller ;
 
-Class TransaksiPenjualanProduk extends RestController{
+Class TransaksiPenjualanProduk extends REST_Controller{
     public function __construct(){
         header('Access-Control-Allow-Origin: *');
         header("Access-Control-Allow-Methods: GET, OPTIONS, POST, DELETE");
@@ -55,9 +55,9 @@ Class TransaksiPenjualanProduk extends RestController{
         WHERE  year(transaksipenjualanproduks.createLog_at)=? AND transaksipenjualanproduks.status_transaksi = 'Lunas'
         GROUP BY transaksipenjualanproduks.kode_penjualan_produk";
         $hasil = $this->db->query($data,[$param])->result();
-        $detailTransaksi = "SELECT produks.nama_produk, detail_transaksi_produk.total_harga, detail_transaksi_produk.jumlah,month(detail_transaksi_produk.createLog_at) as 'bulan' from detail_transaksi_produk
+        $detailTransaksi = "SELECT produks.nama_produk, detailtransaksiproduks.total_harga, detailtransaksiproduks.jml_transaksi_produk,month(detailtransaksiproduks.createLog_at) as 'bulan' from detailtransaksiproduks
                 INNER JOIN produks USING(id_produk)
-                WHERE detail_transaksi_produk.kode_penjualan_produk = ?
+                WHERE detailtransaksiproduks.kode_penjualan_produk = ?
                 GROUP BY produks.nama_produk";
 
         for($k = 0;$k <sizeof($hasil); $k++ ){
@@ -96,74 +96,74 @@ Class TransaksiPenjualanProduk extends RestController{
                 }
             }
         for($o = 0; $o<count($produk1);$o++){
-            if($produk1[$o]->jumlah > $jumlahMax1){
-                $jumlahMax1 = $produk1[$o]->jumlah;
+            if($produk1[$o]->jml_transaksi_produk > $jumlahMax1){
+                $jumlahMax1 = $produk1[$o]->jml_transaksi_produk;
                 $produkMax1 = $produk1[$o]->nama_produk;
             }
         }
         for($o = 0; $o<count($produk2);$o++){
-            if($produk2[$o]->jumlah > $jumlahMax2){
-                $jumlahMax2 = $produk2[$o]->jumlah;
+            if($produk2[$o]->jml_transaksi_produk > $jumlahMax2){
+                $jumlahMax2 = $produk2[$o]->jml_transaksi_produk;
                 $produkMax2 = $produk2[$o]->nama_produk;
             }
         }
         for($o = 0; $o<count($produk3);$o++){
-            if($produk3[$o]->jumlah > $jumlahMax3){
-                $jumlahMax3 = $produk3[$o]->jumlah;
+            if($produk3[$o]->jml_transaksi_produk > $jumlahMax3){
+                $jumlahMax3 = $produk3[$o]->jml_transaksi_produk;
                 $produkMax3 = $produk3[$o]->nama_produk;
             }
         }
         for($o = 0; $o<count($produk4);$o++){
-            if($produk4[$o]->jumlah > $jumlahMax4){
-                $jumlahMax4 = $produk4[$o]->jumlah;
+            if($produk4[$o]->jml_transaksi_produk > $jumlahMax4){
+                $jumlahMax4 = $produk4[$o]->jml_transaksi_produk;
                 $produkMax4 = $produk4[$o]->nama_produk;
             }
         }
         for($o = 0; $o<count($produk5);$o++){
-            if($produk5[$o]->jumlah > $jumlahMax5){
-                $jumlahMax5 = $produk5[$o]->jumlah;
+            if($produk5[$o]->jml_transaksi_produk > $jumlahMax5){
+                $jumlahMax5 = $produk5[$o]->jml_transaksi_produk;
                 $produkMax5 = $produk5[$o]->nama_produk;
             }
         }
         for($o = 0; $o<count($produk6);$o++){
-            if($produk6[$o]->jumlah > $jumlahMax6){
-                $jumlahMax6= $produk6[$o]->jumlah;
+            if($produk6[$o]->jml_transaksi_produk > $jumlahMax6){
+                $jumlahMax6= $produk6[$o]->jml_transaksi_produk;
                 $produkMax6 = $produk6[$o]->nama_produk;
             }
         }
         for($o = 0; $o<count($produk7);$o++){
-            if($produk7[$o]->jumlah > $jumlahMax7){
-                $jumlahMax7 = $produk7[$o]->jumlah;
+            if($produk7[$o]->jml_transaksi_produk > $jumlahMax7){
+                $jumlahMax7 = $produk7[$o]->jml_transaksi_produk;
                 $produkMax7 = $produk7[$o]->nama_produk;
             }
         }
         for($o = 0; $o<count($produk8);$o++){
-            if($produk8[$o]->jumlah > $jumlahMax8){
-                $jumlahMax8 = $produk8[$o]->jumlah;
+            if($produk8[$o]->jml_transaksi_produk > $jumlahMax8){
+                $jumlahMax8 = $produk8[$o]->jml_transaksi_produk;
                 $produkMax8 = $produk8[$o]->nama_produk;
             }
         }
         for($o = 0; $o<count($produk9);$o++){
-            if($produk9[$o]->jumlah > $jumlahMax9){
-                $jumlahMax9 = $produk9[$o]->jumlah;
+            if($produk9[$o]->jml_transaksi_produk > $jumlahMax9){
+                $jumlahMax9 = $produk9[$o]->jml_transaksi_produk;
                 $produkMax9= $produk9[$o]->nama_produk;
             }
         }
         for($o = 0; $o<count($produk10);$o++){
-            if($produk10[$o]->jumlah > $jumlahMax10){
-                $jumlahMax10 = $produk10[$o]->jumlah;
+            if($produk10[$o]->jml_transaksi_produk > $jumlahMax10){
+                $jumlahMax10 = $produk10[$o]->jml_transaksi_produk;
                 $produkMax10 = $produk10[$o]->nama_produk;
             }
         }
         for($o = 0; $o<count($produk11);$o++){
-            if($produk11[$o]->jumlah > $jumlahMax11){
-                $jumlahMax11 = $produk11[$o]->jumlah;
+            if($produk11[$o]->jml_transaksi_produk > $jumlahMax11){
+                $jumlahMax11 = $produk11[$o]->jml_transaksi_produk;
                 $produkMax11= $produk11[$o]->nama_produk;
             }
         }
         for($o = 0; $o<count($produk12);$o++){
-            if($produk12[$o]->jumlah > $jumlahMax12){
-                $jumlahMax12 = $produk12[$o]->jumlah;
+            if($produk12[$o]->jml_transaksi_produk > $jumlahMax12){
+                $jumlahMax12 = $produk12[$o]->jml_transaksi_produk;
                 $produkMax12 = $produk12[$o]->nama_produk;
             }
         }
@@ -172,13 +172,13 @@ Class TransaksiPenjualanProduk extends RestController{
         }
 
     public function getWithJoin_get() {
-        $this->db->select('kode_penjualan_produk, transaksipenjualanproduks.id_hewan, hewans.nama_hewan "nama_hewan", hewans.id_jenis_hewan, jenishewans.nama_jenisHewan "nama_jenisHewan", hewans.id_customer, customers.nama_customer "nama_customer", customers.noTelp_customer "noTelp_customer",
+        $this->db->select('kode_penjualan_produk, transaksipenjualanproduks.id_hewan, hewans.nama_hewan "nama_hewan", hewans.id_jenisHewan, jenishewans.nama_jenisHewan "nama_jenisHewan", hewans.id_customer, customers.nama_customer "nama_customer", customers.noTelp_customer "noTelp_customer",
                         transaksipenjualanproduks.subtotal, transaksipenjualanproduks.diskon, transaksipenjualanproduks.total, transaksipenjualanproduks.status_transaksi,
                         transaksipenjualanproduks.tanggal_lunas, transaksipenjualanproduks.createLog_at,
                         transaksipenjualanproduks.updateLog_at');
         $this->db->from('transaksipenjualanproduks');
         $this->db->join('hewans', 'transaksipenjualanproduks.id_hewan = hewans.id_hewan', 'left outer');
-         $this->db->join('jenishewans', 'hewans.id_jenis_hewan = jenishewans.id_jenis_hewan', 'left');
+         $this->db->join('jenishewans', 'hewans.id_jenisHewan = jenishewans.id_jenisHewan', 'left');
         $this->db->join('customers', 'hewans.id_customer = customers.id_customer', 'left');
         $this->db->order_by('transaksipenjualanproduks.kode_penjualan_produk ASC');
         return $this->returnData($this->db->get()->result(), false);
@@ -189,7 +189,7 @@ Class TransaksiPenjualanProduk extends RestController{
     }
 
     public function waitingPayment_get(){
-        return $this->returnData($this->db->get_where('transaksipenjualanproduks', ["status_transaksi" => 'Menunggu Pembayaran'])->result(), false);
+        return $this->returnData($this->db->get_where('transaksipenjualanproduks', ["status_transaksi" => 'Belum Selesai'])->result(), false);
     }
 
     public function paidOff_get(){

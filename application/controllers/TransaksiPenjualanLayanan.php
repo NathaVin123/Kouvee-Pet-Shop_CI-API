@@ -13,7 +13,7 @@ Class TransaksiPenjualanLayanan extends REST_Controller{
     }
 
     public function getWithJoin_get() {
-        $this->db->select('kode_penjualan_layanan, transaksipenjualanlayanans.id_hewan, hewans.nama "nama_hewan", hewans.id_jenisHewan, jenishewans.nama_jenisHewan "nama_jenisHewan", hewans.id_customer, customer.nama_customer "nama_customer",
+        $this->db->select('kode_penjualan_layanan, transaksipenjualanlayanans.id_hewan, hewans.nama_hewan "nama_hewan", hewans.id_jenisHewan, jenishewans.nama_jenisHewan "nama_jenisHewan", hewans.id_customer, customers.nama_customer "nama_customer",
                         customers.noTelp_customer "noTelp_customer",
                         transaksipenjualanlayanans.subtotal, transaksipenjualanlayanans.diskon, transaksipenjualanlayanans.total, transaksipenjualanlayanans.proses, transaksipenjualanlayanans.status_transaksi,
                         transaksipenjualanlayanans.tanggal_lunas, transaksipenjualanlayanans.createLog_at,
@@ -21,7 +21,7 @@ Class TransaksiPenjualanLayanan extends REST_Controller{
         $this->db->from('transaksipenjualanlayanans');
         $this->db->join('hewans', 'transaksipenjualanlayanans.id_hewan = hewans.id_hewan', 'left outer');
         $this->db->join('jenishewans', 'hewans.id_jenisHewan = jenishewans.id_jenisHewan', 'left');
-        $this->db->join('customers', 'hewans.id_pelanggan = customers.id_pelanggan', 'left');
+        $this->db->join('customers', 'hewans.id_customer = customers.id_customer', 'left');
         $this->db->order_by('transaksipenjualanlayanans.kode_penjualan_layanan ASC');
         return $this->returnData($this->db->get()->result(), false);
     }
