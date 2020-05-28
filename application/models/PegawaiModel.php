@@ -87,6 +87,14 @@ class PegawaiModel extends CI_Model
         return ['msg'=>'Gagal','error'=>true];
     }
 
+    public function verify($request){
+        $pegawai = $this->db->get_where('pegawais', ["NIP" => $request->NIP, "aktif"=>1])->row();
+        if(!empty($pegawai) && password_verify($request->password, $pegawai->password)){
+            return ['msg'=>$pegawai,'error'=>false];
+        }
+        return ['msg'=>'Gagal','error'=>true];
+    }
+
     // public function destroy($NIP){
     //     if(empty($this->db->select('*')->where(array('NIP' => $NIP))->get($this->table)->row()))
     //         return ['msg' => 'Id tidak ditemukan', 'error' => true];
