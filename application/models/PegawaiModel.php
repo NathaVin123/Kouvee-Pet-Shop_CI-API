@@ -88,9 +88,9 @@ class PegawaiModel extends CI_Model
     }
 
     public function verify($request){
-        $pegawai = $this->db->get_where('pegawais', ["NIP" => $request->NIP, "aktif"=>1])->row();
-        if(!empty($pegawai) && password_verify($request->password, $pegawai->password)){
-            return ['msg'=>$pegawai,'error'=>false];
+        $verify = $this->db->get_where('pegawais', ["NIP" => $request->NIP, "aktif"=>1])->row();
+        if(!empty($verify) && password_verify($request->password, $verify->password)){
+            return ['msg'=>$verify,'error'=>false];
         }
         return ['msg'=>'Gagal','error'=>true];
     }

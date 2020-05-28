@@ -232,11 +232,11 @@ Class Pegawai extends REST_Controller{
             return $this->returnData($this->form_validation->error_array(), true);
         }        
 
-        $pegawai = new PegawaiData();
-        $pegawai->NIP = $this->post('NIP');
-        $pegawai->password = $this->post('password');
+        $user = new PegawaiData();
+        $user->NIP = $this->post('NIP');
+        $user->password = $this->post('password');
 
-        $response = $this->PegawaiModel->verify($pegawai);
+        $response = $this->PegawaiModel->verify($user);
         return $this->returnData($response['msg'], $response['error']);
     }
 
