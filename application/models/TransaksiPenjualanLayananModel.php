@@ -209,27 +209,27 @@ class TransaksiPenjualanLayananModel extends CI_Model
 
     public function updateTotal($kode_penjualan_layanan, $diskon) {
         //$transdata =$this->db->get_where('transaksi_produk', ['id_transaksi_produk'=>$id_transaksi_produk])->row();
-        $this->db->select_sum('total');
+        $this->db->select_sum('total_harga');
         $this->db->where('kode_penjualan_layanan', $kode_penjualan_layanan);
         $pricedata = $this->db->get('detailtransaksilayanans')->row();
-        if($pricedata->total==null || $pricedata->total<=$diskon)
+        if($pricedata->total_harga==null || $pricedata->total_harga<=$diskon)
         {
             $updateData = [
-                'subtotal' => $pricedata->total, 
+                'subtotal' => $pricedata->total_harga, 
                 'total' => 0
             ];
-            if($pricedata->total==null){
+            if($pricedata->total_harga==null){
                 $updateData['subtotal'] = 0;
             }
         }else{
             if($diskon==null){
                 $updateData = [
-                    'subtotal' => $pricedata->total, 
-                    'total' => $pricedata->total
+                    'subtotal' => $pricedata->total_harga, 
+                    'total' => $pricedata->total_harga
                 ];
             }else{
                 $updateData = [
-                    'subtotal' => $pricedata->total, 
+                    'subtotal' => $pricedata->total_harga, 
                     'total' => $pricedata->total-$diskon
                 ];
             }

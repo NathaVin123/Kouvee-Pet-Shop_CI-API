@@ -1,5 +1,6 @@
 <?php
 defined('BASEPATH') OR exit('No direct script access allowed');
+date_default_timezone_set('Asia/Jakarta');
 
 class DetailTransaksiLayananModel extends CI_Model
 {
@@ -10,6 +11,8 @@ class DetailTransaksiLayananModel extends CI_Model
     public $id_layananHarga;
     public $jml_transaksi_layanan;
     public $total_harga;
+    public $createLog_at;
+    public $updateLog_at;
 
     public $rule = [];
 
@@ -20,7 +23,7 @@ class DetailTransaksiLayananModel extends CI_Model
     } 
 
     public function store($request){
-        $this->kode_penjualan = $request->kode_penjualan;
+        $this->kode_penjualan_layanan = $request->kode_penjualan_layanan;
         $this->id_layananHarga = $request->id_layananHarga;
         $this->jml_transaksi_layanan = $request->jml_transaksi_layanan;
         $this->total_harga = $request->total_harga;
@@ -42,7 +45,7 @@ class DetailTransaksiLayananModel extends CI_Model
         foreach($jsondata as $data){
             $dataset[] = 
                 array(
-                    'kode_penjualan' => $data->kode_penjualan,
+                    'kode_penjualan_layanan' => $data->kode_penjualan_layanan,
                     'id_layananHarga' => $data->id_layananHarga,
                     'jml_transaksi_layanan' => $data->jml_transaksi_layanan,
                     'total_harga' => $data->total_harga,
@@ -54,9 +57,9 @@ class DetailTransaksiLayananModel extends CI_Model
         //echo count($dataset);
         if($this->db->insert_batch($this->table, $dataset)){
             if($groomStat){
-                $this->setProgress($dataset[0]["kode_penjualan"], 'Sedang Diproses');
+                $this->setProgress($dataset[0]["kode_penjualan_layanan"], 'Sedang Diproses');
             }
-            $this->updateTotal($dataset[0]["kode_penjualan"]);
+            $this->updateTotal($dataset[0]["kode_penjualan_layanan"]);
             return ['msg'=>'Berhasil','error'=>false];
         }
         return ['msg'=>'Gagal','error'=>true];
@@ -67,6 +70,7 @@ class DetailTransaksiLayananModel extends CI_Model
         'id_layananHarga' => $request->id_layananHarga,
         'jml_transaksi_layanan' => $request->jml_transaksi_layanan,
         'total_harga' => $request->total_harga,
+        'updateLog_at' => date('Y-m-d H:i:s'),
         ];
 
         $data = $this->db->get_where($this->table, array('id_detaillayanan' => $id_detaillayanan))->row();
@@ -108,6 +112,7 @@ class DetailTransaksiLayananModel extends CI_Model
                 'id_layananHarga' => $data->id_layananHarga,
                 'jml_transaksi_layanan' => $data->jml_transaksi_layanan,
                 'total_harga' => $data->total_harga,
+                'updateLog_at' => date('Y-m-d H:i:s'),
             ];
             if($this->groomingCheck($data->id_layananHarga)){
                 $groomStat = true;
@@ -246,6 +251,31 @@ class DetailTransaksiLayananModel extends CI_Model
             }
         }
         $this->db->where('kode_penjualan_layanan',$kode_penjualan_layanan)->update('transaksipenjualanlayanans', $updateData);
+    }
+
+    public function groomingCheck($id_layananHarga){
+        $this->db->select('id_layananHarga, layananhargas.id_layanan, layanans.nama "nama_layanan"');
+        $this->db->from('layananhargas');
+        $this->db->join('layanans', 'layananhargas.id_layanan = layanans.id_layanan');
+        $this->db->where('layananhargas.id_layananHarga',$id_layananHarga);
+        $data = $this->db->get()->row();
+        if($data!=null){
+            if(strpos(strtolower($data->nama_layanan),'grooming') !== false){
+                return true;
+            }else{
+                return false;
+            }   
+        }
+    }
+
+    public function setProgress($kode_penjualan_layanan, $progress) {
+        $updateData = [
+            'progress' => $progress
+        ];
+        $data = $this->db->get_where('transaksipenjualanlayanans',['kode_penjualan_layanan'=>$kode_penjualan_layanan, 'status'=> 'Menunggu Pembayaran'])->row();
+        if($data!=null){
+            $this->db->where(['kode_penjualan_layanan'=>$kode_penjualan_layanan, 'status'=> 'Menunggu Pembayaran'])->update('transaksipenjualanlayanans', $updateData);
+        }
     }
 }
 ?>

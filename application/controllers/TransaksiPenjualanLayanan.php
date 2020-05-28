@@ -13,7 +13,7 @@ Class TransaksiPenjualanLayanan extends REST_Controller{
     }
 
     public function getWithJoin_get() {
-        $this->db->select('kode_penjualan_layanan, transaksipenjualanlayanans.id_hewan, hewans.nama "nama_hewan", hewans.id_jenisHewan, jenishewans.nama_jenisHewan "nama_jenisHewan", hewans.id_customer, customer.nama_customer "nama_customer",
+        $this->db->select('kode_penjualan_layanan, transaksipenjualanlayanans.id_hewan, hewans.nama_hewan "nama_hewan", hewans.id_jenisHewan, jenishewans.nama_jenisHewan "nama_jenisHewan", hewans.id_customer, customers.nama_customer "nama_customer",
                         customers.noTelp_customer "noTelp_customer",
                         transaksipenjualanlayanans.subtotal, transaksipenjualanlayanans.diskon, transaksipenjualanlayanans.total, transaksipenjualanlayanans.proses, transaksipenjualanlayanans.status_transaksi,
                         transaksipenjualanlayanans.tanggal_lunas, transaksipenjualanlayanans.createLog_at,
@@ -21,7 +21,7 @@ Class TransaksiPenjualanLayanan extends REST_Controller{
         $this->db->from('transaksipenjualanlayanans');
         $this->db->join('hewans', 'transaksipenjualanlayanans.id_hewan = hewans.id_hewan', 'left outer');
         $this->db->join('jenishewans', 'hewans.id_jenisHewan = jenishewans.id_jenisHewan', 'left');
-        $this->db->join('customers', 'hewans.id_pelanggan = customers.id_pelanggan', 'left');
+        $this->db->join('customers', 'hewans.id_customer = customers.id_customer', 'left');
         $this->db->order_by('transaksipenjualanlayanans.kode_penjualan_layanan ASC');
         return $this->returnData($this->db->get()->result(), false);
     }
@@ -55,20 +55,19 @@ Class TransaksiPenjualanLayanan extends REST_Controller{
     }
 
     public function index_post(){
-        $validation = $this->form_validation;
-        $rule = $this->TransaksiPenjualanLayananModel->rules();
-        array_push($rule,
-            [
-                'field' => 'id_cs',
-                'label' => 'id_cs',
-                'rules' => 'required'
-            ]
-        );
-        $validation->set_rules($rule);
-		if (!$validation->run()) {
-			return $this->returnData($this->form_validation->error_array(), true);
-        }
-
+        // $validation = $this->form_validation;
+        // $rule = $this->TransaksiPenjualanLayananModel->rules();
+        // array_push($rule,
+        //     [
+        //         'field' => 'id_cs',
+        //         'label' => 'id_cs',
+        //         'rules' => 'required'
+        //     ]
+        // );
+        // $validation->set_rules($rule);
+		// if (!$validation->run()) {
+		// 	return $this->returnData($this->form_validation->error_array(), true);
+        // }
         $user = new TransaksiPenjualanLayananData();
         $user->id_cs = $this->post('id_cs');
         $user->id_hewan = $this->post('id_hewan');
@@ -105,12 +104,12 @@ Class TransaksiPenjualanLayanan extends REST_Controller{
     }
 
     public function update_post($kode_penjualan_layanan = null){
-        $validation = $this->form_validation;
-        $rule = $this->TransaksiPenjualanLayananModel->rules();
-        $validation->set_rules($rule);
-		if (!$validation->run()) {
-			return $this->returnData($this->form_validation->error_array(), true);
-        }
+        // $validation = $this->form_validation;
+        // $rule = $this->TransaksiPenjualanLayananModel->rules();
+        // $validation->set_rules($rule);
+		// if (!$validation->run()) {
+		// 	return $this->returnData($this->form_validation->error_array(), true);
+        // }
 
         $user = new TransaksiPenjualanLayananData();
         $user->id_hewan = $this->post('id_hewan');
@@ -155,7 +154,7 @@ Class TransaksiPenjualanLayanan extends REST_Controller{
 			return $this->returnData($this->form_validation->error_array(), true);
         }
 
-        $user = new TransaksiLayananData();
+        $user = new TransaksiPenjualanLayananData();
         $user->id_kasir = $this->post('id_kasir');
         if($kode_penjualan_layanan == null){
             return $this->returnData('Parameter ID tidak ditemukan', true);
