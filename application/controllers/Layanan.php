@@ -31,7 +31,7 @@ Class Layanan extends REST_Controller{
     public function index_post($id_layanan = null){
         $validation = $this->form_validation;
         $rule = $this->LayananModel->rules();
-        if($id == null){
+        if($id_layanan == null){
             array_push($rule,
                 [
                     'field' => 'nama_layanan',
