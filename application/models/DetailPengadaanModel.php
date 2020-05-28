@@ -12,26 +12,28 @@ class DetailPengadaanModel extends CI_Model
     public $jumlah_stok_pengadaan;
     public $harga;
     public $total_harga;
+    
 
     public $rule = [];
 
     public function Rules() { return $this->rule; }
-
+   
     public function getAllAktif() {
-        return $this->db->get('detail_pengadaan')->result();
+        return $this->db->get('detailpengadaans')->result();
     } 
 
-    public function store($request){
+    public function store($request) {
         $this->no_order = $request->no_order;
         $this->id_produk = $request->id_produk;
         $this->jumlah_stok_pengadaan = $request->jumlah_stok_pengadaan;
         $this->harga = $request->harga;
-        $this->total_harga = $request->total_harga;
+        $this->total_harga = $request->jumlah_stok_pengadaan*$request->harga;
+        
         if($this->db->insert($this->table, $this)){
             $this->updateTotal($request->no_order);
-            return ['msg' => 'Berhasil', 'error' => false];
+            return ['msg'=>'Berhasil','error'=>false];
         }
-        return ['msg' => 'Gagal', 'error' => true];
+        return ['msg'=>'Gagal','error'=>true];
     }
 
     public function storeMultiple($request) {
@@ -39,14 +41,14 @@ class DetailPengadaanModel extends CI_Model
         $dataset = array();
         $no_order = 0;
         foreach($jsondata as $data){
-            $no_order = $data->$no_order;
+            $no_order = $data->no_order;
             $dataset[] = 
                 array(
-                    'no_order' => $data->$no_order,
+                    'no_order' => $data->no_order,
                     'id_produk' => $data->id_produk,
                     'jumlah_stok_pengadaan' => $data->jumlah_stok_pengadaan,
                     'harga' => $data->harga,
-                    'total_harga' => $data->jumlah_stok_pengadaan*$data->harga,
+                    'total_harga' => $data->jumlah_stok_pengadaan*$data->harga
                 );
         }
         //echo count($dataset);
@@ -58,18 +60,21 @@ class DetailPengadaanModel extends CI_Model
         return ['msg'=>'Gagal','error'=>true];
     }
 
-    public function update($request, $id_detailpengadaan){
-        $updateData = 
-        ['id_produk' => $request->id_produk, 
-        'jumlah_stok_pengadaan' => $request->jumlah_stok_pengadaan, 
-        'harga' => $request->harga,
-        'total_harga' => $request->total_harga,
-        'createLog_at' => date('Y-m-d H:i:s'),
+    public function update($request, $id_detailpengadaan) {
+        $updateData = [
+            'id_produk' => $request->id_produk,
+            'jumlah_stok_pengadaan' => $request->jumlah_stok_pengadaan,
+            'harga' => $request->harga,
+            'total_harga' => $request->jumlah_stok_pengadaan*$request->harga,
+            
         ];
-        if($this->db->where('id_detailpengadaan', $id_detailpengadaan)->update($this->table, $updateData)){
-            return ['msg' => 'Berhasil', 'error' => false];
+        $data = $this->db->get_where($this->table, array('id_detailpengadaan' => $id_detailpengadaan))->row();
+        if($this->db->where('id_detailpengadaan',$id_detailpengadaan)->update($this->table, $updateData)){
+            $this->updateTotal($data->no_order);
+            return ['msg'=>'Berhasil','error'=>false];
         }
-        return ['msg' => 'Gagal', 'error' => true];
+        $this->updateTotal($data->no_order);
+        return ['msg'=>'Gagal','error'=>true];
     }
 
     public function updateMultiple($request) {
@@ -77,15 +82,17 @@ class DetailPengadaanModel extends CI_Model
         $no_order = 0;
         $this->db->trans_start();
         foreach($jsondata as $data){
-            $id_detailpengadaan = $data->$id_detailpengadaan;
+            $id_detailpengadaan = $data->id_detailpengadaan;
             $no_order = $data->no_order;
             $updateData = [
                 'id_produk' => $data->id_produk,
-                'jumlah' => $data->jumlah,
+                'jumlah_stok_pengadaan' => $data->jumlah_stok_pengadaan,
                 'harga' => $data->harga,
-                'total_harga' => $data->jumlah*$data->harga,
+                'total_harga' => $data->jumlah_stok_pengadaan*$data->harga,
+                
+                
             ];
-            $this->db->where('$id_detailpengadaan',$id_detailpengadaan)->update($this->table, $updateData);
+            $this->db->where('id_detailpengadaan',$id_detailpengadaan)->update($this->table, $updateData);
         }
         $this->db->trans_complete();
 
@@ -108,7 +115,7 @@ class DetailPengadaanModel extends CI_Model
         //$transdata = $this->db->get_where('transaksi_produk', ['id_transaksi_produk'=>$id_transaksi_produk])->row();
         $this->db->select_sum('total_harga');
         $this->db->where('no_order', $no_order);
-        $pricedata = $this->db->get('detail_pengadaan')->row();
+        $pricedata = $this->db->get('detailpengadaans')->row();
 
         $updateData = [
             'total' => $pricedata->total_harga
@@ -116,7 +123,7 @@ class DetailPengadaanModel extends CI_Model
         
         $this->db->where('no_order',$no_order)->update('pengadaans', $updateData);
     }
-
+    
     public function destroy($id){
         if (empty($this->db->select('*')->where(array('id_detailpengadaan' => $id))->get($this->table)->row())) 
             return ['msg'=>'Id tidak ditemukan','error'=>true];
@@ -133,7 +140,7 @@ class DetailPengadaanModel extends CI_Model
         $this->updateTotal($data->no_order);
         return ['msg'=>'Id tidak ditemukan','error'=>true];
     }
-
+    
     public function deleteMultiple($request){
         $jsondata = json_decode($request);
 

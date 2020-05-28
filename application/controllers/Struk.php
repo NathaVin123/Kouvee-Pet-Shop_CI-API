@@ -69,7 +69,7 @@ Class Struk extends REST_Controller{
         $total = $dataTransaksi->total;
         $tanggal_lunas = "-";
         $diskon = "0";
-        $tgl = $dataTransaksi->created_at;
+        $tgl = $dataTransaksi->createLog_at;
         if($dataTransaksi->diskon!=null){
             $diskon = $dataTransaksi->diskon;
         }
@@ -223,7 +223,7 @@ Class Struk extends REST_Controller{
         $total = $dataTransaksi->total;
         $tanggal_lunas = "-";
         $diskon = "0";
-        $tgl = $dataTransaksi->created_at;
+        $tgl = $dataTransaksi->createLog_at;
         if($dataTransaksi->diskon!=null){
             $diskon = $dataTransaksi->diskon;
         }
@@ -328,17 +328,17 @@ Class Struk extends REST_Controller{
         $total = "-";
         $total_harga = "-";
 
-        $resultPengadaan = $this->db->get_where('pengadaan_produk', ["no_order" => $param]);
+        $resultPengadaan = $this->db->get_where('pengadaans', ["no_order" => $param]);
         if($resultPengadaan->num_rows()!=0){
             $dataPengadaan = $resultPengadaan->row();
-            $dataDetailPengadaan = $this->db->get_where('detail_pengadaan', ["no_order" => $param])->result();
+            $dataDetailPengadaan = $this->db->get_where('detailpengadaans', ["no_order" => $param])->result();
 
             if($dataPengadaan->id_supplier!=null){
                 $id_supplier = $dataPengadaan->id_supplier;
-                $supplier = $this->db->get_where('supplier', ["id_supplier" => $id_supplier])->row();
-                $nama_supplier = $supplier->nama;
-                $telp_supplier = $supplier->telp;
-                $alamat_supplier = $supplier->alamat;
+                $supplier = $this->db->get_where('suppliers', ["id_supplier" => $id_supplier])->row();
+                $nama_supplier = $supplier->nama_supplier;
+                $telp_supplier = $supplier->telepon_supplier;
+                $alamat_supplier = $supplier->alamat_supplier;
             }
             // if($dataPengadaan->id_produk!=null){
             //     $id_produk = $dataPengadaan->id_produk;
@@ -350,9 +350,9 @@ Class Struk extends REST_Controller{
             $this->returnData("ID Pengadaan Produk tidak ditemukan!",true);
         }
 
-        $total = $dataPengadaan->total;
+        $total = $dataPengadaan->total_harga;
         $no_order = $dataPengadaan->no_order;
-        $tgl = $dataPengadaan->created_at;
+        $tgl = $dataPengadaan->createLog_at;
         
 
         $month_name = array("Januari", "Februari", "Maret","April","Mei","Juni","Juli","Agustus","September","Oktober","November","Desember");
@@ -413,13 +413,13 @@ Class Struk extends REST_Controller{
             {
                 
                 $id_produk = $loop->id_produk;
-                $jumlah = $loop->jumlah;
-                $produk = $this->db->get_where('produk', ["id_produk" => $id_produk])->row();
-                $satuan = $produk->satuan;
+                $jumlah = $loop->jumlah_stok_pengadaan;
+                $produk = $this->db->get_where('produks', ["id_produk" => $id_produk])->row();
+                $satuan = $produk->satuan_produk;
                 $pdf->Cell(10,10,$i,1,0,'C');
-                $pdf->Cell(70,10,$produk->nama,1,0,'L');
+                $pdf->Cell(70,10,$produk->nama_produk,1,0,'L');
                 $pdf->Cell(40,10,$satuan,1,0,'C');
-                $pdf->Cell(60,10,$loop->jumlah,1,1,'C');
+                $pdf->Cell(60,10,$loop->jumlah_stok_pengadaan,1,1,'C');
 
             }
             $i++;

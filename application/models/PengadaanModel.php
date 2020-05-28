@@ -8,8 +8,8 @@ class PengadaanModel extends CI_Model
 
     public $no_order;
     public $id_supplier;
-    public $status_pengadaan;
     public $total_harga;
+    public $status_pengadaan;
     public $createLog_at;
     public $updateLog_at;
 
@@ -32,16 +32,15 @@ class PengadaanModel extends CI_Model
         $next_count = $last_count+1;
         $next_id = 'PO-'.$date_now.'-'.sprintf('%02s', $next_count);
 
-        $this->no_order = $request->no_order;
+        $this->no_order = $next_id;
         $this->id_supplier = $request->id_supplier;
-        $this->status_pengadaan = 'Belum Datang';
         $this->total_harga = $request->total_harga;
-        $this->createLog_at = $request->createLog_at;
-        $this->updateLog_at = $request->updateLog_at;        
+        $this->status_pengadaan = 'Belum Datang';
         if($this->db->insert($this->table, $this)){
-            return ['msg' => 'Berhasil', 'error' => false];
+            //$temp = $this->updateTotal($next_id, $request->diskon);
+            return ['msg'=>$next_id,'error'=>false];
         }
-        return ['msg' => 'Gagal', 'error' => true];
+        return ['msg'=>'Gagal','error'=>true];
     }
 
     public function storeReturnObject($request) { 
@@ -55,12 +54,10 @@ class PengadaanModel extends CI_Model
         $next_count = $last_count+1;
         $next_id = 'PO-'.$date_now.'-'.sprintf('%02s', $next_count);
 
-        $this->no_order = $request->no_order;
+        $this->no_order = $next_id;
         $this->id_supplier = $request->id_supplier;
-        $this->status_pengadaan = 'Belum Datang';
         $this->total_harga = $request->total_harga;
-        $this->createLog_at = $request->createLog_at;
-        $this->updateLog_at = $request->updateLog_at;
+        $this->status_pengadaan = 'Belum Datang';
         if($this->db->insert($this->table, $this)){
             //$temp = $this->updateTotal($next_id, $request->diskon);
             $obj = $this->db->get_where('pengadaans', ["no_order" => $next_id])->row();
@@ -109,7 +106,7 @@ class PengadaanModel extends CI_Model
             $this->db->where(['no_order'=>$no_order, 'status_pengadaan'=> 'Pesanan Diproses'])->update($this->table, $updateData);
             $detail = $this->db->get_where('detailpengadaans', array('no_order' => $no_order))->result();
             foreach ($detail as $item) {
-                $this->tambahStokProduk($item->id_produk,$item->jumlah);
+                $this->tambahStokProduk($item->id_produk,$item->stok_produk);
             }
             $this->db->trans_complete();
 

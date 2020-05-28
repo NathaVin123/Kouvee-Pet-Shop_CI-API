@@ -57,7 +57,7 @@ Class Pengadaan extends REST_Controller{
 
     public function getWithJoin_get() {
         $this->db->select('pengadaans.no_order,pengadaans.id_supplier, pengadaans.total_harga, pengadaans.status_pengadaan,
-                        pengadaans.createdLog_at, pengadaans.updateLog_at, suppliers.nama_supplier "nama_supplier"');
+                        pengadaans.createLog_at, pengadaans.updateLog_at, suppliers.nama_supplier "nama_supplier"');
         $this->db->from('pengadaans');
         $this->db->join('suppliers', 'pengadaans.id_supplier = suppliers.id_supplier');
         $this->db->order_by('pengadaans.no_order ASC');
@@ -89,10 +89,34 @@ Class Pengadaan extends REST_Controller{
     }
 
     public function getMonth_get(){
-        return $this->returnData($this->db->get_where('pengadaans', [date('F',strtotime('createdLog_at')) => date('F',strtotime(date('Y-m-d')))])->result(), false);
+        return $this->returnData($this->db->get_where('pengadaans', [date('F',strtotime('createLog_at')) => date('F',strtotime(date('Y-m-d')))])->result(), false);
     }
 
-    public function index_post($no_order = null){
+    public function index_post(){
+        $validation = $this->form_validation;
+        $rule = $this->PengadaanModel->rules();
+        array_push($rule,
+            [
+                'field' => 'id_supplier',
+                'label' => 'id_supplier',
+                'rules' => 'required'
+            ]
+            
+        );
+        $validation->set_rules($rule);
+		if (!$validation->run()) {
+			return $this->returnData($this->form_validation->error_array(), true);
+        }
+
+        $transaksi = new PengadaanData();
+        $transaksi->id_supplier = $this->post('id_supplier');
+        $transaksi->total_harga = $this->post('total_harga');
+
+        $response = $this->PengadaanModel->store($transaksi);
+        return $this->returnData($response['msg'], $response['error']);
+    }
+
+    public function insertAndGet_post(){
         $validation = $this->form_validation;
         $rule = $this->PengadaanModel->rules();
         array_push($rule,
@@ -103,26 +127,21 @@ Class Pengadaan extends REST_Controller{
             ]
         );
         $validation->set_rules($rule);
-        if(!$validation->run()){
-            return $this->returnData($this->form_validation->error_array(), true);
+		if (!$validation->run()) {
+			return $this->returnData($this->form_validation->error_array(), true);
         }
-        $user = new PengadaanData();
-        $user->no_order = $this->post('no_order');
-        $user->id_supplier = $this->post('id_supplier');
-        $user->status_pengadaan = $this->post('status_pengadaan');
-        $user->total_harga = $this->post('total_harga');
-        if($no_order == null){
-            $response = $this->PengadaanModel->store($user);
-        }
-        else{
-            $response = $this->PengadaanModel->update($user, $no_order);
-        }
+
+        $transaksi = new PengadaanData();
+        $transaksi->id_supplier = $this->post('id_supplier');
+        $transaksi->total_harga = $this->post('total_harga');
+
+        $response = $this->PengadaanModel->storeReturnObject($transaksi);
         return $this->returnData($response['msg'], $response['error']);
     }
 
-    public function update_post($no_order = null){
+    public function update_post($id = null){
         $validation = $this->form_validation;
-        $rule = $this->PengadaanProdukModel->rules();
+        $rule = $this->PengadaanModel->rules();
         array_push($rule,
             [
                 'field' => 'id_supplier',
@@ -135,54 +154,54 @@ Class Pengadaan extends REST_Controller{
 			return $this->returnData($this->form_validation->error_array(), true);
         }
 
-        $transaksi = new PengadaanProdukData();
+        $transaksi = new PengadaanData();
         $transaksi->id_supplier = $this->post('id_supplier');
-        $transaksi->total_harga = $this->post('total_harga');
-        if($no_order == null){
+        $transaksi->total = $this->post('total');
+        if($id == null){
             return $this->returnData('Parameter ID tidak ditemukan', true);
         }
-        $response = $this->PengadaanProdukModel->update($transaksi,$no_order);
+        $response = $this->PengadaanModel->update($transaksi,$id);
         return $this->returnData($response['msg'], $response['error']);
     }
 
-    public function updateStatusToProses_post($no_order = null){
-        $validation = $this->form_validation;
-        $rule = $this->PengadaanProdukModel->rules();
-        $validation->set_rules($rule);
-		if (!$validation->run()) {
-			return $this->returnData($this->form_validation->error_array(), true);
-        }
+    public function updateStatusToProses_post($id = null){
+        // $validation = $this->form_validation;
+        // $rule = $this->PengadaanModel->rules();
+        // $validation->set_rules($rule);
+		// if (!$validation->run()) {
+		// 	return $this->returnData($this->form_validation->error_array(), true);
+        // }
 
-        $transaksi = new PengadaanProdukData();
-        if($no_order == null){
+        $transaksi = new PengadaanData();
+        if($id == null){
             return $this->returnData('Parameter ID tidak ditemukan', true);
         }
-        $response = $this->PengadaanProdukModel->updateStatusToProses($transaksi,$no_order);
+        $response = $this->PengadaanModel->updateStatusToProses($transaksi,$id);
         return $this->returnData($response['msg'], $response['error']);
     }
 
-    public function updateStatusToSelesai_post($no_order = null){
-        $validation = $this->form_validation;
-        $rule = $this->PengadaanProdukModel->rules();
-        $validation->set_rules($rule);
-		if (!$validation->run()) {
-			return $this->returnData($this->form_validation->error_array(), true);
-        }
+    public function updateStatusToSelesai_post($id = null){
+        // $validation = $this->form_validation;
+        // $rule = $this->PengadaanModel->rules();
+        // $validation->set_rules($rule);
+		// if (!$validation->run()) {
+		// 	return $this->returnData($this->form_validation->error_array(), true);
+        // }
 
-        $transaksi = new PengadaanProdukData();
-        $transaksi->modified_by = $this->post('modified_by');
-        if($no_order == null){
+        $transaksi = new PengadaanData();
+        // $transaksi->modified_by = $this->post('modified_by');
+        if($id == null){
             return $this->returnData('Parameter ID tidak ditemukan', true);
         }
-        $response = $this->PengadaanProdukModel->updateStatusToSelesai($transaksi,$no_order);
+        $response = $this->PengadaanModel->updateStatusToSelesai($transaksi,$id);
         return $this->returnData($response['msg'], $response['error']);
     }
 
-    public function index_delete($no_order = null){
-        if($no_order == null){
+    public function index_delete($id = null){
+        if($id == null){
             return $this->returnData('Parameter Id Tidak Ditemukan', true);
         }
-        $response = $this->PengadaanModel->destroy($no_order);
+        $response = $this->PengadaanModel->destroy($id);
         return $this->returnData($response['msg'], $response['error']);
     }
 
@@ -230,9 +249,9 @@ Class Pengadaan extends REST_Controller{
         }
 
         $month_name = array("Januari", "Februari", "Maret","April","Mei","Juni","Juli","Agustus","September","Oktober","November","Desember");
-        $tanggal_dibuat = date("j",strtotime($pengadaan_produk_data->created_at))." ".
-                            $month_name[date("n",strtotime($pengadaan_produk_data->created_at))-1]." ".
-                            date("Y",strtotime($pengadaan_produk_data->created_at));
+        $tanggal_dibuat = date("j",strtotime($pengadaan_produk_data->createLog_at))." ".
+                            $month_name[date("n",strtotime($pengadaan_produk_data->createLog_at))-1]." ".
+                            date("Y",strtotime($pengadaan_produk_data->createLog_at));
         $tanggal_cetak = date("j")." ".$month_name[date("n")-1]." ".date("Y");
 
         $pdf->Image(APPPATH.'controllers/PDF/Logo/kouvee.png',10,10,-200);
