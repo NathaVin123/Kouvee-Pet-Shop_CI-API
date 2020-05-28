@@ -217,8 +217,8 @@ Class Pegawai extends REST_Controller{
         $rule = $this->PegawaiModel->rules();
         array_push($rule,
             [
-                'field' => '',
-                'label' => 'updateLog_by',
+                'field' => 'nama_pegawai',
+                'label' => 'nama_pegawai',
                 'rules' => 'required'
             ],
             [
