@@ -217,8 +217,8 @@ Class Pegawai extends REST_Controller{
         $rule = $this->PegawaiModel->rules();
         array_push($rule,
             [
-                'field' => 'NIP',
-                'label' => 'NIP',
+                'field' => '',
+                'label' => 'updateLog_by',
                 'rules' => 'required'
             ],
             [
@@ -232,11 +232,11 @@ Class Pegawai extends REST_Controller{
             return $this->returnData($this->form_validation->error_array(), true);
         }        
 
-        $user = new PegawaiData();
-        $user->NIP = $this->post('NIP');
-        $user->password = $this->post('password');
+        $pegawai = new PegawaiData();
+        $pegawai->nama_pegawai = $this->post('nama_pegawai');
+        $pegawai->password = $this->post('password');
 
-        $response = $this->PegawaiModel->verify($user);
+        $response = $this->PegawaiModel->verify($pegawai);
         return $this->returnData($response['msg'], $response['error']);
     }
 
