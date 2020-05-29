@@ -24,11 +24,11 @@ Class Struk extends REST_Controller{
         $dataDetailTransaksi = null;
 
         $nama_kasir = "-";
-        $nama_cs = "-";
-        $nama_jenisHewan = "-";
+        $nama_customer_service = "-";
+        $nama_jenis_hewan = "-";
         $nama_hewan = "Guest";
-        $nama_customer = "Guest";
-        $noTelp = "-";
+        $nama_pelanggan = "Guest";
+        $no_telp = "-";
 
         $resultTransaksi = $this->db->get_where('transaksipenjualanlayanans', ["kode_penjualan_layanan" => $param]);
         if($resultTransaksi->num_rows()!=0){
@@ -38,27 +38,27 @@ Class Struk extends REST_Controller{
             
             if($dataTransaksi->id_kasir!=null){
                 $id_kasir = $dataTransaksi->id_kasir;
-                $kasir = $this->db->get_where('pegawais', ["id_pegawai" => $id_kasir])->row();
-                $nama_kasir = $kasir->nama;
+                $kasir = $this->db->get_where('pegawais', ["NIP" => $id_kasir])->row();
+                $nama_kasir = $kasir->nama_pegawai;
             }
             if($dataTransaksi->id_cs!=null){
                 $id_cs = $dataTransaksi->id_cs;
-                $customer_service = $this->db->get_where('pegawais', ["id_pegawai" => $id_cs])->row();
-                $nama_cs = $customer_service->nama;
+                $customer_service = $this->db->get_where('pegawais', ["NIP" => $id_cs])->row();
+                $nama_customer_service = $customer_service->nama_pegawai;
             }
             if($dataTransaksi->id_hewan!=null){
                 $id_hewan = $dataTransaksi->id_hewan;
-                $hewan = $this->db->get_where('hewan', ["id_hewan" => $id_hewan])->row();
+                $hewan = $this->db->get_where('hewans', ["id_hewan" => $id_hewan])->row();
                 $id_customer = $hewan->id_customer;
                 $id_jenisHewan = $hewan->id_jenisHewan;
 
-                $jenisHewans = $this->db->get_where('jenisHewans', ["id_jenisHewan" => $id_jenisHewan])->row();
-                $customers = $this->db->get_where('customers', ["id_customer" => $id_customer])->row();
+                $jenis_hewan = $this->db->get_where('jenishewans', ["id_jenisHewan" => $id_jenisHewan])->row();
+                $pelanggan = $this->db->get_where('customers', ["id_customer" => $id_customer])->row();
 
-                $nama_jenisHewan = $jenisHewans->nama;
-                $nama_hewan = $hewan->nama;
-                $nama_customer = $customers->nama;
-                $noTelp = $customers->telp;
+                $nama_jenis_hewan = $jenis_hewan->nama_jenisHewan;
+                $nama_hewan = $hewan->nama_hewan;
+                $nama_pelanggan = $pelanggan->nama_customer;
+                $no_telp = $pelanggan->noTelp_customer;
             }
         }else{
             $this->returnData("ID Transaksi Layanan tidak ditemukan!",true);
@@ -103,16 +103,16 @@ Class Struk extends REST_Controller{
         $pdf->Cell(10,10,'',0,1);
         $pdf->Cell(45,6,'Kasir  ',0,0);
         $pdf->Cell(45,6,':  '.$nama_kasir,0,1);
-        $pdf->Cell(45,6,'Customers Service ',0,0);
-        $pdf->Cell(45,6,':  '.$nama_cs,0,1);
+        $pdf->Cell(45,6,'Customer Service ',0,0);
+        $pdf->Cell(45,6,':  '.$nama_customer_service,0,1);
         $pdf->Cell(45,6,'Member  ',0,0);
-        $pdf->Cell(45,6,':  '.$nama_customer,0,1);
+        $pdf->Cell(45,6,':  '.$nama_pelanggan,0,1);
         $pdf->Cell(45,6,'Telp  ',0,0);
-        $pdf->Cell(45,6,':  '.$noTelp,0,1);
+        $pdf->Cell(45,6,':  '.$no_telp,0,1);
         $pdf->Cell(45,6,'Nama Hewan  ',0,0);
-        $pdf->Cell(45,6,':  '.$nama_hewan.' - '.'('.$nama_jenisHewan.')',0,1);
+        $pdf->Cell(45,6,':  '.$nama_hewan.' - '.'('.$nama_jenis_hewan.')',0,1);
         // $pdf->Cell(30,6,$alamat_supplier,0,1);
-        // $pdf->Cell(30,6,$noTelp,0,1);
+        // $pdf->Cell(30,6,$no_telp,0,1);
         $pdf->Cell(10,10,'',0,1);
         $pdf->Cell(70);
         $pdf->SetFont('Arial','B',14);
@@ -135,7 +135,7 @@ Class Struk extends REST_Controller{
 
                 $id_harga_layanan = $loop->id_harga_layanan;
                 $harga_layanan = $this->db->get_where('harga_layanan', ["id_harga_layanan" => $id_harga_layanan])->row();
-                $harga = $harga_layanan->harga;
+                $harga = $harga_layanan->harga_;
                 $id_layanan = $harga_layanan->id_layanan;
                 $layanan = $this->db->get_where('layanan', ["id_layanan" => $id_layanan])->row();
                 $nama_layanan = $layanan->nama;
@@ -179,47 +179,47 @@ Class Struk extends REST_Controller{
         $dataDetailTransaksi = null;
 
         $nama_kasir = "-";
-        $nama_cs = "-";
-        $nama_jenisHewan = "-";
+        $nama_customer_service = "-";
+        $nama_jenis_hewan = "-";
         $nama_hewan = "Guest";
-        $nama_customer = "Guest";
-        $noTelp = "-";
+        $nama_pelanggan = "Guest";
+        $no_telp = "-";
 
-        $resultTransaksi = $this->db->get_where('transaksi_produk', ["id_transaksi_produk" => $param]);
+        $resultTransaksi = $this->db->get_where('transaksipenjualanproduks', ["kode_penjualan_produk" => $param]);
         if($resultTransaksi->num_rows()!=0){
             $dataTransaksi = $resultTransaksi->row();
-            $dataDetailTransaksi = $this->db->get_where('detail_transaksi_produk', ["id_transaksi_produk" => $param])->result();
+            $dataDetailTransaksi = $this->db->get_where('detailtransaksiproduks', ["kode_penjualan_produk" => $param])->result();
 
             if($dataTransaksi->id_kasir!=null){
                 $id_kasir = $dataTransaksi->id_kasir;
-                $kasir = $this->db->get_where('pegawais', ["id_pegawai" => $id_kasir])->row();
-                $nama_kasir = $kasir->nama;
+                $kasir = $this->db->get_where('pegawais', ["NIP" => $id_kasir])->row();
+                $nama_kasir = $kasir->nama_pegawai;
             }
             if($dataTransaksi->id_cs!=null){
                 $id_cs = $dataTransaksi->id_cs;
-                $customer_service = $this->db->get_where('pegawais', ["id_pegawai" => $id_cs])->row();
-                $nama_cs = $customer_service->nama;
+                $customer_service = $this->db->get_where('pegawais', ["NIP" => $id_cs])->row();
+                $nama_customer_service = $customer_service->nama_pegawai;
             }
             if($dataTransaksi->id_hewan!=null){
                 $id_hewan = $dataTransaksi->id_hewan;
-                $hewan = $this->db->get_where('hewan', ["id_hewan" => $id_hewan])->row();
+                $hewan = $this->db->get_where('hewans', ["id_hewan" => $id_hewan])->row();
                 $id_customer = $hewan->id_customer;
                 $id_jenisHewan = $hewan->id_jenisHewan;
 
-                $jenisHewans = $this->db->get_where('jenisHewans', ["id_jenisHewan" => $id_jenisHewan])->row();
-                $customers = $this->db->get_where('customers', ["id_customer" => $id_customer])->row();
+                $jenis_hewan = $this->db->get_where('jenishewans', ["id_jenisHewan" => $id_jenisHewan])->row();
+                $pelanggan = $this->db->get_where('customers', ["id_customer" => $id_customer])->row();
 
-                $nama_jenisHewan = $jenisHewans->nama;
-                $nama_hewan = $hewan->nama;
-                $nama_customer = $customers->nama;
-                $noTelp = $customers->telp;
+                $nama_jenis_hewan = $jenis_hewan->nama_jenisHewan;
+                $nama_hewan = $hewan->nama_hewan;
+                $nama_pelanggan = $pelanggan->nama_customer;
+                $no_telp = $pelanggan->noTelp_customer;
             }
         }else{
             $this->returnData("ID Transaksi Produk tidak ditemukan!",true);
         }
 
         $subtotal = $dataTransaksi->subtotal;
-        $id_transaksi = $dataTransaksi->id_transaksi_produk;
+        $id_transaksi = $dataTransaksi->kode_penjualan_produk;
         $total = $dataTransaksi->total;
         $tanggal_lunas = "-";
         $diskon = "0";
@@ -257,16 +257,16 @@ Class Struk extends REST_Controller{
         $pdf->Cell(10,10,'',0,1);
         $pdf->Cell(45,6,'Kasir  ',0,0);
         $pdf->Cell(45,6,':  '.$nama_kasir,0,1);
-        $pdf->Cell(45,6,'Customers Service ',0,0);
-        $pdf->Cell(45,6,':  '.$nama_cs,0,1);
+        $pdf->Cell(45,6,'Customer Service ',0,0);
+        $pdf->Cell(45,6,':  '.$nama_customer_service,0,1);
         $pdf->Cell(45,6,'Member  ',0,0);
-        $pdf->Cell(45,6,':  '.$nama_customer,0,1);
+        $pdf->Cell(45,6,':  '.$nama_pelanggan,0,1);
         $pdf->Cell(45,6,'Telp  ',0,0);
-        $pdf->Cell(45,6,':  '.$noTelp,0,1);
+        $pdf->Cell(45,6,':  '.$no_telp,0,1);
         $pdf->Cell(45,6,'Nama Hewan  ',0,0);
-        $pdf->Cell(45,6,':  '.$nama_hewan.'-'.'('.$nama_jenisHewan.')',0,1);
+        $pdf->Cell(45,6,':  '.$nama_hewan.'-'.'('.$nama_jenis_hewan.')',0,1);
         // $pdf->Cell(30,6,$alamat_supplier,0,1);
-        // $pdf->Cell(30,6,$noTelp,0,1);
+        // $pdf->Cell(30,6,$no_telp,0,1);
         $pdf->Cell(10,10,'',0,1);
         $pdf->Cell(70);
         $pdf->SetFont('Arial','B',14);
@@ -283,15 +283,15 @@ Class Struk extends REST_Controller{
         $i = 1;
 
         foreach ($dataDetailTransaksi as $loop){
-            if($loop->id_transaksi_produk == $dataTransaksi->id_transaksi_produk)
+            if($loop->kode_penjualan_produk == $dataTransaksi->kode_penjualan_produk)
             {
                 
-                $id_produk = $loop->id_produk;
-                $produk = $this->db->get_where('produk', ["id_produk" => $id_produk])->row();
+                $id_produk = $loop->id_produkHarga;
+                $produk = $this->db->get_where('produks', ["id_produk" => $id_produk])->row();
                 $pdf->Cell(10,10,$i,1,0,'C');
-                $pdf->Cell(70,10,$produk->nama,1,0,'L');
-                $pdf->Cell(40,10,'Rp '.$produk->harga,1,0,'C');
-                $pdf->Cell(20,10,$loop->jumlah,1,0,'C');
+                $pdf->Cell(70,10,$produk->nama_produk,1,0,'L');
+                $pdf->Cell(40,10,'Rp '.$produk->harga_produk,1,0,'C');
+                $pdf->Cell(20,10,$loop->jml_transaksi_produk,1,0,'C');
                 $pdf->Cell(40,10,'Rp '.$loop->total_harga,1,1,'C');
             }
             $i++;
