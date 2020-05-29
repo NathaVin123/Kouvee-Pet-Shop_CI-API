@@ -37,11 +37,12 @@ Class Laporan extends REST_Controller{
         $cekNama = array();
         $bulan = explode("-", $param);
         $data = "SELECT pengadaans.no_order , pengadaans.total_harga  from pengadaans
-        WHERE month(pengadaans.createdLog_at)=? AND year(pengadaans.createdLog_at)=? AND pengadaans.status_pengadaan = 'Pesanan Selesai'
+        WHERE month(pengadaans.createLog_at)=? AND year(pengadaans.createLog_at)=? AND pengadaans.status_pengadaan = 'Pesanan Selesai'
         GROUP BY pengadaans.no_order";
         $hasil = $this->db->query($data,[$bulan[1],$bulan[0]])->result();
         $detailPengadaan = "SELECT produks.nama_produk, detailpengadaans.total_harga from detailpengadaans
-                INNER JOIN produks USING(id_produk)
+                INNER JOIN produkHargas USING(id_produkHarga)
+                INNER JOIN produks USING (id_produk) 
                 WHERE detailpengadaans.no_order = ?
                 GROUP BY produks.nama_produk";
         for($k = 0;$k <sizeof($hasil); $k++ ){
@@ -290,7 +291,8 @@ Class Laporan extends REST_Controller{
         WHERE  year(transaksipenjualanproduks.createLog_at)=? AND transaksipenjualanproduks.status_transaksi = 'Lunas'
         GROUP BY transaksipenjualanproduks.kode_penjualan_produk";
         $hasil = $this->db->query($data,[$param])->result();
-        $detailTransaksi = "SELECT produks.nama_produk, detailtransaksiproduks.total_harga, detailtransaksiproduks.jumlah,month(detailtransaksiproduks.createLog_at) as 'bulan' from detailtransaksiproduks
+        $detailTransaksi = "SELECT produks.nama_produk, detailtransaksiproduks.total_harga, detailtransaksiproduks.jml_transaksi_produk,month(detailtransaksiproduks.createLog_at) as 'bulan' from detailtransaksiproduks
+                INNER JOIN produkhargas USING(id_produkHarga)
                 INNER JOIN produks USING(id_produk)
                 WHERE detailtransaksiproduks.kode_penjualan_produk = ?
                 GROUP BY produks.nama_produk";
@@ -542,16 +544,16 @@ Class Laporan extends REST_Controller{
         $hasilProduk = $this->db->query($dataProduk,[$bulan[1],$bulan[0]])->result();
 
 
-        $dataLayanan = "SELECT transaksipenjualanpalayanans.kode_penjualan_layanan , transaksipenjualanpalayanans.total  from transaksipenjualanpalayanans
-        WHERE month(transaksipenjualanpalayanans.createLog_at)=? AND year(transaksipenjualanpalayanans.createLog_at)=? AND transaksipenjualanpalayanans.status_transaksi = 'Lunas'
-        GROUP BY transaksipenjualanpalayanans.kode_penjualan_layanan";
+        $dataLayanan = "SELECT transaksipenjualanlayanans.kode_penjualan_layanan , transaksipenjualanlayanans.total  from transaksipenjualanlayanans
+        WHERE month(transaksipenjualanlayanans.createLog_at)=? AND year(transaksipenjualanlayanans.createLog_at)=? AND transaksipenjualanlayanans.status_transaksi = 'Lunas'
+        GROUP BY transaksipenjualanlayanans.kode_penjualan_layanan";
         $hasilLayanan = $this->db->query($dataLayanan,[$bulan[1],$bulan[0]])->result();
       
 
-        $detailProduk = "SELECT produks.nama, detailtransaksiproduks.total_harga from detailtransaksiproduks
+        $detailProduk = "SELECT produks.nama_produk, detailtransaksiproduks.total_harga from detailtransaksiproduks
                 INNER JOIN produks USING(id_produk)
                 WHERE detailtransaksiproduks.kode_penjualan_produk = ?
-                GROUP BY produks.nama";
+                GROUP BY produks.nama_produk";
         for($k = 0;$k <sizeof($hasilProduk); $k++ ){
                 $hasilProduk2[$k] = $this->db->query($detailProduk,[$hasilProduk[$k]->kode_penjualan_produk])->result();
             }
@@ -1115,9 +1117,9 @@ Class Laporan extends REST_Controller{
         $hasilProduk = $this->db->query($dataProduk,[$bulan[0]])->result();
         // print_r($hasilProduk);
 
-        $dataLayanan = "SELECT transaksipenjualanpalayanans.kode_penjualan_layanan , transaksipenjualanpalayanans.total, month(transaksipenjualanpalayanans.createLog_at) as 'bulan'  from transaksipenjualanpalayanans
-        WHERE year(transaksipenjualanpalayanans.createLog_at)=? AND transaksipenjualanpalayanans.status_transaksi = 'Lunas'
-        GROUP BY transaksipenjualanpalayanans.kode_penjualan_layanan";
+        $dataLayanan = "SELECT transaksipenjualanlayanans.kode_penjualan_layanan , transaksipenjualanlayanans.total, month(transaksipenjualanlayanans.createLog_at) as 'bulan'  from transaksipenjualanlayanans
+        WHERE year(transaksipenjualanlayanans.createLog_at)=? AND transaksipenjualanlayanans.status_transaksi = 'Lunas'
+        GROUP BY transaksipenjualanlayanans.kode_penjualan_layanan";
         $hasilLayanan = $this->db->query($dataLayanan,[$bulan[0]])->result();
         
 
