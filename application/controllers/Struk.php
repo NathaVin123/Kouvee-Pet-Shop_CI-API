@@ -133,21 +133,21 @@ Class Struk extends REST_Controller{
             if($loop->kode_penjualan_layanan == $dataTransaksi->kode_penjualan_layanan)
             {
 
-                $id_harga_layanan = $loop->id_harga_layanan;
-                $harga_layanan = $this->db->get_where('harga_layanan', ["id_harga_layanan" => $id_harga_layanan])->row();
-                $harga = $harga_layanan->harga_;
+                $id_harga_layanan = $loop->id_layananHarga;
+                $harga_layanan = $this->db->get_where('layananhargas', ["id_layananHarga" => $id_harga_layanan])->row();
+                $harga = $harga_layanan->harga;
                 $id_layanan = $harga_layanan->id_layanan;
-                $layanan = $this->db->get_where('layanan', ["id_layanan" => $id_layanan])->row();
-                $nama_layanan = $layanan->nama;
-                $id_ukuran_hewan = $harga_layanan->id_ukuran_hewan;
-                $ukuran = $this->db->get_where('ukuran_hewan', ["id_ukuran_hewan" => $id_ukuran_hewan])->row();
-                $nama_ukuran = $ukuran->nama;       
+                $layanan = $this->db->get_where('layanans', ["id_layanan" => $id_layanan])->row();
+                $nama_layanan = $layanan->nama_layanan;
+                $id_ukuran_hewan = $harga_layanan->id_ukuranHewan;
+                $ukuran = $this->db->get_where('ukuranhewans', ["id_ukuranHewan" => $id_ukuran_hewan])->row();
+                $nama_ukuran = $ukuran->nama_ukuranHewan;       
                 
                 $pdf->Cell(10,10,$i,1,0,'C');
-                $pdf->Cell(55,10,$layanan->nama,1,0,'C');
-                $pdf->Cell(35,10,$ukuran->nama,1,0,'C');
+                $pdf->Cell(55,10,$layanan->nama_layanan,1,0,'C');
+                $pdf->Cell(35,10,$ukuran->nama_ukuranHewan,1,0,'C');
                 $pdf->Cell(30,10,'Rp '.$harga_layanan->harga,1,0,'C');
-                $pdf->Cell(20,10,$loop->jumlah,1,0,'C');
+                $pdf->Cell(20,10,$loop->jml_transaksi_layanan,1,0,'C');
                 $pdf->Cell(30,10,'Rp '.$loop->total_harga,1,1,'C');
             }
             $i++;
