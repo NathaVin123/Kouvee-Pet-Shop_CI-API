@@ -1080,6 +1080,7 @@ Class Laporan extends REST_Controller{
       
 
         $detailProduk = "SELECT produks.nama_produk, detailtransaksiproduks.total_harga from detailtransaksiproduks
+                JOIN produkhargas USING(id_produkHarga)
                 INNER JOIN produks USING(id_produk)
                 WHERE detailtransaksiproduks.kode_penjualan_produk = ?
                 GROUP BY produks.nama_produk";
@@ -1088,11 +1089,11 @@ Class Laporan extends REST_Controller{
             }
            
 
-        $detailLayanan = "SELECT layanans.nama, detailtransaksilayanans.total_harga from detailtransaksilayanans
-                JOIN harga_layanan USING(id_harga_layanan)
+        $detailLayanan = "SELECT layanans.nama_layanan, detailtransaksilayanans.total_harga from detailtransaksilayanans
+                JOIN layananhargas USING(id_layananHarga)
                 INNER JOIN layanans USING(id_layanan)
                 WHERE detailtransaksilayanans.kode_penjualan_layanan = ?
-                GROUP BY layanans.nama";
+                GROUP BY layanans.nama_layanan";
         for($k = 0;$k <sizeof($hasilLayanan); $k++ ){
                 $hasilLayanan2[$k] = $this->db->query($detailLayanan,[$hasilLayanan[$k]->kode_penjualan_layanan])->result();
             }
@@ -1110,7 +1111,7 @@ Class Laporan extends REST_Controller{
                     }
                 for($o = 0; $o<count($produks);$o++){
                         for($p = $o +1; $p<count($produks); $p++){
-                            if($produks[$o]->nama == $produks[$p]->nama){
+                            if($produks[$o]->nama_produk == $produks[$p]->nama_produk){
                                 $produks[$o]->total_harga = $produks[$o]->total_harga + $produks[$p]->total_harga;
                                 \array_splice($produks, $p, 1);
                             }
@@ -1131,7 +1132,7 @@ Class Laporan extends REST_Controller{
                 
                 for($o = 0; $o<count($layanans);$o++){
                     for($p = $o +1; $p<count($layanans); $p++){
-                        if($layanans[$o]->nama == $layanans[$p]->nama){
+                        if($layanans[$o]->nama_layanan == $layanans[$p]->nama_layanan){
                             $layanans[$o]->total_harga = $layanans[$o]->total_harga + $layanans[$p]->total_harga;
                             \array_splice($layanans, $p, 1);
                         }
@@ -1202,7 +1203,7 @@ Class Laporan extends REST_Controller{
         
                 foreach ($produks as $loop){
                         $pdf->Cell(10,10,$i,1,0,'C');
-                        $pdf->Cell(85,10,$loop->nama,1,0,'L');
+                        $pdf->Cell(85,10,$loop->nama_produk,1,0,'L');
                         $pdf->Cell(85,10,'Rp  '.number_format($loop->total_harga,2),1,1,'L');     
                     $i++;
                 }
@@ -1222,7 +1223,7 @@ Class Laporan extends REST_Controller{
         
                 foreach ($layanans as $loop){
                         $pdf->Cell(10,10,$i,1,0,'C');
-                        $pdf->Cell(85,10,$loop->nama,1,0,'L');
+                        $pdf->Cell(85,10,$loop->nama_layanan,1,0,'L');
                         $pdf->Cell(85,10,'Rp  '.number_format($loop->total_harga,2),1,1,'L');     
                     $i++;
                 }
@@ -1242,7 +1243,7 @@ Class Laporan extends REST_Controller{
                     }
                 for($o = 0; $o<count($produks);$o++){
                         for($p = $o +1; $p<count($produks); $p++){
-                            if($produks[$o]->nama == $produks[$p]->nama){
+                            if($produks[$o]->nama_produk == $produks[$p]->nama_produk){
                                 $produks[$o]->total_harga = $produks[$o]->total_harga + $produks[$p]->total_harga;
                                 \array_splice($produks, $p, 1);
                             }
