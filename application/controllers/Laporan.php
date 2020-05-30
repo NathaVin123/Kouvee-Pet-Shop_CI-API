@@ -41,7 +41,7 @@ Class Laporan extends REST_Controller{
         GROUP BY pengadaans.no_order";
         $hasil = $this->db->query($data,[$bulan[1],$bulan[0]])->result();
         $detailPengadaan = "SELECT produks.nama_produk, detailpengadaans.total_harga from detailpengadaans
-                INNER JOIN produkHargas USING(id_produkHarga)
+                -- INNER JOIN produkHargas USING(id_produkHarga)
                 INNER JOIN produks USING (id_produk) 
                 WHERE detailpengadaans.no_order = ?
                 GROUP BY produks.nama_produk";
@@ -67,7 +67,7 @@ Class Laporan extends REST_Controller{
                     }
                 }
                 for($q = 0; $q< count($hasil); $q++){
-                    $totalPengeluaran = $totalPengeluaran + $hasil[$q]->total;
+                    $totalPengeluaran = $totalPengeluaran + $hasil[$q]->total_harga;
                 }
                 
                 $tgl = $bulan[1];
