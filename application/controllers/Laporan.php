@@ -536,7 +536,7 @@ Class Laporan extends REST_Controller{
         $totalProduk = 0;
         $totalLayanan = 0;
         $produks = array();
-        $layanan = array();
+        $layanans = array();
         $bulan = explode("-", $param);
         $dataProduk = "SELECT transaksipenjualanproduks.kode_penjualan_produk , transaksipenjualanproduks.total  from transaksipenjualanproduks
         WHERE month(transaksipenjualanproduks.createLog_at)=? AND year(transaksipenjualanproduks.createLog_at)=? AND transaksipenjualanproduks.status_transaksi = 'Lunas'
@@ -559,11 +559,11 @@ Class Laporan extends REST_Controller{
             }
            
 
-        $detailLayanan = "SELECT layanan.nama, detailtransaksilayanans.total_harga from detailtransaksilayanans
+        $detailLayanan = "SELECT layanans.nama, detailtransaksilayanans.total_harga from detailtransaksilayanans
                 JOIN harga_layanan USING(id_harga_layanan)
-                INNER JOIN layanan USING(id_layanan)
+                INNER JOIN layanans USING(id_layanan)
                 WHERE detailtransaksilayanans.kode_penjualan_layanan = ?
-                GROUP BY layanan.nama";
+                GROUP BY layanans.nama";
         for($k = 0;$k <sizeof($hasilLayanan); $k++ ){
                 $hasilLayanan2[$k] = $this->db->query($detailLayanan,[$hasilLayanan[$k]->kode_penjualan_layanan])->result();
             }
@@ -595,16 +595,16 @@ Class Laporan extends REST_Controller{
                     for($m = 0 ; $m < count($hasilLayanan2) ; $m++){
                         if(isset($hasilLayanan2[$l][$m])){
         
-                            array_push($layanan,$hasilLayanan2[$l][$m]); 
+                            array_push($layanans,$hasilLayanan2[$l][$m]); 
                         }
                         }
                     }
                 
-                for($o = 0; $o<count($layanan);$o++){
-                    for($p = $o +1; $p<count($layanan); $p++){
-                        if($layanan[$o]->nama == $layanan[$p]->nama){
-                            $layanan[$o]->total_harga = $layanan[$o]->total_harga + $layanan[$p]->total_harga;
-                            \array_splice($layanan, $p, 1);
+                for($o = 0; $o<count($layanans);$o++){
+                    for($p = $o +1; $p<count($layanans); $p++){
+                        if($layanans[$o]->nama == $layanans[$p]->nama){
+                            $layanans[$o]->total_harga = $layanans[$o]->total_harga + $layanans[$p]->total_harga;
+                            \array_splice($layanans, $p, 1);
                         }
                     }
                 }
@@ -691,7 +691,7 @@ Class Laporan extends REST_Controller{
                 $pdf->SetFont('Arial','',10);
                 $i = 1;
         
-                foreach ($layanan as $loop){
+                foreach ($layanans as $loop){
                         $pdf->Cell(10,10,$i,1,0,'C');
                         $pdf->Cell(85,10,$loop->nama,1,0,'L');
                         $pdf->Cell(85,10,'Rp  '.number_format($loop->total_harga,2),1,1,'L');     
@@ -822,16 +822,16 @@ Class Laporan extends REST_Controller{
                     for($m = 0 ; $m < count($hasilLayanan2) ; $m++){
                         if(isset($hasilLayanan2[$l][$m])){
         
-                            array_push($layanan,$hasilLayanan2[$l][$m]); 
+                            array_push($layanans,$hasilLayanan2[$l][$m]); 
                         }
                         }
                     }
                 
-                for($o = 0; $o<count($layanan);$o++){
-                    for($p = $o +1; $p<count($layanan); $p++){
-                        if($layanan[$o]->nama == $layanan[$p]->nama){
-                            $layanan[$o]->total_harga = $layanan[$o]->total_harga + $layanan[$p]->total_harga;
-                            \array_splice($layanan, $p, 1);
+                for($o = 0; $o<count($layanans);$o++){
+                    for($p = $o +1; $p<count($layanans); $p++){
+                        if($layanans[$o]->nama == $layanans[$p]->nama){
+                            $layanans[$o]->total_harga = $layanans[$o]->total_harga + $layanans[$p]->total_harga;
+                            \array_splice($layanans, $p, 1);
                         }
                     }
                 }
@@ -916,7 +916,7 @@ Class Laporan extends REST_Controller{
                 $pdf->SetFont('Arial','',10);
                 $i = 1;
         
-                foreach ($layanan as $loop){
+                foreach ($layanans as $loop){
                         $pdf->Cell(10,10,$i,1,0,'C');
                         $pdf->Cell(85,10,$loop->nama,1,0,'L');
                         $pdf->Cell(85,10,'Rp  '.number_format($loop->total_harga,2),1,1,'L');     
@@ -1109,7 +1109,7 @@ Class Laporan extends REST_Controller{
         $sub12 = 0;
         $total = 0;
         $produks = array();
-        $layanan = array();
+        $layanans = array();
         $bulan = explode("-", $param);
         $dataProduk = "SELECT transaksipenjualanproduks.kode_penjualan_produk , transaksipenjualanproduks.total, month(transaksipenjualanproduks.createLog_at) as 'bulan'  from transaksipenjualanproduks 
         WHERE year(transaksipenjualanproduks.createLog_at)=? AND transaksipenjualanproduks.status_transaksi = 'Lunas'
