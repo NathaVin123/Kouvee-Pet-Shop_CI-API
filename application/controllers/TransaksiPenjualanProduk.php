@@ -178,7 +178,7 @@ Class TransaksiPenjualanProduk extends REST_Controller{
                         transaksipenjualanproduks.updateLog_at');
         $this->db->from('transaksipenjualanproduks');
         $this->db->join('hewans', 'transaksipenjualanproduks.id_hewan = hewans.id_hewan', 'left outer');
-         $this->db->join('jenishewans', 'hewans.id_jenisHewan = jenishewans.id_jenisHewan', 'left');
+        $this->db->join('jenishewans', 'hewans.id_jenisHewan = jenishewans.id_jenisHewan', 'left');
         $this->db->join('customers', 'hewans.id_customer = customers.id_customer', 'left');
         $this->db->order_by('transaksipenjualanproduks.kode_penjualan_produk ASC');
         return $this->returnData($this->db->get()->result(), false);
@@ -189,7 +189,7 @@ Class TransaksiPenjualanProduk extends REST_Controller{
     }
 
     public function waitingPayment_get(){
-        return $this->returnData($this->db->get_where('transaksipenjualanproduks', ["status_transaksi" => 'Belum Selesai'])->result(), false);
+        return $this->returnData($this->db->get_where('transaksipenjualanproduks', ["status_transaksi" => 'Menunggu Pembayaran'])->result(), false);
     }
 
     public function paidOff_get(){
@@ -202,7 +202,7 @@ Class TransaksiPenjualanProduk extends REST_Controller{
 
     public function index_post(){
         $validation = $this->form_validation;
-        $rule = $this->TransaksiProdukModel->rules();
+        $rule = $this->TransaksiPenjualanProdukModel->rules();
         array_push($rule,
             [
                 'field' => 'id_cs',
@@ -220,20 +220,20 @@ Class TransaksiPenjualanProduk extends REST_Controller{
 			return $this->returnData($this->form_validation->error_array(), true);
         }
 
-        $user = new TransaksiProdukData();
+        $user = new TransaksiPenjualanProdukData();
         $user->id_cs = $this->post('id_cs');
         $user->id_hewan = $this->post('id_hewan');
         $user->subtotal = $this->post('subtotal');
         $user->diskon = $this->post('diskon');
         $user->total = $this->post('total');
 
-        $response = $this->TransaksiProdukModel->store($user);
+        $response = $this->TransaksiPenjualanProdukModel->store($user);
         return $this->returnData($response['msg'], $response['error']);
     }
 
     public function insertAndGet_post(){
         $validation = $this->form_validation;
-        $rule = $this->TransaksiProdukModel->rules();
+        $rule = $this->TransaksiPenjualanProdukModel->rules();
         array_push($rule,
             [
                 'field' => 'id_cs',
@@ -251,7 +251,7 @@ Class TransaksiPenjualanProduk extends REST_Controller{
 			return $this->returnData($this->form_validation->error_array(), true);
         }
 
-        $user = new TransaksiProdukData();
+        $user = new TransaksiPenjualanProdukData();
         $user->id_cs = $this->post('id_cs');
         $user->id_hewan = $this->post('id_hewan');
         $user->subtotal = $this->post('subtotal');
@@ -259,20 +259,20 @@ Class TransaksiPenjualanProduk extends REST_Controller{
         $user->total = $this->post('total');
         $user->created_by = $this->post('created_by');
 
-        $response = $this->TransaksiProdukModel->storeReturnObject($user);
+        $response = $this->TransaksiPenjualanProdukModel->storeReturnObject($user);
         return $this->returnData($response['msg'], $response['error']);
     }
     
     public function update_post($kode_penjualan_produk = null){
         $validation = $this->form_validation;
-        $rule = $this->TransaksiProdukModel->rules();
+        $rule = $this->TransaksiPenjualanProdukModel->rules();
 
         $validation->set_rules($rule);
 		if (!$validation->run()) {
 			return $this->returnData($this->form_validation->error_array(), true);
         }
 
-        $user = new TransaksiProdukData();
+        $user = new TransaksiPenjualanProdukData();
         $user->id_hewan = $this->post('id_hewan');
         $user->subtotal = $this->post('subtotal');
         $user->diskon = $this->post('diskon');
@@ -280,13 +280,13 @@ Class TransaksiPenjualanProduk extends REST_Controller{
         if($kode_penjualan_produk == null){
             return $this->returnData('Parameter kode_penjualan_produk tidak ditemukan', true);
         }
-        $response = $this->TransaksiProdukModel->update($user,$kode_penjualan_produk);
+        $response = $this->TransaksiPenjualanProdukModel->update($user,$kode_penjualan_produk);
         return $this->returnData($response['msg'], $response['error']);
     }
 
     public function updateStatus_post($kode_penjualan_produk = null){
         $validation = $this->form_validation;
-        $rule = $this->TransaksiProdukModel->rules();
+        $rule = $this->TransaksiPenjualanProdukModel->rules();
         array_push($rule,
             [
                 'field' => 'id_kasir',
@@ -299,12 +299,12 @@ Class TransaksiPenjualanProduk extends REST_Controller{
 			return $this->returnData($this->form_validation->error_array(), true);
         }
 
-        $user = new TransaksiProdukData();
+        $user = new TransaksiPenjualanProdukData();
         $user->id_kasir = $this->post('id_kasir');
         if($kode_penjualan_produk == null){
             return $this->returnData('Parameter kode_penjualan_produk tidak ditemukan', true);
         }
-        $response = $this->TransaksiProdukModel->updateStatus($user,$kode_penjualan_produk);
+        $response = $this->TransaksiPenjualanProdukModel->updateStatus($user,$kode_penjualan_produk);
         return $this->returnData($response['msg'], $response['error']);
     }
 
@@ -312,7 +312,7 @@ Class TransaksiPenjualanProduk extends REST_Controller{
         if($kode_penjualan_produk == null){
 			return $this->returnData('Parameter kode_penjualan_produk Tidak Ditemukan', true);
         }
-        $response = $this->TransaksiProdukModel->destroy($kode_penjualan_produk);
+        $response = $this->TransaksiPenjualanProdukModel->destroy($kode_penjualan_produk);
         return $this->returnData($response['msg'], $response['error']);
     }
 
@@ -323,17 +323,15 @@ Class TransaksiPenjualanProduk extends REST_Controller{
     }
 }
 
-Class TransaksiProdukData{
+Class TransaksiPenjualanProdukData{
+    public $id_hewan;
     public $id_cs;
     public $id_kasir;
-    public $id_hewan;
     public $subtotal;
     public $diskon;
     public $total;
     public $status_transaksi;
     public $tanggal_lunas;
     public $createLog_at;
-    public $created_by;
-    public $modified_at;
-    public $modified_by;
+    public $updateLog_at;
 }

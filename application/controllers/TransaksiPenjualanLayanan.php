@@ -167,7 +167,7 @@ Class TransaksiPenjualanLayanan extends REST_Controller{
         if($kode_penjualan_layanan == null){
 			return $this->returnData('Parameter Id Tidak Ditemukan', true);
         }
-        $response = $this->TransaksiLayananModel->destroy($kode_penjualan_layanan);
+        $response = $this->TransaksiPenjualanLayananModel->destroy($kode_penjualan_layanan);
         return $this->returnData($response['msg'], $response['error']);
     }
 

@@ -71,7 +71,7 @@ class TransaksiPenjualanProdukModel extends CI_Model
         $this->status_transaksi = 'Menunggu Pembayaran';
         if($this->db->insert($this->table, $this)){
             //$temp = $this->updateTotal($next_id, $request->diskon);
-            $obj = $this->db->get_where('transaksipenjualanproduks', ["kode_penjualan_produk" => $next_id])->row();
+            $obj = $this->db->get_where('transaksipenjualanproduks', ['kode_penjualan_produk' => $next_id])->row();
             return ['msg'=>$obj,'error'=>false];
         }
         return ['msg'=>'Gagal','error'=>true];
@@ -83,7 +83,7 @@ class TransaksiPenjualanProdukModel extends CI_Model
             'subtotal' => $request->subtotal,
             'diskon' => $request->diskon,
             'total' => $request->total,
-            'updateLog_at' => date('Y-m-d H:i:status_transaksi')
+            'updateLog_at' => date('Y-m-d H:i:s')
         ];
         $data = $this->db->get_where('transaksipenjualanproduks',['kode_penjualan_produk'=>$kode_penjualan_produk, 'status_transaksi'=> 'Menunggu Pembayaran'])->row();
         if($data){
@@ -98,8 +98,8 @@ class TransaksiPenjualanProdukModel extends CI_Model
         $updateData = [
             'id_kasir' => $request->id_kasir,
             'status_transaksi' => 'Lunas',
-            'tanggal_lunas' => date('Y-m-d H:i:status_transaksi'),
-            'updateLog_at' => date('Y-m-d H:i:status_transaksi')
+            'tanggal_lunas' => date('Y-m-d H:i:s'),
+            'updateLog_at' => date('Y-m-d H:i:s')
         ];
 
         $data = $this->db->get_where('transaksipenjualanproduks',['kode_penjualan_produk'=>$kode_penjualan_produk, 'status_transaksi'=> 'Menunggu Pembayaran'])->row();

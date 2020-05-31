@@ -10,6 +10,7 @@ class DetailTransaksiProdukModel extends CI_Model
     public $kode_penjualan_produk;
     public $id_produk;
     public $jml_transaksi_produk;
+    public $total_harga;
     public $createLog_at;
     public $updateLog_at;
 
